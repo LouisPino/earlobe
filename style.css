@@ -1,0 +1,106 @@
+/* RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #111827;
+    background: #ffffff;
+    line-height: 1.6;
+}
+
+/* HEADER */
+.site-header {
+    display: flex;
+    align-items: center;
+    padding: 24px 32px;
+}
+
+.logo img {
+    width: 90px;
+    height: auto;
+}
+
+.main-nav {
+    margin-left: 32px;
+    display: flex;
+    gap: 24px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #111827;
+    font-size: 0.95rem;
+}
+
+/* MAIN CONTENT */
+.main-content {
+    max-width: 640px;
+    margin: 80px auto 0 auto;
+    padding: 0 24px;
+}
+
+.main-content h1 {
+    font-size: 2.4rem;
+    font-weight: 600;
+    margin-bottom: 32px;
+}
+
+.main-content p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #1f2937;
+}
+
+.submit-link {
+    display: inline-block;
+    margin: 16px 0 32px 0;
+    color: #34f5c5;
+    font-weight: 600;
+    text-decoration: underline;
+    letter-spacing: 0.02em;
+}
+
+/* NEWSLETTER */
+.newsletter {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.newsletter input {
+    flex: 1;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+}
+
+.newsletter button {
+    padding: 12px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    background: #34f5c5;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* POWERED BY */
+.powered-by {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-top: 8px;
+}
+
+/* FOOTER */
+.site-footer {
+    margin-top: 140px;
+    padding: 32px;
+    font-size: 0.85rem;
+    color: #111827;
+}
