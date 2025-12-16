@@ -6,33 +6,143 @@
     <title>Earlobe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="submit.css" />
+    <link rel="icon" type="image/x-icon" href="/earlobe_logo.ico">
+    <script src="script.js" type="module" defer></script>
+    <script type="module" src="dbScript.js"></script>
+    <script src="layout.js" type="module"></script>
+
 </head>
 
 <body>
 
-    <!-- HEADER -->
-    <header class="site-header">
-        <div class="logo">
-            <a href="index.html">
-
-                <img src="https://res.cloudinary.com/dsvcyich1/image/upload/v1765808396/earlobe_logo_cuoeag.webp"
-                    alt="Earlobe logo" />
-            </a>
-        </div>
-
-        <nav class="main-nav">
-            <a href="/submit.html">Submit</a>
-            <a href="/about.html">About</a>
-            <a href="/donate.html">Donate</a>
-            <a href="/archive.html">Archive</a>
-        </nav>
-    </header>
+    <div id="site-header"></div>
 
 
     <!-- MAIN CONTENT -->
-    <main class="main-content">
+    <main class="submit-main">
         <h1>Submit an event here</h1>
-        <h2>GOOGLE FORM HERE</h2>
+        <!-- <iframe class="embedded-submission"
+            src="https://docs.google.com/forms/d/e/1FAIpQLSd95fZrgDVfNOnJMimljy_YplGkCGmMJdYMkwNZmTdsvjoL_A/viewform?embedded=true"
+            frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe> -->
+
+        <form class="earlobe-form" id="earlobeForm">
+
+            <h1>Earlobe Submission Form</h1>
+            <p class="required-note">* indicates required fields</p>
+
+            <!-- Email -->
+            <label>
+                Email *
+                <input type="email" name="email" />
+            </label>
+
+            <!-- Event / Series -->
+            <label>
+                (optional) Name of event / Series / xxx presents
+                <input type="text" name="event_name" />
+            </label>
+
+            <!-- Performers -->
+            <label>
+                Performer(s) / Artists Name(s) *
+                <input type="text" name="performers" />
+            </label>
+
+            <!-- Date -->
+            <label>
+                Date *
+                <input type="date" name="date" />
+            </label>
+
+            <!-- Start Time -->
+            <label>
+                Start Time *
+                <input type="time" name="start_time" />
+            </label>
+
+            <!-- End Time -->
+            <label>
+                End Time (if applicable)
+                <input type="time" name="end_time" />
+            </label>
+
+            <!-- Doors Time -->
+            <label>
+                Doors Time (if applicable)
+                <input type="time" name="doors_time" />
+            </label>
+
+            <!-- Venue -->
+            <label>
+                Venue *
+                <select name="venue">
+                    <option value="" disabled selected>Choose</option>
+                    <option value="venue_a">Venue A</option>
+                    <option value="venue_b">Venue B</option>
+                    <option value="other">Other</option>
+                </select>
+            </label>
+
+            <!-- Venue Accessibility -->
+            <label>
+                If the venue hasn't been listed before, include the address
+                (or note if it's private) and accessibility info
+                (entrance, space, restrooms)
+                <textarea name="venue_details" rows="4"></textarea>
+            </label>
+
+            <!-- Attendance -->
+            <fieldset>
+                <legend>Who can attend?</legend>
+
+                <label>
+                    <input type="radio" name="attendance" value="all_ages" />
+                    All ages
+                </label>
+
+                <label>
+                    <input type="radio" name="attendance" value="19_plus" />
+                    19+
+                </label>
+
+                <label>
+                    <input type="radio" name="attendance" value="other" />
+                    Other
+                </label>
+
+                <input type="text" name="attendance_other" placeholder="If other, please specify" />
+            </fieldset>
+
+            <!-- Cost -->
+            <label>
+                Cost of entry
+                <input type="text" name="cost" />
+            </label>
+
+            <!-- Links -->
+            <label>
+                Links (ticket link, event page, etc)
+                <small>
+                    Non-social media preferred, but still link it if it's the best option.
+                    If it’s not online, please email a flyer to earlobeTO@gmail.com
+                </small>
+                <input type="url" name="links" />
+            </label>
+
+            <!-- Description -->
+            <label>
+                (optional) Event description, additional info, specific instruments.
+                This will appear as a dropdown option next to your event once the website is active.
+                <textarea name="description" rows="5"></textarea>
+            </label>
+
+            <button type="submit">Submit</button>
+
+        </form>
+
+
+
     </main>
 
     <!-- FOOTER -->

@@ -12,6 +12,14 @@ body {
     line-height: 1.6;
 }
 
+html,
+body {
+    height: auto;
+    min-height: 100%;
+    margin: 0;
+}
+
+
 /* HEADER */
 .site-header {
     display: flex;
@@ -104,3 +112,13 @@ body {
     font-size: 0.85rem;
     color: #111827;
 }
+
+
+
+
+
+
+
+
+
+/* SUBMIT */

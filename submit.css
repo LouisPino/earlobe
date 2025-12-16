@@ -1,0 +1,170 @@
+.embedded-submission {
+    width: 100%;
+    min-height: 100vh;
+    height: 3000px;
+    border: none;
+}
+
+
+
+.submit-main {
+    width: 100%;
+    min-height: 100vh;
+    overflow: visible;
+}
+
+
+/* form */
+
+/* -------- Form Container -------- */
+
+.earlobe-form {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 32px 36px 40px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.08),
+        0 6px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* -------- Headings -------- */
+
+.earlobe-form h1 {
+    margin: 0 0 12px;
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.required-note {
+    margin-bottom: 28px;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+/* -------- Labels & Inputs -------- */
+
+.earlobe-form label {
+    display: block;
+    margin-bottom: 22px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.earlobe-form input,
+.earlobe-form select,
+.earlobe-form textarea {
+    width: 100%;
+    margin-top: 6px;
+    padding: 12px 14px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    color: #111827;
+
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    background: #ffffff;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* -------- Focus States -------- */
+
+.earlobe-form input:focus,
+.earlobe-form select:focus,
+.earlobe-form textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* -------- Textarea -------- */
+
+.earlobe-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* -------- Fieldset / Radios -------- */
+
+.earlobe-form fieldset {
+    margin: 0 0 24px;
+    padding: 0;
+    border: none;
+}
+
+.earlobe-form legend {
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.earlobe-form fieldset label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-weight: 400;
+}
+
+.earlobe-form fieldset input[type="radio"] {
+    width: auto;
+    margin: 0;
+}
+
+/* -------- Helper Text -------- */
+
+.earlobe-form small {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: #6b7280;
+}
+
+/* -------- Button -------- */
+
+.earlobe-form button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px 18px;
+
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+
+    color: #ffffff;
+    background: #111827;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+
+    transition: transform 0.15s ease, box-shadow 0.15s ease,
+        background 0.15s ease;
+}
+
+.earlobe-form button:hover {
+    background: #1f2937;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.earlobe-form button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* -------- Mobile -------- */
+
+@media (max-width: 480px) {
+    .earlobe-form {
+        padding: 26px 22px 30px;
+        border-radius: 14px;
+    }
+
+    .earlobe-form h1 {
+        font-size: 1.6rem;
+    }
+}
