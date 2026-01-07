@@ -9,15 +9,26 @@
     <link rel="stylesheet" href="submit.css" />
     <link rel="icon" type="image/x-icon" href="/earlobe_logo.ico">
     <script src="script.js" type="module" defer></script>
+    <script src="admin.js" type="module" defer></script>
     <script type="module" src="dbScript.js"></script>
     <script src="layout.js" type="module"></script>
 
 </head>
 <body>
-
     <div id="site-header"></div>
 
   <main class="admin-page">
+      <h1>Add an Archive</h1>
+<form id="archive-form">
+    <label>Date</label>
+    <input type="text" id="archive-title"/>
+    <label>Link</label>
+    <input type="text" id="archive-link"/>
+    <button id="archive-submit-btn">Submit</button>
+</form>
+
+
+
         <h1>Events</h1>
 
         <section class="events-section">

@@ -24,6 +24,7 @@ const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 const eventCollection = collection(db, "event");
+const archiveCollection = collection(db, "archive");
 
 export async function addEvent(obj) {
     const resp = await addDoc(eventCollection, {...obj, confirmed: false})
@@ -41,6 +42,7 @@ export async function fetchEvents() {
     return eventsArr
 }
 
+
 export async function getEventById(id) {
   const eventRef = doc(eventCollection, id);
   const docSnap = await getDoc(eventRef);
@@ -55,4 +57,23 @@ export async function getEventById(id) {
 export async function updateEvent(id, eventData){
 const updateResp = await updateDoc(doc(eventCollection, id), eventData);
   console.log(updateResp)
+}
+
+
+
+export async function fetchArchive() {
+    let archiveArr = []
+    const q = query(archiveCollection);
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        archiveArr.push(doc.data())
+    });
+    const sorted = archiveArr.sort((a, b)=>{return b.createdAt - a.createdAt})
+    return sorted
+}
+
+
+export async function addArchive(obj) {
+    const resp = await addDoc(archiveCollection, {...obj, createdAt: new Date()})
+    console.log(resp)
 }

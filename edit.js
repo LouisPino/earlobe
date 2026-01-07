@@ -3,9 +3,9 @@ import { getEventById, updateEvent } from "./dbScript.js";
 const queryString = window.location.search;
 const params = new URLSearchParams(queryString);
 const id = params.get("id");
+const btnEl = document.getElementById("approve-btn")
 
 const event = await getEventById(id);
-console.log(event);
 
 function setValue(id, value, fallback = "") {
   const el = document.getElementById(id);
@@ -40,24 +40,23 @@ if (event) {
 
 function collectEditEvent() {
   return {
-    email: document.getElementById("edit-email").value,
-    event_name: document.getElementById("edit-name").value,
-    performers: document.getElementById("edit-artists").value,
-    date: document.getElementById("edit-date").value,
-    start_time: document.getElementById("edit-start-time").value,
-    end_time: document.getElementById("edit-end-time").value,
-    doors_time: document.getElementById("edit-doors-time").value,
-    venue: document.getElementById("edit-venue").value,
-    venue_details: document.getElementById("edit-accessibility").value,
-    attendance_other: document.getElementById("edit-age").value,
-    cost: document.getElementById("edit-cost").value,
+    email: document.getElementById("edit-email").value  || null,
+    event_name: document.getElementById("edit-name").value  || null,
+    performers: document.getElementById("edit-artists").value  || null,
+    date: document.getElementById("edit-date").value  || null,
+    start_time: document.getElementById("edit-start-time").value  || null,
+    end_time: document.getElementById("edit-end-time").value  || null,
+    doors_time: document.getElementById("edit-doors-time").value || null,
+    venue: document.getElementById("edit-venue").value || null,
+    venue_details: document.getElementById("edit-accessibility").value || null,
+    attendance_other: document.getElementById("edit-age").value || null,
+    cost: document.getElementById("edit-cost").value || null,
     links: document.getElementById("edit-links").value || null,
-    description: document.getElementById("edit-description").value
+    description: document.getElementById("edit-description").value || null
   };
 }
 
 
-const btnEl = document.getElementById("approve-btn")
 
 
 btnEl.addEventListener("click", (e) => {
@@ -67,5 +66,5 @@ btnEl.addEventListener("click", (e) => {
 
   console.log(eventData)
   updateEvent(id, {...eventData, confirmed: true})
-// window.location.replace("/admin.html")
+window.location.replace("/admin.html")
 });
