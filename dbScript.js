@@ -6,7 +6,8 @@ import {
     getDocs,
     addDoc,
     getDoc,
-    doc
+    doc,
+    updateDoc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 
@@ -44,10 +45,14 @@ export async function getEventById(id) {
   const eventRef = doc(eventCollection, id);
   const docSnap = await getDoc(eventRef);
 
-
-
-
   return docSnap.exists()
     ? { id: docSnap.id, ...docSnap.data() }
     : null;
+}
+
+
+
+export async function updateEvent(id, eventData){
+const updateResp = await updateDoc(doc(eventCollection, id), eventData);
+  console.log(updateResp)
 }

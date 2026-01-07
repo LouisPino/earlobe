@@ -123,7 +123,8 @@ async function loadEvents() {
     pastGrid.innerHTML = "<p class='loading'>Loading…</p>";
     try {
         const eventsResp = await fetchEvents();
-        const events = isAdmin ? eventsResp : eventsResp.filter((e)=>{e.confirmed===true})
+        console.log(eventsResp)
+        const events = isAdmin ? eventsResp : eventsResp.filter((e)=>(e.data.confirmed===true))
         if (!events.length) {
             weekGrid.innerHTML = "<p>No events this week.</p>";
             upcomingGrid.innerHTML = "<p>No upcoming events.</p>";
@@ -145,7 +146,7 @@ async function loadEvents() {
         const upcoming = [];
         const past = [];
         events.forEach(event => {
-            const eventDate = new Date(event.date);
+            const eventDate = new Date(event.data.date);
             eventDate.setHours(0, 0, 0, 0);
 
             if (eventDate < today) {
@@ -156,8 +157,6 @@ async function loadEvents() {
                 upcoming.push(event);
             }
         });
-
-
             renderEvents(thisWeek, upcoming, past)
         
 

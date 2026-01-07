@@ -6,7 +6,7 @@
     <title>Earlobe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="submit.css" />
+    <link rel="stylesheet" href="edit.css" />
     <link rel="icon" type="image/x-icon" href="/earlobe_logo.ico">
     <script src="edit.js" type="module" defer></script>
     <script type="module" src="dbScript.js"></script>
@@ -16,6 +16,84 @@
 <body>
 
     <div id="site-header"></div>
+
+<main class="edit-event-main">
+  <form class="edit-event-form">
+
+    <div class="field">
+      <label for="edit-email">Contact Email</label>
+      <input id="edit-email" type="email" />
+    </div>
+
+    <div class="field">
+      <label for="edit-name">Name of event / Series / xxx presents</label>
+      <input id="edit-name" type="text" />
+    </div>
+
+    <div class="field">
+      <label for="edit-artists">Artists / Performers</label>
+      <textarea id="edit-artists" type="text" ></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="edit-date">Date</label>
+        <input id="edit-date" type="date" />
+      </div>
+
+      <div class="field">
+        <label for="edit-start-time">Start Time</label>
+        <input id="edit-start-time" type="time" />
+      </div>
+
+      <div class="field">
+        <label for="edit-end-time">End Time</label>
+        <input id="edit-end-time" type="time" />
+      </div>
+
+      <div class="field">
+        <label for="edit-doors-time">Doors</label>
+        <input id="edit-doors-time" type="time" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="edit-venue">Venue</label>
+      <input id="edit-venue" type="text" />
+    </div>
+
+    <div class="field">
+      <label for="edit-accessibility">Venue Details / Accessibility</label>
+      <textarea id="edit-accessibility" rows="3"></textarea>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="edit-age">Attendance / Age</label>
+        <input id="edit-age" type="text" />
+      </div>
+
+      <div class="field">
+        <label for="edit-cost">Cost</label>
+        <input id="edit-cost" type="text" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="edit-links">Links</label>
+      <textarea id="edit-links" type="url" rows=3></textarea>
+    </div>
+
+    <div class="field">
+      <label for="edit-description">Description</label>
+      <textarea id="edit-description" rows="5"></textarea>
+    </div>
+
+    <button id="approve-btn" >CONFIRM DETAILS</button>
+  </form>
+</main>
+
+
 
 
     <!-- FOOTER -->
