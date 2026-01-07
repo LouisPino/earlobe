@@ -103,7 +103,7 @@ function createEventCard(eventObj) {
         ${isAdmin &&
 
 `<div class="event-card-footer">
-            <a href="/edit.html?id=${eventObj.id}" rel="noopener">
+            <a href="./edit.html?id=${eventObj.id}" rel="noopener">
               EDIT EVENT →
             </a>
           </div>`
