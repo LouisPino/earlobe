@@ -12,6 +12,11 @@ body {
     line-height: 1.6;
 }
 
+button{
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+}
+
 html,
 body {
     height: auto;

@@ -4,11 +4,12 @@ import {
     collection,
     query,
     getDocs,
-    addDoc
+    addDoc,
+    getDoc,
+    doc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDFlDvq6cy2VdcLq8gTSDJ2-Mpr8cADu5U",
     authDomain: "earlobe-90d1e.firebaseapp.com",
@@ -24,11 +25,9 @@ const db = getFirestore(app);
 const eventCollection = collection(db, "event");
 
 export async function addEvent(obj) {
-    console.log(obj)
-    const resp = await addDoc(eventCollection, obj)
+    const resp = await addDoc(eventCollection, {...obj, confirmed: false})
     console.log(resp)
 }
-
 
 
 export async function fetchEvents() {
@@ -36,8 +35,19 @@ export async function fetchEvents() {
     const q = query(eventCollection);
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        eventsArr.push(doc.data())
+        eventsArr.push({data:doc.data(), id: doc.id})
     });
     return eventsArr
 }
 
+export async function getEventById(id) {
+  const eventRef = doc(eventCollection, id);
+  const docSnap = await getDoc(eventRef);
+
+
+
+
+  return docSnap.exists()
+    ? { id: docSnap.id, ...docSnap.data() }
+    : null;
+}

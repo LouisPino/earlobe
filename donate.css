@@ -1,0 +1,19 @@
+.donate-box{
+    border: 1px solid rgb(206, 206, 206);
+    border-radius: 12px;
+    padding: 24px;
+    width: fit-content;
+}
+
+
+.donate-button{
+background-color: #aa20c9;
+color: white;
+text-decoration: underline;
+border: none; 
+border-radius: 24px;
+   padding: 12px 18px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    min-width: 200px;
+}   
