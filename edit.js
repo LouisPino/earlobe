@@ -66,5 +66,5 @@ btnEl.addEventListener("click", (e) => {
 
   console.log(eventData)
   updateEvent(id, {...eventData, confirmed: true})
-window.location.replace("/admin.html")
+window.location.replace("./admin.html")
 });
