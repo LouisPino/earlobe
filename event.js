@@ -1,13 +1,41 @@
+/**
+ * ============================================================
+ * EVENT DETAIL PAGE
+ * ------------------------------------------------------------
+ * Fetches a single event by ID and populates the public
+ * event detail view.
+ *
+ * Assumes:
+ * - Event data is already confirmed / approved
+ * - Venue is stored as a structured object
+ * ============================================================
+ */
+
 import { getEventById } from "./dbScript.js";
 
+/**
+ * ============================================================
+ * INITIAL STATE / QUERY PARAMS
+ * ============================================================
+ */
+
+// Extract event ID from URL
 const queryString = window.location.search;
 const params = new URLSearchParams(queryString);
 const id = params.get("id");
 
+// Fetch event data
 const event = await getEventById(id);
 
+/**
+ * ============================================================
+ * UTILITY FUNCTIONS
+ * ============================================================
+ */
 
-// Utility: format YYYY-MM-DD to readable date
+/**
+ * Formats YYYY-MM-DD into a readable date string.
+ */
 function formatDate(dateStr) {
   if (!dateStr) return "";
   const date = new Date(dateStr + "T00:00:00");
@@ -19,7 +47,9 @@ function formatDate(dateStr) {
   });
 }
 
-// Utility: format HH:MM to readable time
+/**
+ * Formats HH:MM into a readable local time string.
+ */
 function formatTime(timeStr) {
   if (!timeStr) return "";
   const [h, m] = timeStr.split(":");
@@ -31,10 +61,24 @@ function formatTime(timeStr) {
   });
 }
 
+/**
+ * ============================================================
+ * PAGE POPULATION
+ * ============================================================
+ */
+
+/**
+ * Populates the event detail page with fetched event data.
+ */
 function populateEventPage(event) {
   if (!event) return;
 
-  // Header
+  /**
+   * ----------------------------
+   * Header
+   * ----------------------------
+   */
+
   document.getElementById("event-name").textContent =
     event.event_name || "Untitled Event";
 
@@ -56,7 +100,12 @@ function populateEventPage(event) {
   document.getElementById("event-venue-accessibility").textContent =
     event.venue.accessibility || "";
 
-  // Meta
+  /**
+   * ----------------------------
+   * Meta Information
+   * ----------------------------
+   */
+
   document.getElementById("event-performers").textContent =
     event.performers || "—";
 
@@ -75,14 +124,26 @@ function populateEventPage(event) {
   document.getElementById("event-end").textContent =
     formatTime(event.end_time) || "—";
 
-  // Description
+  /**
+   * ----------------------------
+   * Description
+   * ----------------------------
+   */
+
   document.getElementById("event-description").textContent =
     event.description || "";
-  // Links (optional, comma-separated)
+
+  /**
+   * ----------------------------
+   * External Links (Optional)
+   * ----------------------------
+   * Supports comma-separated URLs.
+   */
+
   const linksSection = document.getElementById("event-links-section");
   const linksEl = document.getElementById("event-links");
 
-  // Clear any previous links
+  // Clear any previously rendered links
   linksEl.innerHTML = "";
 
   if (event.links) {
@@ -115,12 +176,22 @@ function populateEventPage(event) {
     linksSection.hidden = true;
   }
 
+  /**
+   * ----------------------------
+   * Footer / Contact
+   * ----------------------------
+   */
 
-  // Footer
   const emailEl = document.getElementById("event-email");
   emailEl.href = `mailto:${event.email}`;
   emailEl.textContent = event.email || "";
 }
 
-// Call after fetch
+/**
+ * ============================================================
+ * EXECUTION
+ * ============================================================
+ */
+
+// Populate page once event data is loaded
 populateEventPage(event);

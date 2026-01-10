@@ -1,35 +1,73 @@
+/**
+ * ============================================================
+ * EVENTS PAGE / SUBMISSION + LISTING LOGIC
+ * ------------------------------------------------------------
+ * Responsibilities:
+ * - Handle public event submission form
+ * - Populate venue selector
+ * - Render event cards (public + admin)
+ * - Group and display events by date
+ * - Seed sample data (admin-only utility)
+ *
+ * IMPORTANT:
+ * - Real security must be enforced in Firestore rules
+ * - Admin checks here are UI-only
+ * ============================================================
+ */
+
 import { fetchEvents, addEvent, addVenue, fetchVenues } from "./dbScript.js";
-const venueOptions = await fetchVenues()
+
+/**
+ * ============================================================
+ * INITIAL STATE / DOM REFERENCES
+ * ============================================================
+ */
+
+// Fetch existing venues for select dropdown
+const venueOptions = await fetchVenues();
+
+// Event grids
 const weekGrid = document.getElementById("weekEventsGrid");
 const upcomingGrid = document.getElementById("upcomingEventsGrid");
 const pastGrid = document.getElementById("pastEventsGrid");
-const isAdmin = window.location.pathname.includes("admin")
 
+// Simple admin detection based on URL
+const isAdmin = window.location.pathname.includes("admin");
 
+// Event submission form (may not exist on all pages)
 const form = document.getElementById("earlobeForm");
 
+/**
+ * ============================================================
+ * EVENT SUBMISSION (PUBLIC FORM)
+ * ============================================================
+ */
+
 form?.addEventListener("submit", async (e) => {
-    e.preventDefault(); // stop page reload
+    e.preventDefault(); // prevent full page reload
 
     const formData = new FormData(form);
 
     const venueChoice = formData.get("venue");
-    let venue
+    let venue;
 
+    // Handle custom venue entry
     if (venueChoice === "other") {
         const name = formData.get("venue_name_other");
         const address = formData.get("venue_address_other");
         const accessibility = formData.get("venue_accessibility_other");
 
         venue = {
-            name: name,
-            address: address,
-            accessibility: accessibility
-        }
+            name,
+            address,
+            accessibility
+        };
 
-        addVenue(venue)
+        // Store venue separately for reuse
+        addVenue(venue);
     }
 
+    // Construct event object
     const eventObj = {
         email: formData.get("email"),
         event_name: formData.get("event_name") || null,
@@ -38,7 +76,7 @@ form?.addEventListener("submit", async (e) => {
         start_time: formData.get("start_time"),
         end_time: formData.get("end_time") || null,
         doors_time: formData.get("doors_time") || null,
-        venue: venue,
+        venue,
         attendance: formData.get("attendance"),
         attendance_other: formData.get("attendance_other") || null,
         cost: formData.get("cost") || null,
@@ -47,11 +85,10 @@ form?.addEventListener("submit", async (e) => {
         createdAt: new Date()
     };
 
-
     try {
         await addEvent(eventObj);
         alert("Event submitted successfully!");
-        window.location.replace("/")
+        window.location.replace("/");
         form.reset();
     } catch (err) {
         console.error("Error submitting event:", err);
@@ -59,11 +96,16 @@ form?.addEventListener("submit", async (e) => {
     }
 });
 
-
+/**
+ * ============================================================
+ * VENUE SELECT UI
+ * ============================================================
+ */
 
 const venueSelect = document.getElementById("venue-select");
 const venueOtherFields = document.getElementById("venue-other-fields");
 
+// Toggle custom venue fields
 venueSelect?.addEventListener("change", () => {
     if (venueSelect.value === "other") {
         venueOtherFields.style.display = "block";
@@ -73,25 +115,34 @@ venueSelect?.addEventListener("change", () => {
         // Clear values to prevent stale submissions
         venueOtherFields
             .querySelectorAll("input, textarea")
-            .forEach(el => el.value = "");
+            .forEach(el => (el.value = ""));
     }
 });
 
+/**
+ * Populate venue dropdown from database.
+ */
 function populateVenueSelect() {
     for (let venue of venueOptions) {
         venueSelect.innerHTML += `
-   <option value=${venue.name} >${venue.name}</option>
-        `
+      <option value="${venue.name}">${venue.name}</option>
+    `;
     }
+
     venueSelect.innerHTML += `
-                    <option value="other">Other</option>
-    `
+    <option value="other">Other</option>
+  `;
 }
+
 if (venueSelect) {
-    populateVenueSelect()
+    populateVenueSelect();
 }
 
-
+/**
+ * ============================================================
+ * DATE / TIME UTILITIES
+ * ============================================================
+ */
 
 function formatDate(dateStr) {
     const d = new Date(dateStr);
@@ -108,41 +159,48 @@ function formatTime(time) {
     return time;
 }
 
+/**
+ * ============================================================
+ * EVENT CARD RENDERING
+ * ============================================================
+ */
 
 function createEventCard(eventObj) {
-    const event = eventObj.data
+    const event = eventObj.data;
     const card = document.createElement("article");
     card.className = "event-card";
 
     card.innerHTML = `
-                <div class="event-card-header">
+    <div class="event-card-header">
       <h2>${event.event_name || "Untitled Event"}</h2>
       <p class="event-date">${formatDate(event.date)}</p>
-    </div >
+    </div>
 
-            <div class="event-card-body">
-                <p class="event-performers">
-                    <strong>Artists:</strong> ${event.performers}
-                </p>
+    <div class="event-card-body">
+      <p class="event-performers">
+        <strong>Artists:</strong> ${event.performers}
+      </p>
 
-                <p>
-                    <strong>Time:</strong>
-                    ${formatTime(event.start_time)}
-                    ${event.end_time ? "– " + formatTime(event.end_time) : ""}
-                </p>
+      <p>
+        <strong>Time:</strong>
+        ${formatTime(event.start_time)}
+        ${event.end_time ? "– " + formatTime(event.end_time) : ""}
+      </p>
 
-                <p>
-                    <strong>Venue:</strong> ${event.venue}
-                </p>
+      <p>
+        <strong>Venue:</strong> ${event.venue}
+      </p>
 
-                ${event.cost ? `<p><strong>Cost:</strong> ${event.cost}</p>` : ""}
+      ${event.cost ? `<p><strong>Cost:</strong> ${event.cost}</p>` : ""}
 
-                ${event.description
+      ${event.description
             ? `<p class="event-description">${event.description}</p>`
-            : ""}
-            </div>
-    ${!isAdmin ?
-            `<div class="event-card-footer">
+            : ""
+        }
+    </div>
+
+    ${!isAdmin
+            ? `<div class="event-card-footer">
             <a href="./event.html?id=${eventObj.id}" target="_blank" rel="noopener">
               More info →
             </a>
@@ -150,30 +208,36 @@ function createEventCard(eventObj) {
             : ""
         }
 
-        ${isAdmin ?
-
-            `<div class="event-card-footer">
+    ${isAdmin
+            ? `<div class="event-card-footer">
             <a href="./edit.html?id=${eventObj.id}" rel="noopener">
               EDIT EVENT →
             </a>
           </div>`
             : ""
         }
-        `;
+  `;
 
     return card;
 }
 
-
-
+/**
+ * ============================================================
+ * EVENT LOADING + GROUPING
+ * ============================================================
+ */
 
 async function loadEvents() {
     weekGrid.innerHTML = "<p class='loading'>Loading…</p>";
     upcomingGrid.innerHTML = "<p class='loading'>Loading…</p>";
     pastGrid.innerHTML = "<p class='loading'>Loading…</p>";
+
     try {
         const eventsResp = await fetchEvents();
-        const events = isAdmin ? eventsResp : eventsResp.filter((e) => (e.data.confirmed === true))
+        const events = isAdmin
+            ? eventsResp
+            : eventsResp.filter(e => e.data.confirmed === true);
+
         if (!events.length) {
             weekGrid.innerHTML = "<p>No events this week.</p>";
             upcomingGrid.innerHTML = "<p>No upcoming events.</p>";
@@ -194,6 +258,7 @@ async function loadEvents() {
         const thisWeek = [];
         const upcoming = [];
         const past = [];
+
         events.forEach(event => {
             const eventDate = new Date(event.data.date);
             eventDate.setHours(0, 0, 0, 0);
@@ -206,14 +271,10 @@ async function loadEvents() {
                 upcoming.push(event);
             }
         });
-        // renderEvents(thisWeek, upcoming, past)
-
 
         renderGroupedEvents(thisWeek, weekGrid);
         renderGroupedEvents(upcoming, upcomingGrid);
         renderGroupedEvents(past, pastGrid);
-
-
     } catch (err) {
         console.error(err);
         weekGrid.innerHTML = "<p>Error loading events.</p>";
@@ -223,12 +284,14 @@ async function loadEvents() {
 }
 
 if (weekGrid) {
-
-    loadEvents()
+    loadEvents();
 }
 
-
-
+/**
+ * ============================================================
+ * GROUPING HELPERS
+ * ============================================================
+ */
 
 function renderGroupedEvents(events, container) {
     if (!events.length) {
@@ -240,35 +303,27 @@ function renderGroupedEvents(events, container) {
 
     const grouped = groupEventsByDate(events);
 
-    // Sort dates ascending
     const dates = Object.keys(grouped).sort(
         (a, b) => new Date(a) - new Date(b)
     );
 
     dates.forEach(date => {
-        // Date header
         const header = document.createElement("h3");
         header.className = "event-date-header";
         header.textContent = formatDateHeader(date);
         container.appendChild(header);
 
-        // Events for that date
         grouped[date].forEach(event => {
             container.appendChild(createEventCard(event));
         });
     });
 }
 
-
-
-
 function groupEventsByDate(events) {
     return events.reduce((acc, event) => {
-        const date = event.data.date; // YYYY-MM-DD
-
+        const date = event.data.date;
         if (!acc[date]) acc[date] = [];
         acc[date].push(event);
-
         return acc;
     }, {});
 }
@@ -283,14 +338,11 @@ function formatDateHeader(dateStr) {
     });
 }
 
-
-
-
-
-
-
-//seed sample data
-
+/**
+ * ============================================================
+ * DATABASE SEEDING (ADMIN UTILITY)
+ * ============================================================
+ */
 
 const seedBtn = document.getElementById("seedEventsBtn");
 
@@ -308,13 +360,12 @@ if (seedBtn) {
                 start_time: "19:30",
                 end_time: "21:00",
                 doors_time: "19:00",
-
                 venue: {
                     name: "Arraymusic Studio",
                     address: "Toronto, ON",
-                    accessibility: "Ground floor, accessible entrance, gender-neutral washrooms"
+                    accessibility:
+                        "Ground floor, accessible entrance, gender-neutral washrooms"
                 },
-
                 attendance: "all_ages",
                 attendance_other: null,
                 cost: "$15 / $10 student",
@@ -327,18 +378,18 @@ if (seedBtn) {
             {
                 email: "events@earlobe.ca",
                 event_name: "Signals in the Dark",
-                performers: "Louis Pino, Toronto Laptop Orchestra (small ensemble)",
+                performers:
+                    "Louis Pino, Toronto Laptop Orchestra (small ensemble)",
                 date: "2026-02-04",
                 start_time: "20:00",
                 end_time: null,
                 doors_time: "19:30",
-
                 venue: {
                     name: "Tranzac Club",
                     address: "292 Brunswick Ave, Toronto, ON",
-                    accessibility: "Main hall, step-free entrance, accessible washrooms"
+                    accessibility:
+                        "Main hall, step-free entrance, accessible washrooms"
                 },
-
                 attendance: "19_plus",
                 attendance_other: null,
                 cost: "PWYC",
@@ -356,13 +407,11 @@ if (seedBtn) {
                 start_time: "18:00",
                 end_time: "22:00",
                 doors_time: "17:30",
-
                 venue: {
                     name: "Private Studio (West End)",
                     address: "Private residence – RSVP required for address",
                     accessibility: "Entrance involves two steps"
                 },
-
                 attendance: "other",
                 attendance_other: "Invitation / RSVP",
                 cost: "Free",
@@ -372,7 +421,6 @@ if (seedBtn) {
                 createdAt: new Date()
             }
         ];
-
 
         try {
             for (const event of sampleEvents) {
@@ -389,5 +437,3 @@ if (seedBtn) {
         }
     });
 }
-
-
