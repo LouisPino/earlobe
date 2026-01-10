@@ -59,13 +59,21 @@
       </div>
 
       <div class="field">
-        <label for="edit-venue">Venue</label>
-        <input id="edit-venue" type="text" />
-      </div>
+        <label class="field-row">
+          Venue name
+          <input type="text" id="venue-name" name="venue_name" required />
+        </label>
 
-      <div class="field">
-        <label for="edit-accessibility">Venue Details / Accessibility</label>
-        <textarea id="edit-accessibility" rows="3"></textarea>
+        <label class="field-row">
+          Venue address (or note if private)
+          <input type="text" id="venue-address" name="venue_address" required />
+        </label>
+
+        <label class="field-row">
+          Accessibility info (entrance, space, restrooms)
+          <textarea id="venue-accessibility" name="venue_accessibility" rows="3"></textarea>
+        </label>
+
       </div>
 
       <fieldset class="field-row">

@@ -13,6 +13,7 @@
     <script src="layout.js" type="module"></script>
 
 </head>
+
 <body>
 
     <div id="site-header"></div>
@@ -71,21 +72,30 @@
             <!-- Venue -->
             <label>
                 Venue *
-                <select name="venue">
+                <select name="venue" id="venue-select" required>
                     <option value="" disabled selected>Choose</option>
-                    <option value="venue_a">Venue A</option>
-                    <option value="venue_b">Venue B</option>
-                    <option value="other">Other</option>
                 </select>
             </label>
 
-            <!-- Venue Accessibility -->
-            <label>
-                If the venue hasn't been listed before, include the address
-                (or note if it's private) and accessibility info
-                (entrance, space, restrooms)
-                <textarea name="venue_details" rows="4"></textarea>
-            </label>
+            <!-- Venue Details (Only if Other) -->
+            <div id="venue-other-fields" style="display: none;">
+                <label>
+                    Venue name
+                    <input type="text" id="venue-name" name="venue_name" required />
+                </label>
+
+                <label>
+                    Venue address (or note if private)
+                    <input type="text" id="venue-address" name="venue_address" required />
+                </label>
+
+                <label>
+                    Accessibility info (entrance, space, restrooms)
+                    <textarea id="venue-accessibility" name="venue_accessibility" rows="3"></textarea>
+                </label>
+
+            </div>
+
 
             <!-- Attendance -->
             <fieldset>

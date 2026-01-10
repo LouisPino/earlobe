@@ -1,5 +1,5 @@
-import { fetchEvents, addEvent } from "./dbScript.js";
-
+import { fetchEvents, addEvent, addVenue, fetchVenues } from "./dbScript.js";
+const venueOptions = await fetchVenues()
 const weekGrid = document.getElementById("weekEventsGrid");
 const upcomingGrid = document.getElementById("upcomingEventsGrid");
 const pastGrid = document.getElementById("pastEventsGrid");
@@ -13,6 +13,23 @@ form?.addEventListener("submit", async (e) => {
 
     const formData = new FormData(form);
 
+    const venueChoice = formData.get("venue");
+    let venue
+
+    if (venueChoice === "other") {
+        const name = formData.get("venue_name_other");
+        const address = formData.get("venue_address_other");
+        const accessibility = formData.get("venue_accessibility_other");
+
+        venue = {
+            name: name,
+            address: address,
+            accessibility: accessibility
+        }
+
+        addVenue(venue)
+    }
+
     const eventObj = {
         email: formData.get("email"),
         event_name: formData.get("event_name") || null,
@@ -21,8 +38,7 @@ form?.addEventListener("submit", async (e) => {
         start_time: formData.get("start_time"),
         end_time: formData.get("end_time") || null,
         doors_time: formData.get("doors_time") || null,
-        venue: formData.get("venue"),
-        venue_details: formData.get("venue_details") || null,
+        venue: venue,
         attendance: formData.get("attendance"),
         attendance_other: formData.get("attendance_other") || null,
         cost: formData.get("cost") || null,
@@ -31,15 +47,50 @@ form?.addEventListener("submit", async (e) => {
         createdAt: new Date()
     };
 
+
     try {
         await addEvent(eventObj);
         alert("Event submitted successfully!");
+        window.location.replace("/")
         form.reset();
     } catch (err) {
         console.error("Error submitting event:", err);
         alert("Something went wrong. Please try again.");
     }
 });
+
+
+
+const venueSelect = document.getElementById("venue-select");
+const venueOtherFields = document.getElementById("venue-other-fields");
+
+venueSelect?.addEventListener("change", () => {
+    if (venueSelect.value === "other") {
+        venueOtherFields.style.display = "block";
+    } else {
+        venueOtherFields.style.display = "none";
+
+        // Clear values to prevent stale submissions
+        venueOtherFields
+            .querySelectorAll("input, textarea")
+            .forEach(el => el.value = "");
+    }
+});
+
+function populateVenueSelect() {
+    for (let venue of venueOptions) {
+        venueSelect.innerHTML += `
+   <option value=${venue.name} >${venue.name}</option>
+        `
+    }
+    venueSelect.innerHTML += `
+                    <option value="other">Other</option>
+    `
+}
+if (venueSelect) {
+    populateVenueSelect()
+}
+
 
 
 function formatDate(dateStr) {
@@ -64,51 +115,51 @@ function createEventCard(eventObj) {
     card.className = "event-card";
 
     card.innerHTML = `
-    <div class="event-card-header">
+                <div class="event-card-header">
       <h2>${event.event_name || "Untitled Event"}</h2>
       <p class="event-date">${formatDate(event.date)}</p>
-    </div>
+    </div >
 
-    <div class="event-card-body">
-      <p class="event-performers">
-        <strong>Artists:</strong> ${event.performers}
-      </p>
+            <div class="event-card-body">
+                <p class="event-performers">
+                    <strong>Artists:</strong> ${event.performers}
+                </p>
 
-      <p>
-        <strong>Time:</strong>
-        ${formatTime(event.start_time)}
-        ${event.end_time ? "– " + formatTime(event.end_time) : ""}
-      </p>
+                <p>
+                    <strong>Time:</strong>
+                    ${formatTime(event.start_time)}
+                    ${event.end_time ? "– " + formatTime(event.end_time) : ""}
+                </p>
 
-      <p>
-        <strong>Venue:</strong> ${event.venue}
-      </p>
+                <p>
+                    <strong>Venue:</strong> ${event.venue}
+                </p>
 
-      ${event.cost ? `<p><strong>Cost:</strong> ${event.cost}</p>` : ""}
+                ${event.cost ? `<p><strong>Cost:</strong> ${event.cost}</p>` : ""}
 
-      ${event.description
+                ${event.description
             ? `<p class="event-description">${event.description}</p>`
             : ""}
-    </div>
+            </div>
     ${!isAdmin ?
-             `<div class="event-card-footer">
+            `<div class="event-card-footer">
             <a href="./event.html?id=${eventObj.id}" target="_blank" rel="noopener">
               More info →
             </a>
           </div>`
-           : ""
+            : ""
         }
 
-        ${isAdmin ? 
+        ${isAdmin ?
 
-`<div class="event-card-footer">
+            `<div class="event-card-footer">
             <a href="./edit.html?id=${eventObj.id}" rel="noopener">
               EDIT EVENT →
             </a>
           </div>`
-: ""
+            : ""
         }
-  `;
+        `;
 
     return card;
 }
@@ -122,8 +173,7 @@ async function loadEvents() {
     pastGrid.innerHTML = "<p class='loading'>Loading…</p>";
     try {
         const eventsResp = await fetchEvents();
-        console.log(eventsResp)
-        const events = isAdmin ? eventsResp : eventsResp.filter((e)=>(e.data.confirmed===true))
+        const events = isAdmin ? eventsResp : eventsResp.filter((e) => (e.data.confirmed === true))
         if (!events.length) {
             weekGrid.innerHTML = "<p>No events this week.</p>";
             upcomingGrid.innerHTML = "<p>No upcoming events.</p>";
@@ -156,13 +206,13 @@ async function loadEvents() {
                 upcoming.push(event);
             }
         });
-            // renderEvents(thisWeek, upcoming, past)
-        
+        // renderEvents(thisWeek, upcoming, past)
 
-            renderGroupedEvents(thisWeek, weekGrid);
-            renderGroupedEvents(upcoming, upcomingGrid);
-            renderGroupedEvents(past, pastGrid);
-            
+
+        renderGroupedEvents(thisWeek, weekGrid);
+        renderGroupedEvents(upcoming, upcomingGrid);
+        renderGroupedEvents(past, pastGrid);
+
 
     } catch (err) {
         console.error(err);
@@ -171,97 +221,66 @@ async function loadEvents() {
         pastGrid.innerHTML = "<p>Error loading events.</p>";
     }
 }
-loadEvents()
+
+if (weekGrid) {
+
+    loadEvents()
+}
 
 
-
-// function renderEvents(thisWeek, upcoming, past){
-//  // This Week (soonest first)
-//         thisWeek
-//             .sort((a, b) => new Date(a.date) - new Date(b.date))
-//             .forEach(event => {
-//                 weekGrid.appendChild(createEventCard(event));
-//             });
-
-//         // Upcoming (after this week)
-//         upcoming
-//             .sort((a, b) => new Date(a.date) - new Date(b.date))
-//             .forEach(event => {
-//                 upcomingGrid.appendChild(createEventCard(event));
-//             });
-
-//         // Previous (most recent first)
-//         past
-//             .sort((a, b) => new Date(b.date) - new Date(a.date))
-//             .forEach(event => {
-//                 pastGrid.appendChild(createEventCard(event));
-//             });
-
-//         if (!thisWeek.length) {
-//             weekGrid.innerHTML = "<p>No events this week.</p>";
-//         }
-
-//         if (!upcoming.length) {
-//             upcomingGrid.innerHTML = "<p>No upcoming events.</p>";
-//         }
-
-//         if (!past.length) {
-//             pastGrid.innerHTML = "<p>No previous events.</p>";
-//         }
-// }
 
 
 function renderGroupedEvents(events, container) {
-  if (!events.length) {
-    container.innerHTML = "<p>No events.</p>";
-    return;
-  }
+    if (!events.length) {
+        container.innerHTML = "<p>No events.</p>";
+        return;
+    }
 
-  container.innerHTML = "";
+    container.innerHTML = "";
 
-  const grouped = groupEventsByDate(events);
+    const grouped = groupEventsByDate(events);
 
-  // Sort dates ascending
-  const dates = Object.keys(grouped).sort(
-    (a, b) => new Date(a) - new Date(b)
-  );
+    // Sort dates ascending
+    const dates = Object.keys(grouped).sort(
+        (a, b) => new Date(a) - new Date(b)
+    );
 
-  dates.forEach(date => {
-    // Date header
-    const header = document.createElement("h3");
-    header.className = "event-date-header";
-    header.textContent = formatDateHeader(date);
-    container.appendChild(header);
+    dates.forEach(date => {
+        // Date header
+        const header = document.createElement("h3");
+        header.className = "event-date-header";
+        header.textContent = formatDateHeader(date);
+        container.appendChild(header);
 
-    // Events for that date
-    grouped[date].forEach(event => {
-      container.appendChild(createEventCard(event));
+        // Events for that date
+        grouped[date].forEach(event => {
+            container.appendChild(createEventCard(event));
+        });
     });
-  });
 }
 
 
 
 
 function groupEventsByDate(events) {
-  return events.reduce((acc, event) => {
-    const date = event.data.date; // YYYY-MM-DD
+    return events.reduce((acc, event) => {
+        const date = event.data.date; // YYYY-MM-DD
 
-    if (!acc[date]) acc[date] = [];
-    acc[date].push(event);
+        if (!acc[date]) acc[date] = [];
+        acc[date].push(event);
 
-    return acc;
-  }, {});
+        return acc;
+    }, {});
 }
 
 function formatDateHeader(dateStr) {
-  const d = new Date(dateStr + "T00:00:00");
-  return d.toLocaleDateString(undefined, {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
+    const d = new Date(dateStr + "T00:00:00");
+    return d.toLocaleDateString(undefined, {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
 }
 
 
@@ -289,8 +308,13 @@ if (seedBtn) {
                 start_time: "19:30",
                 end_time: "21:00",
                 doors_time: "19:00",
-                venue: "Arraymusic Studio",
-                venue_details: "Ground floor, accessible entrance, gender-neutral washrooms",
+
+                venue: {
+                    name: "Arraymusic Studio",
+                    address: "Toronto, ON",
+                    accessibility: "Ground floor, accessible entrance, gender-neutral washrooms"
+                },
+
                 attendance: "all_ages",
                 attendance_other: null,
                 cost: "$15 / $10 student",
@@ -299,6 +323,7 @@ if (seedBtn) {
                     "An evening of experimental performance exploring feedback systems, embodied electronics, and slow-moving harmonic structures.",
                 createdAt: new Date()
             },
+
             {
                 email: "events@earlobe.ca",
                 event_name: "Signals in the Dark",
@@ -307,8 +332,13 @@ if (seedBtn) {
                 start_time: "20:00",
                 end_time: null,
                 doors_time: "19:30",
-                venue: "Tranzac Club",
-                venue_details: "Main hall, step-free entrance, accessible washrooms",
+
+                venue: {
+                    name: "Tranzac Club",
+                    address: "292 Brunswick Ave, Toronto, ON",
+                    accessibility: "Main hall, step-free entrance, accessible washrooms"
+                },
+
                 attendance: "19_plus",
                 attendance_other: null,
                 cost: "PWYC",
@@ -317,6 +347,7 @@ if (seedBtn) {
                     "Improvised electronic and electroacoustic works focusing on signal flow, spatialization, and live processing.",
                 createdAt: new Date()
             },
+
             {
                 email: "submit@earlobe.ca",
                 event_name: "Objects That Listen",
@@ -325,9 +356,13 @@ if (seedBtn) {
                 start_time: "18:00",
                 end_time: "22:00",
                 doors_time: "17:30",
-                venue: "Private Studio (West End)",
-                venue_details:
-                    "Private residence. Please RSVP for address. Entrance involves two steps.",
+
+                venue: {
+                    name: "Private Studio (West End)",
+                    address: "Private residence – RSVP required for address",
+                    accessibility: "Entrance involves two steps"
+                },
+
                 attendance: "other",
                 attendance_other: "Invitation / RSVP",
                 cost: "Free",
@@ -337,6 +372,7 @@ if (seedBtn) {
                 createdAt: new Date()
             }
         ];
+
 
         try {
             for (const event of sampleEvents) {

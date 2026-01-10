@@ -25,11 +25,31 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const eventCollection = collection(db, "event");
 const archiveCollection = collection(db, "archive");
+const venueCollection = collection(db, "venue");
 
 export async function addEvent(obj) {
-    const resp = await addDoc(eventCollection, {...obj, confirmed: false})
+    console.log(obj)
+    await addVenue(obj.venue)
+    const resp = await addDoc(eventCollection, { ...obj, confirmed: false })
     console.log(resp)
 }
+
+export async function addVenue(obj) {
+    const resp = await addDoc(venueCollection, obj)
+    console.log(resp)
+}
+
+export async function fetchVenues() {
+    let venueArr = []
+    const q = query(venueCollection);
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+        venueArr.push(doc.data())
+    });
+    const sorted = venueArr.sort((a, b) => { return a.name - b.name })
+    return sorted
+}
+
 
 
 export async function fetchEvents() {
@@ -37,26 +57,26 @@ export async function fetchEvents() {
     const q = query(eventCollection);
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
-        eventsArr.push({data:doc.data(), id: doc.id})
+        eventsArr.push({ data: doc.data(), id: doc.id })
     });
     return eventsArr
 }
 
 
 export async function getEventById(id) {
-  const eventRef = doc(eventCollection, id);
-  const docSnap = await getDoc(eventRef);
+    const eventRef = doc(eventCollection, id);
+    const docSnap = await getDoc(eventRef);
 
-  return docSnap.exists()
-    ? { id: docSnap.id, ...docSnap.data() }
-    : null;
+    return docSnap.exists()
+        ? { id: docSnap.id, ...docSnap.data() }
+        : null;
 }
 
 
 
-export async function updateEvent(id, eventData){
-const updateResp = await updateDoc(doc(eventCollection, id), eventData);
-  console.log(updateResp)
+export async function updateEvent(id, eventData) {
+    const updateResp = await updateDoc(doc(eventCollection, id), eventData);
+    console.log(updateResp)
 }
 
 
@@ -68,12 +88,12 @@ export async function fetchArchive() {
     querySnapshot.forEach((doc) => {
         archiveArr.push(doc.data())
     });
-    const sorted = archiveArr.sort((a, b)=>{return b.createdAt - a.createdAt})
+    const sorted = archiveArr.sort((a, b) => { return b.createdAt - a.createdAt })
     return sorted
 }
 
 
 export async function addArchive(obj) {
-    const resp = await addDoc(archiveCollection, {...obj, createdAt: new Date()})
+    const resp = await addDoc(archiveCollection, { ...obj, createdAt: new Date() })
     console.log(resp)
 }

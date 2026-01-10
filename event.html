@@ -2,54 +2,57 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>Earlobe — Events</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8" />
+  <title>Earlobe — Events</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="events.css" />
-    <link rel="icon" type="image/x-icon" href="/earlobe_logo.ico">
-    <script src="layout.js" type="module"></script>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="events.css" />
+  <link rel="icon" type="image/x-icon" href="/earlobe_logo.ico">
+  <script src="layout.js" type="module"></script>
 
-    <script type="module" src="event.js"></script>
+  <script type="module" src="event.js"></script>
 </head>
 
 <body>
 
-    <div id="site-header"></div>
+  <div id="site-header"></div>
 
-<main class="event-page">
-  <header class="event-header">
-    <h1 id="event-name"></h1>
-    <p class="event-date-time" id="event-datetime"></p>
-    <p class="event-venue" id="event-venue"></p>
-  </header>
+  <main class="event-page">
+    <header class="event-header">
+      <h1 id="event-name"></h1>
+      <p class="event-date-time" id="event-datetime"></p>
+      <p class="event-venue-name" id="event-venue-name"></p>
+      <p class="event-venue-address" id="event-venue-address"></p>
+      <p class="event-venue-accessibility" id="event-venue-accessibility"></p>
+    </header>
 
-  <section class="event-meta">
-    <div><strong>Performers:</strong> <span id="event-performers"></span></div>
-    <div><strong>Cost:</strong> <span id="event-cost"></span></div>
-    <div><strong>Attendance:</strong> <span id="event-attendance"></span></div>
-    <div><strong>Doors:</strong> <span id="event-doors"></span></div>
-    <div><strong>Start:</strong> <span id="event-start"></span></div>
-    <div><strong>End:</strong> <span id="event-end"></span></div>
-  </section>
+    <section class="event-meta">
+      <div><strong>Performers:</strong> <span id="event-performers"></span></div>
+      <div><strong>Cost:</strong> <span id="event-cost"></span></div>
+      <div><strong>Attendance:</strong> <span id="event-attendance"></span></div>
+      <div><strong>Doors:</strong> <span id="event-doors"></span></div>
+      <div><strong>Start:</strong> <span id="event-start"></span></div>
+      <div><strong>End:</strong> <span id="event-end"></span></div>
+    </section>
 
-  <section class="event-description">
-    <h2>About</h2>
-    <p id="event-description"></p>
-  </section>
+    <section class="event-description">
+      <h2>About</h2>
+      <p id="event-description"></p>
+    </section>
 
-  <section class="event-links" id="event-links-section" hidden>
-    <h2>Links</h2>
-    <a id="event-links" target="_blank" rel="noopener noreferrer"></a>
-  </section>
+    <section class="event-links" id="event-links-section" hidden>
+      <h2>Links</h2>
+      <a id="event-links" target="_blank" rel="noopener noreferrer"></a>
+    </section>
 
-  <footer class="event-footer">
-    <p class="event-contact">
-      Contact: <a id="event-email"></a>
-    </p>
-  </footer>
-</main>
+    <footer class="event-footer">
+      <p class="event-contact">
+        Contact: <a id="event-email"></a>
+      </p>
+    </footer>
+  </main>
 
 </body>
+
 </html>

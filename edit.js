@@ -1,4 +1,4 @@
-import { getEventById, updateEvent } from "./dbScript.js";
+import { fetchVenues, getEventById, updateEvent } from "./dbScript.js";
 
 const queryString = window.location.search;
 const params = new URLSearchParams(queryString);
@@ -6,7 +6,7 @@ const id = params.get("id");
 const btnEl = document.getElementById("approve-btn")
 
 const event = await getEventById(id);
-
+const venueOptions = await fetchVenues()
 function setValue(id, value, fallback = "") {
   const el = document.getElementById(id);
   if (!el) return;
@@ -21,20 +21,26 @@ function populateEditEvent(event) {
   setValue("edit-start-time", event.start_time);
   setValue("edit-end-time", event.end_time);
   setValue("edit-doors-time", event.doors_time);
-  setValue("edit-venue", event.venue);
-  setValue("edit-accessibility", event.venue_details);
-  setValue(
-    "edit-age",
-    event.attendance_other || event.attendance
-  );
   setValue("edit-cost", event.cost);
   setValue("edit-links", event.links);
   setValue("edit-description", event.description);
 }
+
 if (event) {
   populateEditEvent(event);
+  populateVenue(event);
   populateAttendance(event);
 }
+
+
+function populateVenue(event) {
+  if (!event.venue) return;
+
+  setValue("venue-name", event.venue.name);
+  setValue("venue-address", event.venue.address);
+  setValue("venue-accessibility", event.venue.accessibility);
+}
+
 
 function collectEditEvent() {
   const selectedAttendance = document.querySelector(
@@ -49,8 +55,11 @@ function collectEditEvent() {
     start_time: document.getElementById("edit-start-time").value || null,
     end_time: document.getElementById("edit-end-time").value || null,
     doors_time: document.getElementById("edit-doors-time").value || null,
-    venue: document.getElementById("edit-venue").value || null,
-    venue_details: document.getElementById("edit-accessibility").value || null,
+    venue: {
+      name: document.getElementById("venue-name").value || null,
+      address: document.getElementById("venue-address").value || null,
+      accessibility: document.getElementById("venue-accessibility").value || null,
+    },
 
     attendance: selectedAttendance?.value || null,
     attendance_other:

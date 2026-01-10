@@ -47,8 +47,14 @@ function populateEventPage(event) {
       ? `${dateText} · ${startText} – ${endText}`
       : "";
 
-  document.getElementById("event-venue").textContent =
-    event.venue || "";
+  document.getElementById("event-venue-name").textContent =
+    event.venue.name || "";
+
+  document.getElementById("event-venue-address").textContent =
+    event.venue.address || "";
+
+  document.getElementById("event-venue-accessibility").textContent =
+    event.venue.accessibility || "";
 
   // Meta
   document.getElementById("event-performers").textContent =
