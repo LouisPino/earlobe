@@ -15,6 +15,21 @@ archiveBtnEl.addEventListener("click", async (e) => {
   const archiveData = collectArchiveData();
 
 
-await addArchive(archiveData)
-window.location.reload()
+  await addArchive(archiveData)
+  window.location.reload()
 });
+
+
+
+const PASSWORD = "Earl0be2025";
+function getPassword() {
+
+  const input = prompt("Enter admin password:");
+  if (input !== PASSWORD) {
+    document.body.innerHTML = "";
+    alert("Access denied");
+    getPassword()
+  }
+}
+
+getPassword()
