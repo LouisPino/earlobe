@@ -95,3 +95,13 @@
     font-size: 1.5rem;
     font-weight: 600;
 }
+
+
+.event-date-header {
+  grid-column: 1 / -1;
+  margin: 32px 0 12px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}

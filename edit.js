@@ -59,12 +59,11 @@ function collectEditEvent() {
 
 
 
-btnEl.addEventListener("click", (e) => {
+btnEl.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const eventData = collectEditEvent();
 
-  console.log(eventData)
-  updateEvent(id, {...eventData, confirmed: true})
+  await updateEvent(id, {...eventData, confirmed: true})
 window.location.replace("./admin.html")
 });

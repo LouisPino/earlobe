@@ -3,7 +3,7 @@ import { fetchEvents, addEvent } from "./dbScript.js";
 const weekGrid = document.getElementById("weekEventsGrid");
 const upcomingGrid = document.getElementById("upcomingEventsGrid");
 const pastGrid = document.getElementById("pastEventsGrid");
-    const isAdmin = window.location.pathname.includes("admin")
+const isAdmin = window.location.pathname.includes("admin")
 
 
 const form = document.getElementById("earlobeForm");
@@ -33,7 +33,6 @@ form?.addEventListener("submit", async (e) => {
 
     try {
         await addEvent(eventObj);
-
         alert("Event submitted successfully!");
         form.reset();
     } catch (err) {
@@ -91,23 +90,23 @@ function createEventCard(eventObj) {
             ? `<p class="event-description">${event.description}</p>`
             : ""}
     </div>
-    ${!isAdmin && event.links &&
+    ${!isAdmin ?
              `<div class="event-card-footer">
-            <a href="${event.links}" target="_blank" rel="noopener">
+            <a href="./event.html?id=${eventObj.id}" target="_blank" rel="noopener">
               More info →
             </a>
           </div>`
-           
+           : ""
         }
 
-        ${isAdmin &&
+        ${isAdmin ? 
 
 `<div class="event-card-footer">
             <a href="./edit.html?id=${eventObj.id}" rel="noopener">
               EDIT EVENT →
             </a>
           </div>`
-
+: ""
         }
   `;
 
@@ -157,10 +156,13 @@ async function loadEvents() {
                 upcoming.push(event);
             }
         });
-            renderEvents(thisWeek, upcoming, past)
+            // renderEvents(thisWeek, upcoming, past)
         
 
-       
+            renderGroupedEvents(thisWeek, weekGrid);
+            renderGroupedEvents(upcoming, upcomingGrid);
+            renderGroupedEvents(past, pastGrid);
+            
 
     } catch (err) {
         console.error(err);
@@ -169,48 +171,101 @@ async function loadEvents() {
         pastGrid.innerHTML = "<p>Error loading events.</p>";
     }
 }
+loadEvents()
 
-if(weekGrid && pastGrid && upcomingGrid){
 
-    loadEvents();
+
+// function renderEvents(thisWeek, upcoming, past){
+//  // This Week (soonest first)
+//         thisWeek
+//             .sort((a, b) => new Date(a.date) - new Date(b.date))
+//             .forEach(event => {
+//                 weekGrid.appendChild(createEventCard(event));
+//             });
+
+//         // Upcoming (after this week)
+//         upcoming
+//             .sort((a, b) => new Date(a.date) - new Date(b.date))
+//             .forEach(event => {
+//                 upcomingGrid.appendChild(createEventCard(event));
+//             });
+
+//         // Previous (most recent first)
+//         past
+//             .sort((a, b) => new Date(b.date) - new Date(a.date))
+//             .forEach(event => {
+//                 pastGrid.appendChild(createEventCard(event));
+//             });
+
+//         if (!thisWeek.length) {
+//             weekGrid.innerHTML = "<p>No events this week.</p>";
+//         }
+
+//         if (!upcoming.length) {
+//             upcomingGrid.innerHTML = "<p>No upcoming events.</p>";
+//         }
+
+//         if (!past.length) {
+//             pastGrid.innerHTML = "<p>No previous events.</p>";
+//         }
+// }
+
+
+function renderGroupedEvents(events, container) {
+  if (!events.length) {
+    container.innerHTML = "<p>No events.</p>";
+    return;
+  }
+
+  container.innerHTML = "";
+
+  const grouped = groupEventsByDate(events);
+
+  // Sort dates ascending
+  const dates = Object.keys(grouped).sort(
+    (a, b) => new Date(a) - new Date(b)
+  );
+
+  dates.forEach(date => {
+    // Date header
+    const header = document.createElement("h3");
+    header.className = "event-date-header";
+    header.textContent = formatDateHeader(date);
+    container.appendChild(header);
+
+    // Events for that date
+    grouped[date].forEach(event => {
+      container.appendChild(createEventCard(event));
+    });
+  });
 }
 
 
 
-function renderEvents(thisWeek, upcoming, past){
- // This Week (soonest first)
-        thisWeek
-            .sort((a, b) => new Date(a.date) - new Date(b.date))
-            .forEach(event => {
-                weekGrid.appendChild(createEventCard(event));
-            });
 
-        // Upcoming (after this week)
-        upcoming
-            .sort((a, b) => new Date(a.date) - new Date(b.date))
-            .forEach(event => {
-                upcomingGrid.appendChild(createEventCard(event));
-            });
+function groupEventsByDate(events) {
+  return events.reduce((acc, event) => {
+    const date = event.data.date; // YYYY-MM-DD
 
-        // Previous (most recent first)
-        past
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .forEach(event => {
-                pastGrid.appendChild(createEventCard(event));
-            });
+    if (!acc[date]) acc[date] = [];
+    acc[date].push(event);
 
-        if (!thisWeek.length) {
-            weekGrid.innerHTML = "<p>No events this week.</p>";
-        }
-
-        if (!upcoming.length) {
-            upcomingGrid.innerHTML = "<p>No upcoming events.</p>";
-        }
-
-        if (!past.length) {
-            pastGrid.innerHTML = "<p>No previous events.</p>";
-        }
+    return acc;
+  }, {});
 }
+
+function formatDateHeader(dateStr) {
+  const d = new Date(dateStr + "T00:00:00");
+  return d.toLocaleDateString(undefined, {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+}
+
+
+
 
 
 
@@ -230,7 +285,7 @@ if (seedBtn) {
                 email: "curator@earlobe.ca",
                 event_name: "Resonant Bodies",
                 performers: "Duo Cichorium, Jaz Tsui",
-                date: "2025-12-19",
+                date: "2026-01-12",
                 start_time: "19:30",
                 end_time: "21:00",
                 doors_time: "19:00",
@@ -248,7 +303,7 @@ if (seedBtn) {
                 email: "events@earlobe.ca",
                 event_name: "Signals in the Dark",
                 performers: "Louis Pino, Toronto Laptop Orchestra (small ensemble)",
-                date: "2026-03-04",
+                date: "2026-02-04",
                 start_time: "20:00",
                 end_time: null,
                 doors_time: "19:30",
@@ -298,3 +353,5 @@ if (seedBtn) {
         }
     });
 }
+
+
