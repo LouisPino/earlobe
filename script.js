@@ -95,7 +95,7 @@ form?.addEventListener("submit", async (e) => {
     try {
         await addEvent(eventObj);
         alert("Event submitted successfully!");
-        window.location.replace("/");
+        window.location.replace("./");
         form.reset();
     } catch (err) {
         console.error("Error submitting event:", err);
