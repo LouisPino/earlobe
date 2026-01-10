@@ -54,15 +54,17 @@ form?.addEventListener("submit", async (e) => {
 
     // Handle custom venue entry
     if (venueChoice === "other") {
-        const name = formData.get("venue_name_other");
-        const address = formData.get("venue_address_other");
-        const accessibility = formData.get("venue_accessibility_other");
+        const name = formData.get("venue_name");
+        const address = formData.get("venue_address");
+        const accessibility = formData.get("venue_accessibility");
 
         venue = {
             name,
             address,
             accessibility
         };
+
+        console.log(venue)
 
         // Store venue separately for reuse
         addVenue(venue);
