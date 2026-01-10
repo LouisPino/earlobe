@@ -66,9 +66,6 @@ const venueCollection = collection(db, "venue");
  * - `confirmed` is always initialized to false.
  */
 export async function addEvent(obj) {
-    console.log(obj);
-
-    await addVenue(obj.venue);
 
     const resp = await addDoc(eventCollection, {
         ...obj,

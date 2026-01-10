@@ -49,6 +49,7 @@ form?.addEventListener("submit", async (e) => {
     const formData = new FormData(form);
 
     const venueChoice = formData.get("venue");
+    console.log(venueChoice)
     let venue;
 
     // Handle custom venue entry
@@ -65,6 +66,12 @@ form?.addEventListener("submit", async (e) => {
 
         // Store venue separately for reuse
         addVenue(venue);
+    } else {
+        for (let option of venueOptions) {
+            if (option.name === venueChoice) {
+                venue = option
+            }
+        }
     }
 
     // Construct event object
