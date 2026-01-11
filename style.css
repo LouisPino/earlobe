@@ -29,11 +29,10 @@ body {
 .site-header {
     display: flex;
     align-items: center;
-    padding: 24px 32px;
 }
 
 .logo img {
-    width: 90px;
+    width: 130px;
     height: auto;
 }
 
@@ -180,4 +179,16 @@ body {
     text-align: center;
 }
 
-/* SUBMIT */
+
+@media (max-width: 700px) {
+
+    .logo img {
+        width: 80px;
+    }
+
+    .main-nav {
+        margin-left: 20px;
+        display: flex;
+        gap: 18px;
+    }
+}
