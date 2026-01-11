@@ -177,10 +177,11 @@ export async function getEventById(id) {
         ? { id: docSnap.id, ...docSnap.data() }
         : null;
 }
+
 export async function deleteEventById(id) {
     const eventRef = doc(eventCollection, id);
     const resp = await deleteDoc(eventRef);
-
+    console.log(resp)
     return resp
 }
 
