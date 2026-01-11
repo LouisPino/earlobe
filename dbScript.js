@@ -181,7 +181,7 @@ export async function deleteEventById(id) {
     const eventRef = doc(eventCollection, id);
     const resp = await deleteDoc(eventRef);
 
-    console.log(resp)
+    return resp
 }
 
 
