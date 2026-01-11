@@ -80,4 +80,51 @@ function getPassword() {
 }
 
 // Immediately require password on page load
-getPassword();
+// getPassword();
+
+
+let pendingDeleteEventId = null;
+
+// Event delegation (works for dynamically created cards)
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest(".delete-event");
+  if (!btn) return;
+
+  // Store the event ID (attach data-event-id to button)
+  pendingDeleteEventId = btn.dataset.eventId;
+
+  openDeleteModal();
+});
+
+function openDeleteModal() {
+  const modal = document.getElementById("delete-modal");
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeDeleteModal() {
+  const modal = document.getElementById("delete-modal");
+  modal.hidden = true;
+  document.body.style.overflow = "";
+  pendingDeleteEventId = null;
+}
+
+// Cancel
+document.getElementById("cancel-delete").addEventListener("click", closeDeleteModal);
+
+// Click outside dialog
+document.querySelector(".modal-backdrop").addEventListener("click", closeDeleteModal);
+
+// Confirm
+document.getElementById("confirm-delete").addEventListener("click", async () => {
+  if (!pendingDeleteEventId) return;
+
+  try {
+    await deleteEventById(pendingDeleteEventId); // your existing delete function
+    closeDeleteModal();
+    location.reload(); // or remove the card from DOM
+  } catch (err) {
+    alert("Failed to delete event.");
+    console.error(err);
+  }
+});

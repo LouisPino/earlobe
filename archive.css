@@ -1,0 +1,122 @@
+/* Page wrapper */
+
+.archive-main {
+    max-width: 560px;
+    margin: 0 auto;
+
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+
+    color: #111;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Heading */
+
+.archive-main h1 {
+    font-size: 4rem;
+    font-weight: 500;
+    margin-bottom: 24px;
+    color: #2f2f2f;
+}
+
+/* Intro text */
+
+.archive-main p {
+    font-size: 1rem;
+    max-width: 420px;
+    margin: 0 auto 40px;
+    color: #333;
+}
+
+/* Newsletter embed spacing */
+
+.archive-main script {
+    display: block;
+    margin: 0 auto 48px;
+}
+
+/* Archive list */
+
+.archive-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+/* Individual item */
+
+.archive-list li {
+    margin-bottom: 14px;
+}
+
+/* Link styling */
+
+.archive-link {
+    display: block;
+    padding: 12px 16px;
+
+    font-size: 1.2rem;
+    color: #111;
+    text-decoration: none;
+
+    border-radius: 8px;
+    transition:
+        background 0.15s ease,
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+/* Hover / focus */
+
+.archive-link:hover {
+    background: #f5f5f5;
+    transform: translateX(2px);
+}
+
+/* Subtle divider feel */
+
+.archive-list li:not(:last-child) .archive-link {
+    border-bottom: 1px solid #e6e6e6;
+}
+
+
+.archive-group details {
+    margin-bottom: 20px;
+}
+
+.archive-group summary {
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 8px 0;
+}
+
+.archive-group summary::marker {
+    font-size: 0.8rem;
+}
+
+.archive-group details ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+
+/* Responsive */
+
+@media (max-width: 600px) {
+    .archive-main {
+        padding: 80px 20px 120px;
+    }
+
+    .archive-main h1 {
+        font-size: 2.3rem;
+    }
+
+    .archive-link {
+        font-size: 0.9rem;
+    }
+}

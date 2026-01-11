@@ -15,7 +15,7 @@
  * ============================================================
  */
 
-import { fetchEvents, addEvent, addVenue, fetchVenues } from "./dbScript.js";
+import { fetchEvents, addEvent, addVenue, fetchVenues, deleteEventById } from "./dbScript.js";
 
 /**
  * ============================================================
@@ -49,7 +49,6 @@ form?.addEventListener("submit", async (e) => {
     const formData = new FormData(form);
 
     const venueChoice = formData.get("venue");
-    console.log(venueChoice)
     let venue;
 
     // Handle custom venue entry
@@ -64,7 +63,6 @@ form?.addEventListener("submit", async (e) => {
             accessibility
         };
 
-        console.log(venue)
 
         // Store venue separately for reuse
         addVenue(venue);
@@ -154,8 +152,9 @@ if (venueSelect) {
  */
 
 function formatDate(dateStr) {
-    const d = new Date(dateStr);
-    return d.toLocaleDateString(undefined, {
+    const [y, m, d] = dateStr.split("-").map(Number);
+    const date = new Date(y, m - 1, d);
+    return date.toLocaleDateString(undefined, {
         weekday: "short",
         month: "short",
         day: "numeric",
@@ -178,11 +177,24 @@ function createEventCard(eventObj) {
     const event = eventObj.data;
     const card = document.createElement("article");
     card.className = "event-card";
+    if (isAdmin) {
+        card.classList.add(event.confirmed ? "confirmed" : "unconfirmed")
+    }
 
     card.innerHTML = `
     <div class="event-card-header">
       <h2>${event.event_name || "Untitled Event"}</h2>
       <p class="event-date">${formatDate(event.date)}</p>
+          ${isAdmin
+            ? `<div class="event-card-footer">
+            <a class="edit-event" href="./edit.html?id=${eventObj.id}" rel="noopener">
+              EDIT EVENT →
+            </a>
+<button class="delete-event" data-event-id="${eventObj.id}">
+  DELETE EVENT
+</button>          </div>`
+            : ""
+        }
     </div>
 
     <div class="event-card-body">
@@ -197,7 +209,7 @@ function createEventCard(eventObj) {
       </p>
 
       <p>
-        <strong>Venue:</strong> ${event.venue}
+        <strong>Venue:</strong> ${event.venue.name}
       </p>
 
       ${event.cost ? `<p><strong>Cost:</strong> ${event.cost}</p>` : ""}
@@ -217,18 +229,16 @@ function createEventCard(eventObj) {
             : ""
         }
 
-    ${isAdmin
-            ? `<div class="event-card-footer">
-            <a href="./edit.html?id=${eventObj.id}" rel="noopener">
-              EDIT EVENT →
-            </a>
-          </div>`
-            : ""
-        }
+
   `;
 
     return card;
 }
+
+
+
+
+
 
 /**
  * ============================================================
@@ -338,8 +348,9 @@ function groupEventsByDate(events) {
 }
 
 function formatDateHeader(dateStr) {
-    const d = new Date(dateStr + "T00:00:00");
-    return d.toLocaleDateString(undefined, {
+    const [y, m, d] = dateStr.split("-").map(Number);
+    const date = new Date(y, m - 1, d);
+    return date.toLocaleDateString(undefined, {
         weekday: "long",
         year: "numeric",
         month: "long",

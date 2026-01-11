@@ -26,7 +26,7 @@ const id = params.get("id");
 
 // Fetch event data
 const event = await getEventById(id);
-
+const attendaceMap = { "all_ages": "All Ages", "19_plus": "19+" }
 /**
  * ============================================================
  * UTILITY FUNCTIONS
@@ -113,7 +113,7 @@ function populateEventPage(event) {
     event.cost || "—";
 
   document.getElementById("event-attendance").textContent =
-    event.attendance_other || event.attendance || "—";
+    event.attendance_other || attendaceMap[event.attendance] || "—";
 
   document.getElementById("event-doors").textContent =
     formatTime(event.doors_time) || "—";

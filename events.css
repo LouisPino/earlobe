@@ -13,29 +13,52 @@
 /* Grid */
 
 .events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 24px;
+    align-items: center;
+    /* centers the cards */
 }
+
 
 /* Card */
 
 .event-card {
+    width: 80%;
+    max-width: 900px;
+
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 24px;
+
     background: #ffffff;
-    border-radius: 16px;
-    padding: 22px 22px 20px;
-    box-shadow:
+    border-radius: 8px;
+    border: 1px solid black;
+    padding: 22px 24px;
+    /* box-shadow:
         0 10px 25px rgba(0, 0, 0, 0.08),
-        0 4px 8px rgba(0, 0, 0, 0.04);
+        0 4px 8px rgba(0, 0, 0, 0.04); */
+
+
 }
+
+.confirmed {
+    background-color: aquamarine;
+}
+
+.unconfirmed {
+    background-color: rgb(255, 127, 127);
+}
+
+
 
 /* Header */
-
 .event-card-header {
-    margin-bottom: 14px;
+    flex: 0 0 220px;
+    /* fixed left column */
+    margin-bottom: 0;
 }
+
 
 .event-card-header h2 {
     margin: 0 0 6px;
@@ -49,6 +72,9 @@
 }
 
 /* Body */
+.event-card-body {
+    flex: 1;
+}
 
 .event-card-body p {
     margin: 6px 0;
@@ -64,8 +90,23 @@
 /* Footer */
 
 .event-card-footer {
-    margin-top: auto;
-    padding-top: 14px;
+    display: flex;
+    margin-top: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 50%;
+}
+
+.edit-event {
+    background-color: rgb(79, 205, 255);
+    width: fit-content;
+    padding: 2px;
+}
+
+.delete-event {
+    background-color: red;
+    width: fit-content;
+    padding: 2px;
 }
 
 .event-card-footer a {
@@ -98,10 +139,21 @@
 
 
 .event-date-header {
-  grid-column: 1 / -1;
-  margin: 32px 0 12px;
-  font-size: 1.25rem;
-  font-weight: 500;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 6px;
+    grid-column: 1 / -1;
+    margin: 32px 0 12px;
+    font-size: 1.25rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 6px;
+}
+
+@media (max-width: 768px) {
+    .event-card {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .event-card-header {
+        flex: none;
+    }
 }

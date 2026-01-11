@@ -1,79 +1,57 @@
-/* =========================
-   Root + Resets
-========================= */
-
-:root {
-  --bg: #f7f7f5;
-  --panel: #ffffff;
-  --text: #1a1a1a;
-  --muted: #6f6f6f;
-  --border: #e3e3df;
-  --accent: #1f4d3a;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.55;
-}
-
-/* =========================
-   Page Layout
-========================= */
+/* Page wrapper */
 
 .event-page {
-  max-width: 880px;
+  max-width: 680px;
   margin: 0 auto;
-  padding: 64px 24px 96px;
+  padding: 100px 24px 140px;
+
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+
+  color: #111;
+  line-height: 1.6;
 }
 
-/* =========================
-   Header
-========================= */
+/* Header */
 
 .event-header {
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 
 .event-header h1 {
-  font-family: "Playfair Display", Georgia, serif;
-  font-size: 3rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  margin: 0 0 12px;
+  font-size: 2.6rem;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
 .event-date-time {
   font-size: 1.05rem;
-  color: var(--muted);
-  margin: 0 0 6px;
+  margin-bottom: 10px;
+  color: #333;
 }
 
-.event-venue {
-  font-size: 1.05rem;
-  font-weight: 500;
+.event-venue-name {
+  font-weight: 600;
 }
 
-/* =========================
-   Meta Section
-========================= */
+.event-venue-address,
+.event-venue-accessibility {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Meta section */
 
 .event-meta {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px 32px;
-  padding: 24px;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  margin-bottom: 48px;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 24px;
+
+  padding: 24px 0;
+  margin-bottom: 40px;
+
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .event-meta div {
@@ -81,106 +59,74 @@ body {
 }
 
 .event-meta strong {
-  font-weight: 500;
-  color: var(--muted);
-  display: block;
-  margin-bottom: 4px;
+  font-weight: 600;
 }
 
-/* =========================
-   Description
-========================= */
+/* Description */
 
 .event-description {
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 
 .event-description h2 {
-  font-size: 1.4rem;
-  font-weight: 500;
-  margin-bottom: 16px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 14px;
 }
 
 .event-description p {
-  font-size: 1.05rem;
-  max-width: 68ch;
+  font-size: 1rem;
+  color: #222;
 }
 
-/* =========================
-   Links
-========================= */
+/* Links */
 
 .event-links {
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 
 .event-links h2 {
-  font-size: 1.4rem;
-  font-weight: 500;
+  font-size: 1.3rem;
+  font-weight: 600;
   margin-bottom: 12px;
 }
 
 .event-links a {
-  display: inline-block;
-  margin-bottom: 8px;
+  font-size: 0.95rem;
+  color: #007f6d;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
-
 
 .event-links a:hover {
-  text-decoration: underline;
+  opacity: 0.8;
 }
 
-/* =========================
-   Footer
-========================= */
+/* Footer */
 
 .event-footer {
-  padding-top: 32px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.event-contact {
+  margin-top: 60px;
   font-size: 0.9rem;
-  color: var(--muted);
+  color: #444;
 }
 
-.event-contact a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.event-contact a:hover {
+.event-footer a {
+  color: #007f6d;
   text-decoration: underline;
 }
 
-.event-confirmed {
-  font-size: 0.9rem;
-  font-style: italic;
-  color: var(--muted);
-}
+/* Responsive */
 
-/* =========================
-   Responsive
-========================= */
-
-@media (max-width: 640px) {
+@media (max-width: 600px) {
   .event-page {
-    padding: 40px 20px 64px;
+    padding: 80px 20px 120px;
   }
 
   .event-header h1 {
-    font-size: 2.2rem;
+    font-size: 2.1rem;
   }
 
   .event-meta {
     grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .event-description p {
-    font-size: 1rem;
   }
 }

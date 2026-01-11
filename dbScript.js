@@ -16,6 +16,7 @@ import {
     addDoc,
     getDoc,
     doc,
+    deleteDoc,
     updateDoc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
@@ -157,6 +158,15 @@ export async function getEventById(id) {
         ? { id: docSnap.id, ...docSnap.data() }
         : null;
 }
+export async function deleteEventById(id) {
+    const eventRef = doc(eventCollection, id);
+    const resp = await deleteDoc(eventRef);
+
+    console.log(resp)
+}
+
+
+
 
 /**
  * Fetches archive entries sorted by most recent first.

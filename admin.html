@@ -6,7 +6,7 @@
     <title>Earlobe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="submit.css" />
+    <link rel="stylesheet" href="events.css" />
     <link rel="icon" type="image/x-icon" href="/earlobe_logo.ico">
     <script src="script.js" type="module" defer></script>
     <script src="admin.js" type="module" defer></script>
@@ -14,22 +14,23 @@
     <script src="layout.js" type="module"></script>
 
 </head>
+
 <body>
     <div id="site-header"></div>
 
-  <main class="admin-page">
-      <h1>Add an Archive</h1>
-<form id="archive-form">
-    <label>Date</label>
-    <input type="text" id="archive-title"/>
-    <label>Link</label>
-    <input type="text" id="archive-link"/>
-    <button id="archive-submit-btn">Submit</button>
-</form>
+    <main class="admin-page">
+        <h1 class="archive-add-title">Add an Archive</h1>
+        <form id="archive-form">
+            <label>Date</label>
+            <input type="text" id="archive-title" placeholder="Format: April 20th, 2025" />
+            <label>Link</label>
+            <input type="text" id="archive-link" />
+            <button id="archive-submit-btn">Submit</button>
+        </form>
 
 
 
-        <h1>Events</h1>
+        <h1 class="manage-events-title">Manage Events</h1>
 
         <section class="events-section">
             <h2>This Week</h2>
@@ -52,6 +53,22 @@
     <footer class="site-footer">
         Earlobe
     </footer>
+
+
+    <div id="delete-modal" class="modal" hidden>
+        <div class="modal-backdrop"></div>
+
+        <div class="modal-dialog" role="dialog" aria-modal="true">
+            <h3>Delete event?</h3>
+            <p>This action cannot be undone.</p>
+
+            <div class="modal-actions">
+                <button id="cancel-delete">Cancel</button>
+                <button id="confirm-delete" class="danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
 
 </body>
 

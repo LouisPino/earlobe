@@ -36,6 +36,7 @@
     font-size: 1.9rem;
     font-weight: 700;
     letter-spacing: -0.01em;
+    color: #1ce6ac
 }
 
 .required-note {
@@ -136,7 +137,7 @@
     letter-spacing: 0.01em;
 
     color: #ffffff;
-    background: #111827;
+    background: #1ce6ac;
     border: none;
     border-radius: 12px;
     cursor: pointer;
@@ -146,7 +147,7 @@
 }
 
 .earlobe-form button:hover {
-    background: #1f2937;
+    background: #c15ad5;
     transform: translateY(-1px);
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
