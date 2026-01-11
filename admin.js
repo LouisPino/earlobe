@@ -61,27 +61,29 @@ archiveBtnEl.addEventListener("click", async (e) => {
  */
 
 const PASSWORD = "Earl0be2025";
+const AUTH_KEY = "admin_unlocked";
 
-/**
- * Prompts for admin password.
- * If incorrect, clears the page and re-prompts.
- */
 function getPassword() {
   const input = prompt("Enter admin password:");
 
-  if (input !== PASSWORD) {
-    // Remove all page content to prevent casual access
-    document.body.innerHTML = "";
+  if (input === PASSWORD) {
+    sessionStorage.setItem(AUTH_KEY, "true");
+    return;
+  }
 
-    alert("Access denied");
+  alert("Access denied");
+  document.body.innerHTML = "";
+  getPassword();
+}
 
-    // Re-prompt until correct password is entered
+function requireAdmin() {
+  if (sessionStorage.getItem(AUTH_KEY) !== "true") {
     getPassword();
   }
 }
 
-// Immediately require password on page load
-// getPassword();
+requireAdmin();
+
 
 
 let pendingDeleteEventId = null;

@@ -94,7 +94,7 @@
     margin-top: 0;
     flex-direction: column;
     justify-content: space-between;
-    height: 50%;
+    height: auto;
 }
 
 .edit-event {
@@ -107,6 +107,7 @@
     background-color: red;
     width: fit-content;
     padding: 2px;
+    margin-top: 16px
 }
 
 .event-card-footer a {
