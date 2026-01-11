@@ -15,7 +15,7 @@
  * ============================================================
  */
 
-import { fetchEvents, addEvent, addVenue, fetchVenues, deleteEventById } from "./dbScript.js";
+import { fetchEvents, addEvent, addVenue, fetchVenues, uploadImage } from "./dbScript.js";
 
 /**
  * ============================================================
@@ -45,8 +45,14 @@ const form = document.getElementById("earlobeForm");
 
 form?.addEventListener("submit", async (e) => {
     e.preventDefault(); // prevent full page reload
-
+    let url = null
     const formData = new FormData(form);
+    // const imageEl = document.getElementById("imageInput")
+    // if (imageEl.value) {
+
+    //     url = await uploadImage(imageEl.value)
+    //     console.log(url)
+    // }
 
     const venueChoice = formData.get("venue");
     let venue;
@@ -89,7 +95,8 @@ form?.addEventListener("submit", async (e) => {
         cost: formData.get("cost") || null,
         links: formData.get("links") || null,
         description: formData.get("description") || null,
-        createdAt: new Date()
+        createdAt: new Date(),
+        imageUrl: url || null
     };
 
     try {

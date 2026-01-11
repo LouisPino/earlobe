@@ -19,7 +19,12 @@ import {
     deleteDoc,
     updateDoc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
+import {
+    getStorage,
+    ref,
+    uploadBytes,
+    getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
 /**
  * Firebase project configuration.
  * NOTE: API keys are public identifiers, not secrets.
@@ -29,7 +34,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyDFlDvq6cy2VdcLq8gTSDJ2-Mpr8cADu5U",
     authDomain: "earlobe-90d1e.firebaseapp.com",
     projectId: "earlobe-90d1e",
-    storageBucket: "earlobe-90d1e.firebasestorage.app",
+    storageBucket: "earlobe-90d1e.appspot.com", // ✅ THIS LINE
     messagingSenderId: "957677817930",
     appId: "1:957677817930:web:3339e2337f6cb5f15a96b3"
 };
@@ -39,6 +44,9 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Firestore
 const db = getFirestore(app);
+
+const storage = getStorage(app);
+
 
 /**
  * ============================================================
@@ -97,6 +105,17 @@ export async function addArchive(obj) {
 
     console.log(resp);
 }
+
+
+
+export async function uploadImage(file) {
+    const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const imageRef = ref(storage, `images/${id}`);
+    const resp = await uploadBytes(imageRef, file);
+    console.log(resp)
+    return await getDownloadURL(imageRef);
+}
+
 
 /**
  * ============================================================
