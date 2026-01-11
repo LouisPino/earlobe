@@ -81,7 +81,7 @@ function getPassword() {
 }
 
 // Immediately require password on page load
-// getPassword();
+getPassword();
 
 
 let pendingDeleteEventId = null;
