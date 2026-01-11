@@ -101,7 +101,7 @@ form?.addEventListener("submit", async (e) => {
 
     try {
         await addEvent(eventObj);
-        alert("Event submitted successfully!");
+        alert("Event submitted successfully! An admin will approve your event for display soon.");
         window.location.replace("./");
         form.reset();
     } catch (err) {
