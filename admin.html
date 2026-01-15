@@ -71,6 +71,26 @@
         </div>
     </div>
 
+    <!-- ADMIN AUTH MODAL -->
+    <div id="admin-auth-modal" class="modal" hidden>
+        <div class="modal-backdrop"></div>
+
+        <div class="modal-dialog" role="dialog" aria-modal="true">
+            <h3>Admin Access</h3>
+            <p>Please enter the admin password to continue.</p>
+
+            <input type="password" id="admin-password-input" placeholder="Password" autocomplete="current-password" />
+
+            <p id="admin-auth-error" class="auth-error" hidden>
+                Incorrect password
+            </p>
+
+            <div class="modal-actions">
+                <button id="admin-auth-submit">Unlock</button>
+            </div>
+        </div>
+    </div>
+
 
 </body>
 

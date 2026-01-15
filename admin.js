@@ -63,27 +63,49 @@ archiveBtnEl.addEventListener("click", async (e) => {
 const PASSWORD = "Earl0be2025";
 const AUTH_KEY = "admin_unlocked";
 
-function getPassword() {
-  const input = prompt("Enter admin password:");
+const modal = document.getElementById("admin-auth-modal");
+const input = document.getElementById("admin-password-input");
+const submitBtn = document.getElementById("admin-auth-submit");
+const errorMsg = document.getElementById("admin-auth-error");
 
-  if (input === PASSWORD) {
+function openAuthModal() {
+  modal.hidden = false;
+  input.value = "";
+  errorMsg.hidden = true;
+  input.focus();
+}
+
+function closeAuthModal() {
+  modal.hidden = true;
+}
+
+function checkPassword() {
+  if (input.value === PASSWORD) {
     sessionStorage.setItem(AUTH_KEY, "true");
-    return;
+    closeAuthModal();
+  } else {
+    errorMsg.hidden = false;
+    input.value = "";
+    input.focus();
   }
-
-  alert("Access denied");
-  document.body.innerHTML = "";
-  getPassword();
 }
 
 function requireAdmin() {
   if (sessionStorage.getItem(AUTH_KEY) !== "true") {
-    getPassword();
+    openAuthModal();
   }
 }
 
-requireAdmin();
+// Submit handlers
+submitBtn.addEventListener("click", checkPassword);
 
+input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    checkPassword();
+  }
+});
+
+requireAdmin();
 
 
 let pendingDeleteEventId = null;

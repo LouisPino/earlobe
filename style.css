@@ -162,6 +162,22 @@ body {
 }
 
 
+
+.auth-error {
+    color: #b00020;
+    font-size: 0.85rem;
+    margin-top: 8px;
+}
+
+#admin-auth-modal input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+}
+
+
 .manage-events-title {
     margin-top: 32px;
     text-align: center;
