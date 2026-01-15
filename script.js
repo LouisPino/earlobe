@@ -47,12 +47,16 @@ form?.addEventListener("submit", async (e) => {
     e.preventDefault(); // prevent full page reload
     let url = null
     const formData = new FormData(form);
-    // const imageEl = document.getElementById("imageInput")
-    // if (imageEl.value) {
+    const imageEl = document.getElementById("imageInput")
+    if (imageEl.files && imageEl.files.length > 0) {
+        const file = imageEl.files[0];
 
-    //     url = await uploadImage(imageEl.value)
-    //     console.log(url)
-    // }
+        console.log("FILE", file);
+        console.log("TYPE", file.type); // image/jpeg, image/png, etc.
+
+        url = await uploadImage(file);
+        console.log("URL", url);
+    }
 
     const venueChoice = formData.get("venue");
     let venue;
@@ -139,18 +143,23 @@ venueSelect?.addEventListener("change", () => {
  * ATTENDANCE SELECT UI
  * ============================================================
  */
-
-const attendanceSelect = document.getElementById("attendance-other-select");
+const attendanceSelect = document.getElementById("attendance-select");
 const attendanceOther = document.getElementById("attendance-other-input");
 
-// Toggle custom venue fields
 attendanceSelect?.addEventListener("change", () => {
-    if (attendanceSelect.value === "true") {
+    const selected = attendanceSelect.querySelector(
+        'input[name="attendance"]:checked'
+    );
+
+    if (selected?.value === "other") {
         attendanceOther.style.display = "block";
+        attendanceOther.focus();
     } else {
         attendanceOther.style.display = "none";
+        attendanceOther.value = "";
     }
 });
+
 
 /**
  * Populate venue dropdown from database.

@@ -34,7 +34,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyDFlDvq6cy2VdcLq8gTSDJ2-Mpr8cADu5U",
     authDomain: "earlobe-90d1e.firebaseapp.com",
     projectId: "earlobe-90d1e",
-    storageBucket: "earlobe-90d1e.appspot.com", // ✅ THIS LINE
+    storageBucket: "gs://earlobe-90d1e.firebasestorage.app", // ✅ THIS LINE
     messagingSenderId: "957677817930",
     appId: "1:957677817930:web:3339e2337f6cb5f15a96b3"
 };
@@ -109,12 +109,15 @@ export async function addArchive(obj) {
 
 
 export async function uploadImage(file) {
-    const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    const imageRef = ref(storage, `images/${id}`);
-    const resp = await uploadBytes(imageRef, file);
-    console.log(resp)
+    const imageRef = ref(storage, `images/${Date.now()}-${file.name}`);
+
+    await uploadBytes(imageRef, file, {
+        contentType: file.type
+    });
+
     return await getDownloadURL(imageRef);
 }
+
 
 
 /**

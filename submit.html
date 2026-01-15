@@ -37,10 +37,10 @@
                 (optional) Name of event / Series / xxx presents
                 <input type="text" name="event_name" />
             </label>
-            <!-- <label>
+            <label>
                 (optional) Poster
                 <input type="file" accept="image/*" id="imageInput" />
-            </label> -->
+            </label>
 
             <!-- Performers -->
             <label>
@@ -101,7 +101,7 @@
 
 
             <!-- Attendance -->
-            <fieldset>
+            <fieldset id="attendance-select">
                 <legend>Who can attend?</legend>
 
                 <label>
@@ -115,11 +115,11 @@
                 </label>
 
                 <label>
-                    <input type="radio" name="attendance" id="attendance-other-select" value="other" />
+                    <input type="radio" name="attendance" value="other" />
                     Other
                 </label>
 
-                <input type="text" name="attendance_other" id="attendance-other-input"
+                <input type="text" style="display: none;" name="attendance_other" id="attendance-other-input"
                     placeholder="If other, please specify" />
             </fieldset>
 
