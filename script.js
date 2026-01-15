@@ -133,6 +133,25 @@ venueSelect?.addEventListener("change", () => {
     }
 });
 
+
+/**
+ * ============================================================
+ * ATTENDANCE SELECT UI
+ * ============================================================
+ */
+
+const attendanceSelect = document.getElementById("attendance-other-select");
+const attendanceOther = document.getElementById("attendance-other-input");
+
+// Toggle custom venue fields
+attendanceSelect?.addEventListener("change", () => {
+    if (attendanceSelect.value === "true") {
+        attendanceOther.style.display = "block";
+    } else {
+        attendanceOther.style.display = "none";
+    }
+});
+
 /**
  * Populate venue dropdown from database.
  */
