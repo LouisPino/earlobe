@@ -5,6 +5,10 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+#edit-img{
+  width: 100%;
+}
+
 .edit-event-form {
   display: flex;
   flex-direction: column;
