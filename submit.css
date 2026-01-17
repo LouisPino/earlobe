@@ -156,8 +156,75 @@
     transform: translateY(0);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
+/* -------- Submitting Modal Backdrop -------- */
 
-/* -------- Mobile -------- */
+.submitting-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(17, 24, 39, 0.45); /* slate-900 @ 45% */
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+    display: none
+}
+
+/* -------- Submitting Modal -------- */
+
+.submitting-modal {
+    width: min(720px, 90vw);
+    padding: 36px 40px;
+    background: #ffffff;
+
+    border-radius: 18px;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.08),
+        0 6px 12px rgba(0, 0, 0, 0.04);
+
+    text-align: center;
+    display: none;
+}
+
+/* -------- Modal Text -------- */
+
+.submitting-modal-text {
+    margin: 0;
+}
+
+.submitting-modal-text h2 {
+    margin-bottom: 12px;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #1ce6ac;
+}
+
+.submitting-modal-text p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #374151;
+}
+
+/* -------- Optional Loading Indicator -------- */
+
+.submitting-spinner {
+    margin: 24px auto 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 3px solid #e5e7eb;
+    border-top-color: #1ce6ac;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 
 @media (max-width: 480px) {
     .earlobe-form {
@@ -167,5 +234,13 @@
 
     .earlobe-form h1 {
         font-size: 1.6rem;
+    }
+        .submitting-modal {
+        padding: 28px 24px;
+        border-radius: 14px;
+    }
+
+    .submitting-modal-text h2 {
+        font-size: 1.4rem;
     }
 }
