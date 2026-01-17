@@ -217,18 +217,26 @@ function createEventCard(eventObj) {
 
     card.innerHTML = `
     <div class="event-card-header">
-      <h2>${event.event_name || "Untitled Event"}</h2>
+      <h2>${event.event_name || event.performers}</h2>
+      ${ event.imageUrl ?
+    `
+ <a class="event-img-link" href="./event.html?id=${eventObj.id}" rel="noopener">
+ <img src=${event.imageUrl} />
+</a>
+` : ""}
+
       <p class="event-date">${formatDate(event.date)}</p>
-          ${isAdmin
-            ? `<div class="event-card-footer">
+          ${isAdmin ?
+             `<div class="event-card-footer">
             <a class="edit-event" href="./edit.html?id=${eventObj.id}" rel="noopener">
               EDIT EVENT →
             </a>
 <button class="delete-event" data-event-id="${eventObj.id}">
   DELETE EVENT
-</button>          </div>`
-            : ""
-        }
+</button>          </div> 
+`
+: ""}
+
     </div>
 
     <div class="event-card-body">
