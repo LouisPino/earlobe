@@ -105,7 +105,7 @@ form?.addEventListener("submit", async (e) => {
     try {
         await addEvent(eventObj);
 
-        setSubmitModalText("Success! An admin will review your post shortly.");
+        setSubmitModalText("Success! An admin will approve your post shortly.");
         document.querySelector(".spinner").style.visibility = "hidden"
         setTimeout(() => {
             window.location.replace("./");
