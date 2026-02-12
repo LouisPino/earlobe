@@ -36,9 +36,6 @@ const isAdmin = window.location.pathname.includes("admin");
 
 // Event submission form (may not exist on all pages)
 const form = document.getElementById("earlobeForm");
-const submittingModal = document.querySelector(".submitting-modal")
-const submittingBackdrop = document.getElementById("submittingBackdrop")
-
 
 
 
@@ -50,8 +47,8 @@ const submittingBackdrop = document.getElementById("submittingBackdrop")
 
 form?.addEventListener("submit", async (e) => {
     e.preventDefault(); // prevent full page reload
-    submittingModal.style.display = "block"
-    submittingBackdrop.style.display = "flex"
+    showSubmitModal();
+
     let url = null
     const formData = new FormData(form);
     const imageEl = document.getElementById("imageInput")
@@ -104,13 +101,12 @@ form?.addEventListener("submit", async (e) => {
         createdAt: new Date(),
         imageUrl: url || null
     };
-    showSubmitModal();
 
     try {
         await addEvent(eventObj);
 
-        setSubmitModalText("Success!");
-
+        setSubmitModalText("Success! An admin will review your post shortly.");
+        document.querySelector(".spinner").style.visibility = "hidden"
         setTimeout(() => {
             window.location.replace("./");
         }, 900);
@@ -124,7 +120,7 @@ form?.addEventListener("submit", async (e) => {
 
         setTimeout(() => {
             hideSubmitModal();
-        }, 1800);
+        }, 2500);
     }
 
 });
@@ -234,8 +230,8 @@ function createEventCard(eventObj) {
     card.innerHTML = `
     <div class="event-card-header">
       <h2>${event.event_name || event.performers}</h2>
-      ${ event.imageUrl ?
-    `
+      ${event.imageUrl ?
+            `
  <a class="event-img-link" href="./event.html?id=${eventObj.id}" rel="noopener">
  <img src=${event.imageUrl} />
 </a>
@@ -243,7 +239,7 @@ function createEventCard(eventObj) {
 
       <p class="event-date">${formatDate(event.date)}</p>
           ${isAdmin ?
-             `<div class="event-card-footer">
+            `<div class="event-card-footer">
             <a class="edit-event" href="./edit.html?id=${eventObj.id}" rel="noopener">
               EDIT EVENT →
             </a>
@@ -251,7 +247,7 @@ function createEventCard(eventObj) {
   DELETE EVENT
 </button>          </div> 
 `
-: ""}
+            : ""}
 
     </div>
 
