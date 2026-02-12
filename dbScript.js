@@ -25,6 +25,13 @@ import {
     uploadBytes,
     getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
+import {
+    getAuth,
+    signInAnonymously,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+
 /**
  * Firebase project configuration.
  * NOTE: API keys are public identifiers, not secrets.
@@ -34,7 +41,7 @@ const firebaseConfig = {
     apiKey: "AIzaSyDFlDvq6cy2VdcLq8gTSDJ2-Mpr8cADu5U",
     authDomain: "earlobe-90d1e.firebaseapp.com",
     projectId: "earlobe-90d1e",
-    storageBucket: "gs://earlobe-90d1e.firebasestorage.app", // ✅ THIS LINE
+    storageBucket: "gs://earlobe-90d1e.firebasestorage.app",
     messagingSenderId: "957677817930",
     appId: "1:957677817930:web:3339e2337f6cb5f15a96b3"
 };
@@ -47,6 +54,9 @@ const db = getFirestore(app);
 
 const storage = getStorage(app);
 
+const auth = getAuth(app);
+
+await signInAnonymously(auth);
 
 /**
  * ============================================================

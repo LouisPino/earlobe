@@ -14,7 +14,7 @@
  * - Admin checks here are UI-only
  * ============================================================
  */
-
+;
 import { fetchEvents, addEvent, addVenue, fetchVenues, uploadImage } from "./dbScript.js";
 
 /**
@@ -36,6 +36,9 @@ const isAdmin = window.location.pathname.includes("admin");
 
 // Event submission form (may not exist on all pages)
 const form = document.getElementById("earlobeForm");
+
+
+
 
 /**
  * ============================================================
@@ -102,16 +105,29 @@ form?.addEventListener("submit", async (e) => {
         createdAt: new Date(),
         imageUrl: url || null
     };
+    showSubmitModal();
 
     try {
         await addEvent(eventObj);
-        alert("Event submitted successfully! An admin will approve your event for display soon.");
-        window.location.replace("./");
+
+        setSubmitModalText("Success!");
+
+        setTimeout(() => {
+            window.location.replace("./");
+        }, 900);
+
         form.reset();
+
     } catch (err) {
         console.error("Error submitting event:", err);
-        alert("Something went wrong. Please try again.");
+
+        setSubmitModalText("Something went wrong. Please try again. If the issue persists, let us know at earlobeTO@gmail.com");
+
+        setTimeout(() => {
+            hideSubmitModal();
+        }, 1800);
     }
+
 });
 
 /**
@@ -372,6 +388,23 @@ function renderGroupedEvents(events, container) {
         });
     });
 }
+
+
+function showSubmitModal(text = "Submitting event…") {
+    const modal = document.getElementById("submit-modal");
+    const label = document.getElementById("submit-modal-text");
+    label.textContent = text;
+    modal.classList.remove("hidden");
+}
+
+function hideSubmitModal() {
+    document.getElementById("submit-modal").classList.add("hidden");
+}
+
+function setSubmitModalText(text) {
+    document.getElementById("submit-modal-text").textContent = text;
+}
+
 
 function groupEventsByDate(events) {
     return events.reduce((acc, event) => {
