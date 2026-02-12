@@ -29,7 +29,7 @@ const venueOptions = await fetchVenues();
 // Event grids
 const weekGrid = document.getElementById("weekEventsGrid");
 const upcomingGrid = document.getElementById("upcomingEventsGrid");
-const pastGrid = document.getElementById("pastEventsGrid");
+// const pastGrid = document.getElementById("pastEventsGrid");
 
 // Simple admin detection based on URL
 const isAdmin = window.location.pathname.includes("admin");
@@ -268,13 +268,10 @@ function createEventCard(eventObj) {
 
       ${event.cost ? `<p><strong>Cost:</strong> ${event.cost}</p>` : ""}
 
-      ${event.description
-            ? `<p class="event-description">${event.description}</p>`
-            : ""
-        }
-    </div>
 
-    ${!isAdmin
+    </div >
+
+        ${!isAdmin
             ? `<div class="event-card-footer">
             <a href="./event.html?id=${eventObj.id}" target="_blank" rel="noopener">
               More info →
@@ -284,7 +281,7 @@ function createEventCard(eventObj) {
         }
 
 
-  `;
+    `;
 
     return card;
 }
@@ -303,7 +300,7 @@ function createEventCard(eventObj) {
 async function loadEvents() {
     weekGrid.innerHTML = "<p class='loading'>Loading…</p>";
     upcomingGrid.innerHTML = "<p class='loading'>Loading…</p>";
-    pastGrid.innerHTML = "<p class='loading'>Loading…</p>";
+    // pastGrid.innerHTML = "<p class='loading'>Loading…</p>";
 
     try {
         const eventsResp = await fetchEvents();
@@ -311,16 +308,9 @@ async function loadEvents() {
             ? eventsResp
             : eventsResp.filter(e => e.data.confirmed === true);
 
-        if (!events.length) {
-            weekGrid.innerHTML = "<p>No events this week.</p>";
-            upcomingGrid.innerHTML = "<p>No upcoming events.</p>";
-            pastGrid.innerHTML = "<p>No previous events.</p>";
-            return;
-        }
-
         weekGrid.innerHTML = "";
         upcomingGrid.innerHTML = "";
-        pastGrid.innerHTML = "";
+        // pastGrid.innerHTML = "";
 
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -330,14 +320,14 @@ async function loadEvents() {
 
         const thisWeek = [];
         const upcoming = [];
-        const past = [];
+        // const past = [];
 
         events.forEach(event => {
             const eventDate = new Date(event.data.date);
             eventDate.setHours(0, 0, 0, 0);
 
             if (eventDate < today) {
-                past.push(event);
+                // past.push(event);
             } else if (eventDate <= weekEnd) {
                 thisWeek.push(event);
             } else {
@@ -347,12 +337,12 @@ async function loadEvents() {
 
         renderGroupedEvents(thisWeek, weekGrid);
         renderGroupedEvents(upcoming, upcomingGrid);
-        renderGroupedEvents(past, pastGrid);
+        // renderGroupedEvents(past, pastGrid);
     } catch (err) {
         console.error(err);
         weekGrid.innerHTML = "<p>Error loading events.</p>";
         upcomingGrid.innerHTML = "<p>Error loading events.</p>";
-        pastGrid.innerHTML = "<p>Error loading events.</p>";
+        // pastGrid.innerHTML = "<p>Error loading events.</p>";
     }
 }
 
@@ -368,7 +358,12 @@ if (weekGrid) {
 
 function renderGroupedEvents(events, container) {
     if (!events.length) {
-        container.innerHTML = "<p>No events.</p>";
+        if (container.id === "weekEventsGrid") {
+            container.innerHTML = "<p>No events this week.</p>";
+
+        } else {
+            container.innerHTML = "<p>No events.</p>";
+        }
         return;
     }
 
