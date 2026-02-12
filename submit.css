@@ -209,4 +209,13 @@
     .earlobe-form h1 {
         font-size: 1.6rem;
     }
+
+    .submitting-modal {
+        padding: 28px 24px;
+        border-radius: 14px;
+    }
+
+    .submitting-modal-text h2 {
+        font-size: 1.4rem;
+    }
 }

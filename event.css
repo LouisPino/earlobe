@@ -3,13 +3,18 @@
 .event-page {
   max-width: 680px;
   margin: 0 auto;
-  padding: 100px 24px 140px;
+  padding: 100px 0;
 
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif;
 
   color: #111;
   line-height: 1.6;
+}
+
+#event-img{
+  width: 100%;
+  margin: 0 auto;
 }
 
 /* Header */

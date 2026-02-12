@@ -36,6 +36,8 @@ const isAdmin = window.location.pathname.includes("admin");
 
 // Event submission form (may not exist on all pages)
 const form = document.getElementById("earlobeForm");
+const submittingModal = document.querySelector(".submitting-modal")
+const submittingBackdrop = document.getElementById("submittingBackdrop")
 
 
 
@@ -48,17 +50,14 @@ const form = document.getElementById("earlobeForm");
 
 form?.addEventListener("submit", async (e) => {
     e.preventDefault(); // prevent full page reload
+    submittingModal.style.display = "block"
+    submittingBackdrop.style.display = "flex"
     let url = null
     const formData = new FormData(form);
     const imageEl = document.getElementById("imageInput")
     if (imageEl.files && imageEl.files.length > 0) {
         const file = imageEl.files[0];
-
-        console.log("FILE", file);
-        console.log("TYPE", file.type); // image/jpeg, image/png, etc.
-
         url = await uploadImage(file);
-        console.log("URL", url);
     }
 
     const venueChoice = formData.get("venue");
@@ -234,18 +233,26 @@ function createEventCard(eventObj) {
 
     card.innerHTML = `
     <div class="event-card-header">
-      <h2>${event.event_name || "Untitled Event"}</h2>
+      <h2>${event.event_name || event.performers}</h2>
+      ${ event.imageUrl ?
+    `
+ <a class="event-img-link" href="./event.html?id=${eventObj.id}" rel="noopener">
+ <img src=${event.imageUrl} />
+</a>
+` : ""}
+
       <p class="event-date">${formatDate(event.date)}</p>
-          ${isAdmin
-            ? `<div class="event-card-footer">
+          ${isAdmin ?
+             `<div class="event-card-footer">
             <a class="edit-event" href="./edit.html?id=${eventObj.id}" rel="noopener">
               EDIT EVENT →
             </a>
 <button class="delete-event" data-event-id="${eventObj.id}">
   DELETE EVENT
-</button>          </div>`
-            : ""
-        }
+</button>          </div> 
+`
+: ""}
+
     </div>
 
     <div class="event-card-body">

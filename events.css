@@ -59,6 +59,10 @@
     margin-bottom: 0;
 }
 
+.event-img-link > img{
+    height: 160px;
+    max-width: auto;
+}
 
 .event-card-header h2 {
     margin: 0 0 6px;

@@ -131,6 +131,11 @@ body {
     background: rgba(0, 0, 0, 0.4);
 }
 
+#admin-modal{
+    background: rgba(0, 0, 0);
+
+}
+
 .modal-dialog {
     position: relative;
     max-width: 360px;
