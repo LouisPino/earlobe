@@ -109,6 +109,13 @@ body {
     margin-top: 8px;
 }
 
+
+.legend {
+    width: 75vw;
+    margin: 0 auto 20px auto;
+}
+
+
 /* FOOTER */
 .site-footer {
     margin-top: 140px;

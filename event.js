@@ -78,11 +78,11 @@ function populateEventPage(event) {
    * Header
    * ----------------------------
    */
-if(event.imageUrl){
+  if (event.imageUrl) {
 
-  document.getElementById("event-img").src =
-  event.imageUrl;
-}
+    document.getElementById("event-img").src =
+      event.imageUrl;
+  }
   document.getElementById("event-name").textContent =
     event.event_name || "Untitled Event";
 

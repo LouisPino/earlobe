@@ -212,6 +212,14 @@ function formatDate(dateStr) {
 
 function formatTime(time) {
     if (!time) return "";
+    if (Number(time.slice(0, 2)) === 12) {
+        time = time + " PM"
+    } else if (Number(time.slice(0, 2)) > 12) {
+        time = String((Number(time.slice(0, 2)) - 12) + time.slice(2) + " PM")
+    } else {
+        time = time + " AM"
+    }
+    console.log(time)
     return time;
 }
 
