@@ -14,12 +14,13 @@ async function renderVenues() {
             const card = document.createElement("div");
             card.className = "venue-card";
             card.innerHTML = `
-${v.link ? `<a href="${v.link}" target="_blank">` : ""}
                     <div class="venue-name">${v.name}</div>
                     <div class="venue-address">${v.address}</div>
-                    <div class="venue-accessibility">Accessibility: ${v.accessibility || "No accessibility info"}</div>
+                    <div class="venue-accessibility-title">Accessibility</div>
+                    <div class="venue-accessibility">${v.accessibility || "No accessibility info"}</div>
                     ${v.notes ? `<div class="venue-notes">Notes: ${v.notes}</div>` : ""}
-               ${v.link ? `</a>` : ""}
+                    ${v.link ? `<a href="${v.link}" target="_blank">Visit Website</a>` : ""}
+
 
                 `;
             container.appendChild(card);

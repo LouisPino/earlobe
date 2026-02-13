@@ -13,7 +13,6 @@
 .venues-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
 }
 
 .venue-card {
@@ -25,20 +24,11 @@
     transition: transform 0.15s ease;
 }
 
-.venue-card:hover {
-    transform: translateY(-2px);
-}
-
-.venue-card * {
-    text-decoration: none;
-    color: black;
-}
 
 
 .venue-name {
     font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 8px;
 }
 
 .venue-address {
