@@ -1,4 +1,4 @@
-import { addArchive, deleteEventById, fetchVenues, fetchVenuesWithId, updateVenue } from "./dbScript.js";
+import { addArchive, deleteEventById, deleteVenueById, fetchVenues, fetchVenuesWithId, updateVenue } from "./dbScript.js";
 
 
 /**
@@ -67,6 +67,8 @@ const modal = document.getElementById("admin-auth-modal");
 const input = document.getElementById("admin-password-input");
 const submitBtn = document.getElementById("admin-auth-submit");
 const errorMsg = document.getElementById("admin-auth-error");
+
+let pendingDeleteVenueId = null;
 
 function openAuthModal() {
   modal.hidden = false;
@@ -157,6 +159,15 @@ document.getElementById("confirm-delete").addEventListener("click", async () => 
 
 //venue management
 const container = document.querySelector(".venues-container");
+const venueDeleteModal = document.getElementById("venue-delete-modal");
+const confirmDeleteButton = document.getElementById("venue-delete-confirm");
+const cancelDeleteButton = document.getElementById("cancel-venue-delete");
+cancelDeleteButton.addEventListener("click", () => {
+  venueDeleteModal.hidden = true
+  pendingDeleteVenueId = null
+})
+
+
 
 async function renderVenues() {
   try {
@@ -187,9 +198,11 @@ async function renderVenues() {
         <input class="venue-link" value="${v.data.link || ""}"/>
 
         <button class="venue-submit-btn">APPROVE VENUE</button>
+        <button class="venue-delete-btn">DELETE VENUE</button>
       `;
 
       const button = card.querySelector(".venue-submit-btn");
+      const deleteButton = card.querySelector(".venue-delete-btn");
 
       button.addEventListener("click", async () => {
         const id = card.dataset.id;
@@ -222,7 +235,6 @@ async function renderVenues() {
 
           await updateVenue(id, payload);
 
-          // remove card after approval
           window.location.reload();
         } catch (err) {
           console.error(err);
@@ -230,6 +242,16 @@ async function renderVenues() {
           button.disabled = false;
           button.textContent = "APPROVE VENUE";
         }
+      });
+
+      deleteButton.addEventListener("click", async () => {
+        console.log(card.dataset.id)
+        pendingDeleteVenueId = card.dataset.id;
+        venueDeleteModal.hidden = false
+        confirmDeleteButton.addEventListener("click", async () => {
+          await deleteVenueById(pendingDeleteVenueId)
+          window.location.reload()
+        })
       });
 
       container.appendChild(card);

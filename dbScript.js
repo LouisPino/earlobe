@@ -176,6 +176,15 @@ export async function fetchVenuesWithId() {
     return sorted;
 }
 
+
+export async function deleteVenueById(id) {
+    const venueRef = doc(venueCollection, id);
+    const resp = await deleteDoc(venueRef);
+    console.log(resp)
+    return resp
+}
+
+
 /**
  * Fetches all events.
  * Returns array of objects with:
@@ -213,6 +222,7 @@ export async function deleteEventById(id) {
     console.log(resp)
     return resp
 }
+
 
 
 
