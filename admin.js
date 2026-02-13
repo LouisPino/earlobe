@@ -1,4 +1,4 @@
-import { addArchive, deleteEventById, fetchVenues, updateVenue } from "./dbScript.js";
+import { addArchive, deleteEventById, fetchVenues, fetchVenuesWithId, updateVenue } from "./dbScript.js";
 
 
 /**
@@ -155,28 +155,86 @@ document.getElementById("confirm-delete").addEventListener("click", async () => 
 });
 
 
-
-
-
+//venue management
 const container = document.querySelector(".venues-container");
-console.log(container)
+
 async function renderVenues() {
   try {
-    const rawVenues = await fetchVenues();
-    const venues = rawVenues.filter((v) => !v.approved)
+    const rawVenues = await fetchVenuesWithId();
+    const venues = rawVenues.filter(v => !v.data.approved);
 
     container.innerHTML = "";
 
     venues.forEach(v => {
       const card = document.createElement("div");
       card.className = "venue-card";
+      card.dataset.id = v.id;
+
       card.innerHTML = `
-        <div class="venue-name">${v.name}</div>
-        <div class="venue-address">${v.address}</div>
-        <div class="venue-accessibility">Access: ${v.accessibility || "No accessibility info"}</div>
+        <label>NAME</label>
+        <input class="venue-name" value="${v.data.name || ""}"/>
+
+        <label>ADDRESS</label>
+        <textarea class="venue-address">${v.data.address || ""}</textarea>
+
+        <label>ACCESSIBILITY</label>
+        <textarea class="venue-accessibility">${v.data.accessibility || ""}</textarea>
+        
+        <label>EXTRA NOTES</label>
+        <textarea class="venue-notes">${v.data.notes || ""}</textarea>
+
+        <label>LINK</label>
+        <input class="venue-link" value="${v.data.link || ""}"/>
+
+        <button class="venue-submit-btn">APPROVE VENUE</button>
       `;
+
+      const button = card.querySelector(".venue-submit-btn");
+
+      button.addEventListener("click", async () => {
+        const id = card.dataset.id;
+
+        const name = card.querySelector(".venue-name").value.trim();
+        const address = card.querySelector(".venue-address").value.trim();
+        const accessibility = card.querySelector(".venue-accessibility").value.trim();
+        const link = card.querySelector(".venue-link").value.trim();
+        const notes = card.querySelector(".venue-notes").value.trim();
+
+        // VALIDATION
+        if (!name || !address || !accessibility) {
+          alert("Name, Address, and Accessibility are required.");
+          return;
+        }
+
+        const payload = {
+          name,
+          address,
+          accessibility,
+          notes,
+          link: link || null,
+          approved: true,
+          updatedAt: new Date()
+        };
+
+        try {
+          button.disabled = true;
+          button.textContent = "Saving...";
+
+          await updateVenue(id, payload);
+
+          // remove card after approval
+          window.location.reload();
+        } catch (err) {
+          console.error(err);
+          alert("Failed to update venue");
+          button.disabled = false;
+          button.textContent = "APPROVE VENUE";
+        }
+      });
+
       container.appendChild(card);
     });
+
   } catch (err) {
     console.error("Failed to load venues", err);
     container.innerHTML = "<p>Could not load venues.</p>";

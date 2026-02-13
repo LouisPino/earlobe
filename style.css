@@ -204,48 +204,79 @@ body {
 
 /* admin venues */
 
-.venues-page {
-    max-width: 1000px;
-    margin: 40px auto;
-    padding: 0 20px;
-    font-family: Arial, sans-serif;
-}
 
 .venues-title {
     text-align: center;
     margin-bottom: 30px;
 }
 
+/* GRID LAYOUT */
 .venues-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
 }
 
+/* CARD */
 .venue-card {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 16px;
-    background: white;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    transition: transform 0.15s ease;
+    border: 1px solid #e3e3e3;
+    border-radius: 12px;
+    padding: 18px;
+    background: #fff;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
+/* LABELS */
+.venue-card label {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: #666;
+    margin-top: 6px;
+}
 
+/* INPUTS + TEXTAREAS */
+.venue-card input,
+.venue-card textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: #fafafa;
+    resize: vertical;
+}
+
+.venue-card input:focus,
+.venue-card textarea:focus {
+    outline: none;
+    border-color: #4c9ffe;
+    background: #fff;
+    box-shadow: 0 0 0 2px rgba(76, 159, 254, 0.15);
+}
+
+/* NAME FIELD STANDOUT */
 .venue-name {
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-bottom: 8px;
+    font-weight: 600;
+    font-size: 1rem;
 }
 
+/* TEXTAREAS HEIGHT TWEAK */
 .venue-address {
-    color: #555;
-    margin-bottom: 6px;
+    min-height: 70px;
 }
 
 .venue-accessibility {
-    font-size: 0.9rem;
-    color: #777;
+    min-height: 70px;
+}
+
+/* OPTIONAL LINK STYLE */
+.venue-link {
+    color: #333;
 }
 
 

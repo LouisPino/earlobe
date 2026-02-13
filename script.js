@@ -25,7 +25,7 @@ import { fetchEvents, addEvent, addVenue, fetchVenues, uploadImage } from "./dbS
 
 // Fetch existing venues for select dropdown
 const venueOptions = await fetchVenues();
-
+venueOptions.sort((a, b) => a.name.localeCompare(b.name))
 // Event grids
 const weekGrid = document.getElementById("weekEventsGrid");
 const upcomingGrid = document.getElementById("upcomingEventsGrid");
@@ -185,7 +185,7 @@ function populateVenueSelect() {
     }
 
     venueSelect.innerHTML += `
-    <option value="other">Other</option>
+    <option value="other" class="other-venue">Add New Venue</option>
   `;
 }
 

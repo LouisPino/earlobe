@@ -159,6 +159,22 @@ export async function fetchVenues() {
 
     return sorted;
 }
+export async function fetchVenuesWithId() {
+    let venueArr = [];
+
+    const q = query(venueCollection);
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+        venueArr.push({ data: doc.data(), id: doc.id });
+    });
+
+    const sorted = venueArr.sort((a, b) => {
+        return a.name - b.name;
+    });
+
+    return sorted;
+}
 
 /**
  * Fetches all events.
@@ -242,6 +258,9 @@ export async function updateEvent(id, eventData) {
 }
 
 export async function updateVenue(id, venueData) {
+    console.log(
+        "ID", id, "DATA", venueData
+    )
     const updateResp = await updateDoc(
         doc(venueCollection, id),
         venueData

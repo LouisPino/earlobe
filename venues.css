@@ -25,6 +25,15 @@
     transition: transform 0.15s ease;
 }
 
+.venue-card:hover {
+    transform: translateY(-2px);
+}
+
+.venue-card * {
+    text-decoration: none;
+    color: black;
+}
+
 
 .venue-name {
     font-size: 1.2rem;
@@ -39,5 +48,11 @@
 
 .venue-accessibility {
     font-size: 0.9rem;
-    color: #777;
+    color: #000000;
+}
+
+.venue-notes {
+    margin-top: 12px;
+    font-size: 0.9rem;
+    color: #000000;
 }
