@@ -111,8 +111,23 @@ body {
 
 
 .legend {
-    width: 75vw;
+    width: fit-content;
+    max-width: 75vw;
     margin: 0 auto 20px auto;
+}
+
+.legend h4 {
+    margin-top: 8px;
+}
+
+.nineteen-red {
+    background-color: #b91c1c;
+    color: white;
+}
+
+.dollar-gray {
+    background-color: #6b6b6b;
+    color: white;
 }
 
 
