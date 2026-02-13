@@ -1,4 +1,4 @@
-import { addArchive, fetchEvents, addEvent, addVenue, fetchVenues, uploadImage, deleteEventById } from "./dbScript.js";
+import { addArchive, deleteEventById } from "./dbScript.js";
 
 
 /**
