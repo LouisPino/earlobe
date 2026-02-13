@@ -131,7 +131,7 @@ body {
     background: rgba(0, 0, 0, 0.4);
 }
 
-#admin-modal{
+#admin-modal {
     background: rgba(0, 0, 0);
 
 }
@@ -183,12 +183,14 @@ body {
 }
 
 
-.manage-events-title {
+.manage-events-title,
+.manage-venues-title {
     margin-top: 32px;
     text-align: center;
 }
 
-.manage-events-desc {
+.manage-events-desc,
+.manage-venues-desc {
     text-align: center;
 }
 
@@ -198,6 +200,52 @@ body {
 
 #archive-form {
     text-align: center;
+}
+
+/* admin venues */
+
+.venues-page {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+.venues-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.venues-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.venue-card {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 16px;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease;
+}
+
+
+.venue-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.venue-address {
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.venue-accessibility {
+    font-size: 0.9rem;
+    color: #777;
 }
 
 

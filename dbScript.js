@@ -240,3 +240,12 @@ export async function updateEvent(id, eventData) {
 
     console.log(updateResp);
 }
+
+export async function updateVenue(id, venueData) {
+    const updateResp = await updateDoc(
+        doc(venueCollection, id),
+        venueData
+    );
+
+    console.log(updateResp);
+}

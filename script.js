@@ -64,12 +64,14 @@ form?.addEventListener("submit", async (e) => {
     if (venueChoice === "other") {
         const name = formData.get("venue_name");
         const address = formData.get("venue_address");
-        const accessibility = formData.get("venue_accessibility");
+        // const accessibility = formData.get("venue_accessibility");
 
         venue = {
             name,
             address,
-            accessibility
+            accessibility: "",
+            approved: false,
+            notes: ""
         };
 
 
@@ -346,7 +348,7 @@ async function loadEvents() {
     }
 }
 
-if (weekGrid) {
+if (weekGrid && upcomingGrid) {
     loadEvents();
 }
 
@@ -424,102 +426,106 @@ function formatDateHeader(dateStr) {
     });
 }
 
+
+
+
+
+
 /**
  * ============================================================
  * DATABASE SEEDING (ADMIN UTILITY)
  * ============================================================
  */
 
-const seedBtn = document.getElementById("seedEventsBtn");
+// const seedBtn = document.getElementById("seedEventsBtn");
+// if (seedBtn) {
+//     seedBtn.addEventListener("click", async () => {
+//         seedBtn.disabled = true;
+//         seedBtn.textContent = "Seeding…";
 
-if (seedBtn) {
-    seedBtn.addEventListener("click", async () => {
-        seedBtn.disabled = true;
-        seedBtn.textContent = "Seeding…";
+//         const sampleEvents = [
+//             {
+//                 email: "curator@earlobe.ca",
+//                 event_name: "Resonant Bodies",
+//                 performers: "Duo Cichorium, Jaz Tsui",
+//                 date: "2026-01-12",
+//                 start_time: "19:30",
+//                 end_time: "21:00",
+//                 doors_time: "19:00",
+//                 venue: {
+//                     name: "Arraymusic Studio",
+//                     address: "Toronto, ON",
+//                     accessibility:
+//                         "Ground floor, accessible entrance, gender-neutral washrooms"
+//                 },
+//                 attendance: "all_ages",
+//                 attendance_other: null,
+//                 cost: "$15 / $10 student",
+//                 links: "https://arraymusic.com",
+//                 description:
+//                     "An evening of experimental performance exploring feedback systems, embodied electronics, and slow-moving harmonic structures.",
+//                 createdAt: new Date()
+//             },
 
-        const sampleEvents = [
-            {
-                email: "curator@earlobe.ca",
-                event_name: "Resonant Bodies",
-                performers: "Duo Cichorium, Jaz Tsui",
-                date: "2026-01-12",
-                start_time: "19:30",
-                end_time: "21:00",
-                doors_time: "19:00",
-                venue: {
-                    name: "Arraymusic Studio",
-                    address: "Toronto, ON",
-                    accessibility:
-                        "Ground floor, accessible entrance, gender-neutral washrooms"
-                },
-                attendance: "all_ages",
-                attendance_other: null,
-                cost: "$15 / $10 student",
-                links: "https://arraymusic.com",
-                description:
-                    "An evening of experimental performance exploring feedback systems, embodied electronics, and slow-moving harmonic structures.",
-                createdAt: new Date()
-            },
+//             {
+//                 email: "events@earlobe.ca",
+//                 event_name: "Signals in the Dark",
+//                 performers:
+//                     "Louis Pino, Toronto Laptop Orchestra (small ensemble)",
+//                 date: "2026-02-04",
+//                 start_time: "20:00",
+//                 end_time: null,
+//                 doors_time: "19:30",
+//                 venue: {
+//                     name: "Tranzac Club",
+//                     address: "292 Brunswick Ave, Toronto, ON",
+//                     accessibility:
+//                         "Main hall, step-free entrance, accessible washrooms"
+//                 },
+//                 attendance: "19_plus",
+//                 attendance_other: null,
+//                 cost: "PWYC",
+//                 links: "https://tranzac.org",
+//                 description:
+//                     "Improvised electronic and electroacoustic works focusing on signal flow, spatialization, and live processing.",
+//                 createdAt: new Date()
+//             },
 
-            {
-                email: "events@earlobe.ca",
-                event_name: "Signals in the Dark",
-                performers:
-                    "Louis Pino, Toronto Laptop Orchestra (small ensemble)",
-                date: "2026-02-04",
-                start_time: "20:00",
-                end_time: null,
-                doors_time: "19:30",
-                venue: {
-                    name: "Tranzac Club",
-                    address: "292 Brunswick Ave, Toronto, ON",
-                    accessibility:
-                        "Main hall, step-free entrance, accessible washrooms"
-                },
-                attendance: "19_plus",
-                attendance_other: null,
-                cost: "PWYC",
-                links: "https://tranzac.org",
-                description:
-                    "Improvised electronic and electroacoustic works focusing on signal flow, spatialization, and live processing.",
-                createdAt: new Date()
-            },
+//             {
+//                 email: "submit@earlobe.ca",
+//                 event_name: "Objects That Listen",
+//                 performers: "Various Artists",
+//                 date: "2026-03-18",
+//                 start_time: "18:00",
+//                 end_time: "22:00",
+//                 doors_time: "17:30",
+//                 venue: {
+//                     name: "Private Studio (West End)",
+//                     address: "Private residence – RSVP required for address",
+//                     accessibility: "Entrance involves two steps"
+//                 },
+//                 attendance: "other",
+//                 attendance_other: "Invitation / RSVP",
+//                 cost: "Free",
+//                 links: null,
+//                 description:
+//                     "A listening-focused gathering featuring sound installations, quiet performances, and shared discussion.",
+//                 createdAt: new Date()
+//             }
+//         ];
 
-            {
-                email: "submit@earlobe.ca",
-                event_name: "Objects That Listen",
-                performers: "Various Artists",
-                date: "2026-03-18",
-                start_time: "18:00",
-                end_time: "22:00",
-                doors_time: "17:30",
-                venue: {
-                    name: "Private Studio (West End)",
-                    address: "Private residence – RSVP required for address",
-                    accessibility: "Entrance involves two steps"
-                },
-                attendance: "other",
-                attendance_other: "Invitation / RSVP",
-                cost: "Free",
-                links: null,
-                description:
-                    "A listening-focused gathering featuring sound installations, quiet performances, and shared discussion.",
-                createdAt: new Date()
-            }
-        ];
+//         try {
+//             for (const event of sampleEvents) {
+//                 await addEvent(event);
+//             }
 
-        try {
-            for (const event of sampleEvents) {
-                await addEvent(event);
-            }
-
-            alert("Sample events successfully added.");
-        } catch (err) {
-            console.error("Seeding failed:", err);
-            alert("Error seeding database. Check console.");
-        } finally {
-            seedBtn.disabled = false;
-            seedBtn.textContent = "Seed database with sample events";
-        }
-    });
-}
+//             alert("Sample events successfully added.");
+//         } catch (err) {
+//             console.error("Seeding failed:", err);
+//             alert("Error seeding database. Check console.");
+//         } finally {
+//             seedBtn.disabled = false;
+//             seedBtn.textContent = "Seed database with sample events";
+//         }
+//     });
+// }

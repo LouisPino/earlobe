@@ -25,9 +25,6 @@
     transition: transform 0.15s ease;
 }
 
-.venue-card:hover {
-    transform: translateY(-3px);
-}
 
 .venue-name {
     font-size: 1.2rem;

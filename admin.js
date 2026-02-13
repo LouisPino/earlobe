@@ -1,4 +1,4 @@
-import { addArchive, deleteEventById } from "./dbScript.js";
+import { addArchive, deleteEventById, fetchVenues, updateVenue } from "./dbScript.js";
 
 
 /**
@@ -153,3 +153,34 @@ document.getElementById("confirm-delete").addEventListener("click", async () => 
     console.error(err);
   }
 });
+
+
+
+
+
+const container = document.querySelector(".venues-container");
+console.log(container)
+async function renderVenues() {
+  try {
+    const rawVenues = await fetchVenues();
+    const venues = rawVenues.filter((v) => !v.approved)
+
+    container.innerHTML = "";
+
+    venues.forEach(v => {
+      const card = document.createElement("div");
+      card.className = "venue-card";
+      card.innerHTML = `
+        <div class="venue-name">${v.name}</div>
+        <div class="venue-address">${v.address}</div>
+        <div class="venue-accessibility">Access: ${v.accessibility || "No accessibility info"}</div>
+      `;
+      container.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Failed to load venues", err);
+    container.innerHTML = "<p>Could not load venues.</p>";
+  }
+}
+
+renderVenues();
