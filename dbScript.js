@@ -55,8 +55,14 @@ const db = getFirestore(app);
 const storage = getStorage(app);
 
 const auth = getAuth(app);
+let authReady;
 
-await signInAnonymously(auth);
+async function ensureAuth() {
+    if (!authReady) {
+        authReady = signInAnonymously(auth);
+    }
+    return authReady;
+}
 
 /**
  * ============================================================
@@ -144,6 +150,8 @@ export async function uploadImage(file) {
  * - Comparator currently uses subtraction; relies on string coercion.
  */
 export async function fetchVenues() {
+    await ensureAuth();
+
     let venueArr = [];
 
     const q = query(venueCollection);
@@ -152,14 +160,12 @@ export async function fetchVenues() {
     querySnapshot.forEach((doc) => {
         venueArr.push(doc.data());
     });
-
-    const sorted = venueArr.sort((a, b) => {
-        return a.name - b.name;
-    });
-
-    return sorted;
+    return venueArr;
 }
+
 export async function fetchVenuesWithId() {
+    await ensureAuth();
+
     let venueArr = [];
 
     const q = query(venueCollection);
@@ -191,6 +197,8 @@ export async function deleteVenueById(id) {
  * { data: eventData, id: documentId }
  */
 export async function fetchEvents() {
+    await ensureAuth();
+
     let eventsArr = [];
 
     const q = query(eventCollection);
@@ -208,6 +216,8 @@ export async function fetchEvents() {
  * Returns null if the document does not exist.
  */
 export async function getEventById(id) {
+    await ensureAuth();
+
     const eventRef = doc(eventCollection, id);
     const docSnap = await getDoc(eventRef);
 
