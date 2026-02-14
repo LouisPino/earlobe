@@ -71,7 +71,6 @@ function populateEditEvent(event) {
   setValue("edit-cost", event.cost);
   setValue("edit-links", event.links);
   setValue("edit-description", event.description);
-  console.log(event.imageUrl)
   document.getElementById("edit-img").src = event.imageUrl
 }
 

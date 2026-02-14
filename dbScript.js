@@ -13,6 +13,7 @@ import {
     collection,
     query,
     getDocs,
+    where,
     addDoc,
     getDoc,
     doc,
@@ -186,7 +187,6 @@ export async function fetchVenuesWithId() {
 export async function deleteVenueById(id) {
     const venueRef = doc(venueCollection, id);
     const resp = await deleteDoc(venueRef);
-    console.log(resp)
     return resp
 }
 
@@ -198,18 +198,23 @@ export async function deleteVenueById(id) {
  */
 export async function fetchEvents() {
     await ensureAuth();
+    const eventsArr = [];
 
-    let eventsArr = [];
+    const todayStr = new Date().toISOString().split("T")[0];
 
-    const q = query(eventCollection);
+    const q = query(
+        eventCollection,
+        where("date", ">=", todayStr)
+    );
+
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
         eventsArr.push({ data: doc.data(), id: doc.id });
     });
-
     return eventsArr;
 }
+
 
 /**
  * Fetches a single event by document ID.

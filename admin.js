@@ -245,7 +245,6 @@ async function renderVenues() {
       });
 
       deleteButton.addEventListener("click", async () => {
-        console.log(card.dataset.id)
         pendingDeleteVenueId = card.dataset.id;
         venueDeleteModal.hidden = false
         confirmDeleteButton.addEventListener("click", async () => {

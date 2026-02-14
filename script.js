@@ -15,7 +15,7 @@
  * ============================================================
  */
 ;
-import { fetchEvents, addEvent, addVenue, fetchVenues, uploadImage } from "./dbScript.js";
+import { fetchEvents, addEvent, addVenue, fetchVenuesWithId, uploadImage } from "./dbScript.js";
 
 /**
  * ============================================================
@@ -24,8 +24,8 @@ import { fetchEvents, addEvent, addVenue, fetchVenues, uploadImage } from "./dbS
  */
 
 // Fetch existing venues for select dropdown
-const venueOptions = await fetchVenues();
-venueOptions.sort((a, b) => a.name.localeCompare(b.name))
+const venueOptions = await fetchVenuesWithId();
+venueOptions.sort((a, b) => a.data.name.localeCompare(b.data.name))
 // Event grids
 const weekGrid = document.getElementById("weekEventsGrid");
 const upcomingGrid = document.getElementById("upcomingEventsGrid");
@@ -79,7 +79,7 @@ form?.addEventListener("submit", async (e) => {
         addVenue(venue);
     } else {
         for (let option of venueOptions) {
-            if (option.name === venueChoice) {
+            if (option.data.name === venueChoice) {
                 venue = option
             }
         }
@@ -180,7 +180,7 @@ attendanceSelect?.addEventListener("change", () => {
 function populateVenueSelect() {
     for (let venue of venueOptions) {
         venueSelect.innerHTML += `
-      <option value="${venue.name}">${venue.name}</option>
+      <option value="${venue.data.name}">${venue.data.name}</option>
     `;
     }
 
@@ -219,7 +219,6 @@ function formatTime(time) {
     } else {
         time = time + " AM"
     }
-    console.log(time)
     return time;
 }
 
