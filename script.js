@@ -15,7 +15,7 @@
  * ============================================================
  */
 ;
-import { fetchEvents, addEvent, addVenue, fetchVenuesWithId, uploadImage } from "./dbScript.js";
+import { fetchEvents, addEvent, addVenue, fetchVenuesWithId, fetchVenueById, uploadImage } from "./dbScript.js";
 
 /**
  * ============================================================
@@ -24,8 +24,11 @@ import { fetchEvents, addEvent, addVenue, fetchVenuesWithId, uploadImage } from 
  */
 
 // Fetch existing venues for select dropdown
-const venueOptions = await fetchVenuesWithId();
-venueOptions.sort((a, b) => a.data.name.localeCompare(b.data.name))
+const venueOptionsResp = await fetchVenuesWithId();
+
+const venueOptions = venueOptionsResp.filter((v) => v.data.approved).sort((a, b) => a.data.name.localeCompare(b.data.name))
+
+
 // Event grids
 const weekGrid = document.getElementById("weekEventsGrid");
 const upcomingGrid = document.getElementById("upcomingEventsGrid");
@@ -59,6 +62,7 @@ form?.addEventListener("submit", async (e) => {
 
     const venueChoice = formData.get("venue");
     let venue;
+    let venueId;
 
     // Handle custom venue entry
     if (venueChoice === "other") {
@@ -76,11 +80,12 @@ form?.addEventListener("submit", async (e) => {
 
 
         // Store venue separately for reuse
-        addVenue(venue);
+        const venueAddResp = await addVenue(venue);
+        venueId = venueAddResp.id
     } else {
         for (let option of venueOptions) {
-            if (option.data.name === venueChoice) {
-                venue = option
+            if (option.id === venueChoice) {
+                venueId = option.id
             }
         }
     }
@@ -94,7 +99,8 @@ form?.addEventListener("submit", async (e) => {
         start_time: formData.get("start_time"),
         end_time: formData.get("end_time") || null,
         doors_time: formData.get("doors_time") || null,
-        venue,
+        venue: venue || null,
+        venueId: venueId,
         attendance: formData.get("attendance"),
         attendance_other: formData.get("attendance_other") || null,
         cost: formData.get("cost") || null,
@@ -110,7 +116,7 @@ form?.addEventListener("submit", async (e) => {
         setSubmitModalText("Success! An admin will approve your post shortly.");
         document.querySelector(".spinner").style.visibility = "hidden"
         setTimeout(() => {
-            window.location.replace("./");
+            // window.location.replace("./");
         }, 900);
 
         form.reset();
@@ -180,7 +186,7 @@ attendanceSelect?.addEventListener("change", () => {
 function populateVenueSelect() {
     for (let venue of venueOptions) {
         venueSelect.innerHTML += `
-      <option value="${venue.data.name}">${venue.data.name}</option>
+      <option value="${venue.id}">${venue.data.name}</option>
     `;
     }
 
@@ -228,9 +234,18 @@ function formatTime(time) {
  * ============================================================
  */
 
-function createEventCard(eventObj) {
+async function createEventCard(eventObj) {
     const event = eventObj.data;
+    console.log(event)
     const card = document.createElement("article");
+    let venueData
+    if (event.venueId) {
+        venueData = await fetchVenueById(event.venueId)
+        console.log(venueData)
+    } else {
+        venueData = event.venue
+    }
+    // console.log(venueData)
     card.className = "event-card";
     if (isAdmin) {
         card.classList.add(event.confirmed ? "confirmed" : "unconfirmed")
@@ -272,7 +287,7 @@ function createEventCard(eventObj) {
       </p>
 
       <p>
-        <strong>Venue:</strong> ${event.venue.name}
+        <strong>Venue:</strong> ${venueData.name}
       </p>
 
       ${event.cost ? `<p><strong>Cost:</strong> ${event.cost}</p>` : ""}
@@ -365,7 +380,7 @@ if (weekGrid && upcomingGrid) {
  * ============================================================
  */
 
-function renderGroupedEvents(events, container) {
+async function renderGroupedEvents(events, container) {
     if (!events.length) {
         if (container.id === "weekEventsGrid") {
             container.innerHTML = "<p>No events this week.</p>";
@@ -379,21 +394,23 @@ function renderGroupedEvents(events, container) {
     container.innerHTML = "";
 
     const grouped = groupEventsByDate(events);
-
     const dates = Object.keys(grouped).sort(
         (a, b) => new Date(a) - new Date(b)
     );
 
-    dates.forEach(date => {
+    for (const date of dates) {
         const header = document.createElement("h3");
         header.className = "event-date-header";
         header.textContent = formatDateHeader(date);
         container.appendChild(header);
 
-        grouped[date].forEach(event => {
-            container.appendChild(createEventCard(event));
-        });
-    });
+        for (const event of grouped[date]) {
+            const card = await createEventCard(event);
+            container.appendChild(card);
+        }
+    }
+
+
 }
 
 
@@ -432,107 +449,3 @@ function formatDateHeader(dateStr) {
         day: "numeric"
     });
 }
-
-
-
-
-
-
-/**
- * ============================================================
- * DATABASE SEEDING (ADMIN UTILITY)
- * ============================================================
- */
-
-// const seedBtn = document.getElementById("seedEventsBtn");
-// if (seedBtn) {
-//     seedBtn.addEventListener("click", async () => {
-//         seedBtn.disabled = true;
-//         seedBtn.textContent = "Seeding…";
-
-//         const sampleEvents = [
-//             {
-//                 email: "curator@earlobe.ca",
-//                 event_name: "Resonant Bodies",
-//                 performers: "Duo Cichorium, Jaz Tsui",
-//                 date: "2026-01-12",
-//                 start_time: "19:30",
-//                 end_time: "21:00",
-//                 doors_time: "19:00",
-//                 venue: {
-//                     name: "Arraymusic Studio",
-//                     address: "Toronto, ON",
-//                     accessibility:
-//                         "Ground floor, accessible entrance, gender-neutral washrooms"
-//                 },
-//                 attendance: "all_ages",
-//                 attendance_other: null,
-//                 cost: "$15 / $10 student",
-//                 links: "https://arraymusic.com",
-//                 description:
-//                     "An evening of experimental performance exploring feedback systems, embodied electronics, and slow-moving harmonic structures.",
-//                 createdAt: new Date()
-//             },
-
-//             {
-//                 email: "events@earlobe.ca",
-//                 event_name: "Signals in the Dark",
-//                 performers:
-//                     "Louis Pino, Toronto Laptop Orchestra (small ensemble)",
-//                 date: "2026-02-04",
-//                 start_time: "20:00",
-//                 end_time: null,
-//                 doors_time: "19:30",
-//                 venue: {
-//                     name: "Tranzac Club",
-//                     address: "292 Brunswick Ave, Toronto, ON",
-//                     accessibility:
-//                         "Main hall, step-free entrance, accessible washrooms"
-//                 },
-//                 attendance: "19_plus",
-//                 attendance_other: null,
-//                 cost: "PWYC",
-//                 links: "https://tranzac.org",
-//                 description:
-//                     "Improvised electronic and electroacoustic works focusing on signal flow, spatialization, and live processing.",
-//                 createdAt: new Date()
-//             },
-
-//             {
-//                 email: "submit@earlobe.ca",
-//                 event_name: "Objects That Listen",
-//                 performers: "Various Artists",
-//                 date: "2026-03-18",
-//                 start_time: "18:00",
-//                 end_time: "22:00",
-//                 doors_time: "17:30",
-//                 venue: {
-//                     name: "Private Studio (West End)",
-//                     address: "Private residence – RSVP required for address",
-//                     accessibility: "Entrance involves two steps"
-//                 },
-//                 attendance: "other",
-//                 attendance_other: "Invitation / RSVP",
-//                 cost: "Free",
-//                 links: null,
-//                 description:
-//                     "A listening-focused gathering featuring sound installations, quiet performances, and shared discussion.",
-//                 createdAt: new Date()
-//             }
-//         ];
-
-//         try {
-//             for (const event of sampleEvents) {
-//                 await addEvent(event);
-//             }
-
-//             alert("Sample events successfully added.");
-//         } catch (err) {
-//             console.error("Seeding failed:", err);
-//             alert("Error seeding database. Check console.");
-//         } finally {
-//             seedBtn.disabled = false;
-//             seedBtn.textContent = "Seed database with sample events";
-//         }
-//     });
-// }

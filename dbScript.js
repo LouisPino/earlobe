@@ -108,6 +108,7 @@ export async function addEvent(obj) {
 export async function addVenue(obj) {
     const resp = await addDoc(venueCollection, obj);
     console.log(resp);
+    return resp
 }
 
 /**
@@ -162,6 +163,20 @@ export async function fetchVenues() {
         venueArr.push(doc.data());
     });
     return venueArr;
+}
+
+export async function fetchVenueById(id) {
+    await ensureAuth();
+    let venueData
+    const venueRef = doc(venueCollection, id);
+    const snap = await getDoc(venueRef);
+
+    if (snap.exists()) {
+        venueData = snap.data();
+    } else {
+        venueData = null
+    }
+    return venueData;
 }
 
 export async function fetchVenuesWithId() {
