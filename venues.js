@@ -2,13 +2,11 @@ import { fetchVenues } from "./dbScript.js";
 
 
 async function renderVenues() {
-    console.log("called")
     const container = document.getElementById("venues-container");
     try {
         const rawVenues = await fetchVenues();
         const venues = rawVenues.filter((v) => v.approved)
         venues.sort((a, b) => a.name.localeCompare(b.name));
-        console.log(venues)
         container.innerHTML = "";
 
         venues.forEach(v => {
@@ -33,6 +31,5 @@ async function renderVenues() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("loaded")
     renderVenues();
 });
