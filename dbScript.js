@@ -242,6 +242,8 @@ export async function deleteEventById(id) {
  * Assumes `createdAt` is a Date object.
  */
 export async function fetchArchive() {
+    await ensureAuth();
+
     let archiveArr = [];
 
     const q = query(archiveCollection);
