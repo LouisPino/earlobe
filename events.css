@@ -59,7 +59,7 @@
     margin-bottom: 0;
 }
 
-.event-img-link > img{
+.event-img-link>img {
     height: 160px;
     max-width: auto;
 }
@@ -124,6 +124,88 @@
 .event-card-footer a:hover {
     text-decoration: underline;
 }
+
+
+/* NEW STYLE CARD */
+
+.event-row {
+    width: 100%;
+    max-width: 700px;
+    margin: 8px 12px 8px 12px;
+    ;
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+.event-line {
+    margin: 4px 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+.event-title {
+    color: #7c3aed;
+    /* purple */
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.event-title:hover {
+    text-decoration: none;
+}
+
+.event-artists {
+    color: #7c3aed;
+}
+
+.event-time {
+    color: #111;
+}
+
+.map-link {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.map-link:hover {
+    text-decoration: none;
+}
+
+
+.admin-actions {
+    margin-left: 6px;
+    font-size: 0.85rem;
+}
+
+.edit-event {
+    color: #0ea5e9;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-event {
+    color: #dc2626;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 0;
+}
+
+.delete-event:hover,
+.edit-event:hover {
+    opacity: 0.7;
+}
+
+
+
+
+
+
+
+
+
 
 /* States */
 

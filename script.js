@@ -26,7 +26,7 @@ import { fetchEvents, addEvent, addVenue, fetchVenuesWithId, fetchVenueById, upl
 // Fetch existing venues for select dropdown
 const venueOptionsResp = await fetchVenuesWithId();
 
-const venueOptions = venueOptionsResp.filter((v) => v.data.approved).sort((a, b) => a.data.name.localeCompare(b.data.name))
+export const venueOptions = venueOptionsResp.filter((v) => v.data.approved).sort((a, b) => a.data.name.localeCompare(b.data.name))
 
 
 // Event grids
@@ -134,7 +134,7 @@ form?.addEventListener("submit", async (e) => {
         setSubmitModalText("Success! An admin will approve your post shortly.");
         document.querySelector(".spinner").style.visibility = "hidden"
         setTimeout(() => {
-            // window.location.replace("./");
+            window.location.replace("./");
         }, 900);
 
         form.reset();
@@ -284,8 +284,6 @@ function formatTime(time) {
 
 async function createEventCard(eventObj) {
     const event = eventObj.data;
-    console.log(event)
-    const card = document.createElement("article");
     let venueData
     if (event.venueId) { //every event SHOULD have an id, but some venues may have been deleted so mucst check for data.
         const venueDataResp = await fetchVenueById(event.venueId)
@@ -296,68 +294,137 @@ async function createEventCard(eventObj) {
         }
     } else {//shouldn't ever hit this but just in case.
         venueData = event.venue
+    }
+    let attendanceEmoji
+    if (event.attendance === "19_plus") {
+        attendanceEmoji = "<span class='nineteen-red'>19+</span>"
+    } else if (event.attendance === "all_ages") {
+        attendanceEmoji = "🅰️"
+    } else {
+        attendanceEmoji = event.attendance_other
+    }
 
-    }
-    card.className = "event-card";
-    if (isAdmin) {
-        card.classList.add(event.confirmed ? "confirmed" : "unconfirmed")
-    }
+
+
+    const card = document.createElement("article");
+    //     card.className = "event-card";
+
+
+    //     if (isAdmin) {
+    //         card.classList.add(event.confirmed ? "confirmed" : "unconfirmed")
+    //     }
+
+
+
+    //     card.innerHTML = `
+    //     <div class="event-card-header">
+    //       <h2>${event.event_name || event.performers}</h2>
+    //       ${event.imageUrl ?
+    //             `
+    //  <a class="event-img-link" href="./event.html?id=${eventObj.id}" rel="noopener">
+    //  <img src=${event.imageUrl} />
+    // </a>
+    // ` : ""}
+
+    //       <p class="event-date">${formatDate(event.date)}</p>
+    //           ${isAdmin ?
+    //             `<div class="event-card-footer">
+    //             <a class="edit-event" href="./edit.html?id=${eventObj.id}" rel="noopener">
+    //               EDIT EVENT →
+    //             </a>
+    // <button class="delete-event" data-event-id="${eventObj.id}">
+    //   DELETE EVENT
+    // </button>          </div> 
+    // `
+    //             : ""}
+
+    //     </div>
+
+    //     <div class="event-card-body">
+    //      ${event.event_name ?
+    //             `  <p class="event-performers">
+    //                 <strong>Artists:</strong> ${event.performers}
+    //             </p>`
+    //             :
+    //             ""
+    //         }
+
+    //       <p>
+    //         <strong>Time:</strong>
+    //         ${formatTime(event.start_time)}
+    //         ${event.end_time ? "– " + formatTime(event.end_time) : ""}
+    //       </p>
+
+    //       <p>
+    //         <strong>Venue:</strong> ${venueData.name}
+    //       </p>
+
+    //       ${event.cost ? `<p><strong>Cost:</strong> ${event.cost}</p>` : ""}
+
+
+    //     </div >
+
+    //         ${!isAdmin
+    //             ? `<div class="event-card-footer">
+    //             <a href="./event.html?id=${eventObj.id}" target="_blank" rel="noopener">
+    //               More info →
+    //             </a>
+    //           </div>`
+    //             : ""
+    //         }
+    //   <p class="access">Accessibility - ${venueData.accessibilityEmoji || "❓"}</p>
+    //   ${event.attendance ? `<p class="access">Attendance - ${attendanceEmoji}</p>` : ""}
+    //     `;
+
+
+
+
+    card.className = "event-row";
 
     card.innerHTML = `
-    <div class="event-card-header">
-      <h2>${event.event_name || event.performers}</h2>
-      ${event.imageUrl ?
-            `
- <a class="event-img-link" href="./event.html?id=${eventObj.id}" rel="noopener">
- <img src=${event.imageUrl} />
-</a>
-` : ""}
+  <p class="event-line">
 
-      <p class="event-date">${formatDate(event.date)}</p>
-          ${isAdmin ?
-            `<div class="event-card-footer">
-            <a class="edit-event" href="./edit.html?id=${eventObj.id}" rel="noopener">
-              EDIT EVENT →
-            </a>
-<button class="delete-event" data-event-id="${eventObj.id}">
-  DELETE EVENT
-</button>          </div> 
-`
-            : ""}
+    <span class="event-time">
+      ${formatTime(event.start_time)}
+      ${event.end_time ? "–" + formatTime(event.end_time) : ""}
+    </span>:
 
-    </div>
+    <a class="event-title" href="./event.html?id=${eventObj.id}">
+      ${event.event_name || event.performers}
+    </a>
 
-    <div class="event-card-body">
-      <p class="event-performers">
-        <strong>Artists:</strong> ${event.performers}
-      </p>
+    ${event.event_name ? `<span class="event-artists">(${event.performers})</span>` : ""}
 
-      <p>
-        <strong>Time:</strong>
-        ${formatTime(event.start_time)}
-        ${event.end_time ? "– " + formatTime(event.end_time) : ""}
-      </p>
+    @ <strong>${venueData.name}</strong>
 
-      <p>
-        <strong>Venue:</strong> ${venueData.name}
-      </p>
+    ${venueData.area ? `// ${venueData.area}` : ""}
 
-      ${event.cost ? `<p><strong>Cost:</strong> ${event.cost}</p>` : ""}
+    ${event.doors_time ? `// Doors ${formatTime(event.doors_time)}` : ""}
+
+    ${event.cost ? `// ${event.cost}` : ""}
+
+    // ACCESS: ${venueData.accessibilityEmoji || "❓"}
+
+    ${event.attendance ? `// ${attendanceEmoji}` : ""}
 
 
-    </div >
-
-        ${!isAdmin
-            ? `<div class="event-card-footer">
-            <a href="./event.html?id=${eventObj.id}" target="_blank" rel="noopener">
-              More info →
-            </a>
-          </div>`
+    ${isAdmin
+            ? `
+        <span class="admin-actions">
+          // 
+          <a class="edit-event" href="./edit.html?id=${eventObj.id}">EDIT</a>
+          |
+          <button class="delete-event" data-event-id="${eventObj.id}">
+            DELETE
+          </button>
+        </span>
+      `
             : ""
         }
 
+  </p>
+`;
 
-    `;
 
     return card;
 }
@@ -501,3 +568,7 @@ function formatDateHeader(dateStr) {
         day: "numeric"
     });
 }
+
+
+
+

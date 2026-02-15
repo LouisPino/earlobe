@@ -11,7 +11,7 @@
  * ============================================================
  */
 
-import { getEventById } from "./dbScript.js";
+import { getEventById, fetchVenueById } from "./dbScript.js";
 
 /**
  * ============================================================
@@ -26,6 +26,9 @@ const id = params.get("id");
 
 // Fetch event data
 const event = await getEventById(id);
+const venue = await fetchVenueById(event.venueId)
+
+console.log(venue)
 const attendaceMap = { "all_ages": "All Ages", "19_plus": "19+" }
 /**
  * ============================================================
@@ -84,7 +87,7 @@ function populateEventPage(event) {
       event.imageUrl;
   }
   document.getElementById("event-name").textContent =
-    event.event_name || "Untitled Event";
+    event.event_name || event.performers;
 
   const dateText = formatDate(event.date);
   const startText = formatTime(event.start_time);
@@ -96,13 +99,13 @@ function populateEventPage(event) {
       : "";
 
   document.getElementById("event-venue-name").textContent =
-    event.venue.name || "";
+    venue.name || event.venue.name || "";
 
   document.getElementById("event-venue-address").textContent =
-    event.venue.address || "";
+    venue.address || event.venue.address || "";
 
   document.getElementById("event-venue-accessibility").textContent =
-    event.venue.accessibility || "";
+    `Accessibility: ${venue.accessibility || ""}`
 
   /**
    * ----------------------------

@@ -229,7 +229,11 @@ body {
 
 .venues-title {
     text-align: center;
-    margin-bottom: 30px;
+}
+
+.accessibility-header {
+    text-align: center;
+    margin: 30px;
 }
 
 /* GRID LAYOUT */
