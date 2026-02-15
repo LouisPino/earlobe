@@ -239,11 +239,16 @@ async function createEventCard(eventObj) {
     console.log(event)
     const card = document.createElement("article");
     let venueData
-    if (event.venueId) {
-        venueData = await fetchVenueById(event.venueId)
-        console.log(venueData)
-    } else {
+    if (event.venueId) { //every event SHOULD have an id, but some venues may have been deleted so mucst check for data.
+        const venueDataResp = await fetchVenueById(event.venueId)
+        if (venueDataResp) { //use db venue data if exists
+            venueData = venueDataResp
+        } else { //use fallback (user input) venue data if exists
+            venueData = event.venue
+        }
+    } else {//shouldn't ever hit this but just in case.
         venueData = event.venue
+
     }
     // console.log(venueData)
     card.className = "event-card";
