@@ -14,15 +14,16 @@
  * ============================================================
  */
 async function loadHeader() {
-    // Fetch header markup
     const resp = await fetch("./header.html");
-
-    // Convert response to HTML string
     const html = await resp.text();
-
-    // Inject header into placeholder container
     document.getElementById("site-header").innerHTML = html;
+
+    const burger = document.getElementById("burgerBtn");
+    const nav = document.getElementById("mainNav");
+
+    burger.addEventListener("click", () => {
+        nav.classList.toggle("open");
+    });
 }
 
-// Load header immediately on script execution
 loadHeader();
