@@ -409,6 +409,7 @@ async function createEventCard(eventObj) {
     // ACCESS: ${venueData.accessibilityEmoji || "❓"}
 
     ${event.attendance ? `// ${attendanceEmoji}` : ""}
+    ${venueData.mapLink ? `// <a href="${venueData.mapLink}">MAP</a>` : ""}
 
 
     ${isAdmin

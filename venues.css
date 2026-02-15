@@ -16,6 +16,9 @@
 }
 
 .venue-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     border: 1px solid #ddd;
     border-radius: 10px;
     padding: 16px;
@@ -33,7 +36,6 @@
 
 .venue-address {
     color: #555;
-    margin-bottom: 6px;
 }
 
 .venue-accessibility {

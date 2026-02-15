@@ -14,13 +14,12 @@ async function renderVenues() {
             card.className = "venue-card";
             card.innerHTML = `
                     <div class="venue-name">${v.name}</div>
-                    <div class="venue-address">${v.address}</div>
+                    <p class="venue-address">${v.address}</p>
+                    ${v.mapLink ? `<a href="${v.mapLink}" target="_blank">Open in Maps</a>` : ""}
                     <div class="venue-accessibility-title">Accessibility ${v.accessibilityEmoji || ""}</div>
                     <div class="venue-accessibility">${v.accessibility || "No accessibility info"}</div>
                     ${v.notes ? `<div class="venue-notes">Notes: ${v.notes}</div>` : ""}
                     ${v.link ? `<a href="${v.link}" target="_blank">Visit Website</a>` : ""}
-
-
                 `;
             container.appendChild(card);
         });

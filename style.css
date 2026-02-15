@@ -302,9 +302,7 @@ body {
 }
 
 /* TEXTAREAS HEIGHT TWEAK */
-.venue-address {
-    min-height: 70px;
-}
+
 
 .venue-accessibility {
     min-height: 70px;

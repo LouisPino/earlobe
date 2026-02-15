@@ -219,6 +219,9 @@ async function renderVenues() {
         <label>LINK</label>
         <input class="venue-link" value="${v.data.link || ""}"/>
 
+        <label>MAP LINK</label>
+        <input class="venue-map-link" value="${v.data.mapLink || ""}"/>
+
         <button class="venue-submit-btn">APPROVE VENUE</button>
         <button class="venue-delete-btn">DELETE VENUE</button>
       `;
@@ -233,6 +236,7 @@ async function renderVenues() {
         const address = card.querySelector(".venue-address").value.trim();
         const accessibility = card.querySelector(".venue-accessibility").value.trim();
         const link = card.querySelector(".venue-link").value.trim();
+        const mapLink = card.querySelector(".venue-map-link").value.trim();
         const notes = card.querySelector(".venue-notes").value.trim();
         const accessibilityValue =
           card.querySelector('.accessibility-group input[name="accessibility-emoji"]:checked')?.value || null;
@@ -275,6 +279,7 @@ async function renderVenues() {
           accessibility,
           accessibilityEmoji,
           notes,
+          mapLink,
           link: link || null,
           approved: true,
           updatedAt: new Date()
