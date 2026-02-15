@@ -51,10 +51,11 @@ body {
 /* BURGER */
 .burger {
     display: none;
-    font-size: 26px;
+    font-size: 40px;
     background: none;
     border: none;
     cursor: pointer;
+    color: #111827;
 }
 
 /* MAIN CONTENT */
@@ -351,6 +352,7 @@ body {
 
     .burger {
         display: block;
+        color: black;
     }
 
     .main-nav {
