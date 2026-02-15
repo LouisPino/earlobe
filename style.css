@@ -342,7 +342,7 @@ body {
 /* MOBILE */
 @media (max-width: 768px) {
     .logo img {
-        width: 80px;
+        width: 80px
     }
 
     .site-header {
