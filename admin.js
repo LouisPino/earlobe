@@ -190,6 +190,28 @@ async function renderVenues() {
 
         <label>ACCESSIBILITY</label>
         <textarea class="venue-accessibility">${v.data.accessibility || ""}</textarea>
+ <fieldset class="accessibility-group">
+  <label>
+    <input type="radio" name="accessibility-emoji" value="accessible" />
+    ♿️ Accessible
+  </label>
+
+  <label>
+    <input type="radio" name="accessibility-emoji" value="caveats" />
+    ☑️ Access w/ caveats
+  </label>
+
+  <label>
+    <input type="radio" name="accessibility-emoji" value="stairs" />
+    📶 Stairs / not accessible
+  </label>
+
+  <label>
+    <input type="radio" name="accessibility-emoji" value="unknown" />
+    ❓ Accessibility unknown
+  </label>
+</fieldset>
+
         
         <label>EXTRA NOTES</label>
         <textarea class="venue-notes">${v.data.notes || ""}</textarea>
@@ -212,6 +234,34 @@ async function renderVenues() {
         const accessibility = card.querySelector(".venue-accessibility").value.trim();
         const link = card.querySelector(".venue-link").value.trim();
         const notes = card.querySelector(".venue-notes").value.trim();
+        const accessibilityValue =
+          card.querySelector('.accessibility-group input[name="accessibility-emoji"]:checked')?.value || null;
+        let accessibilityEmoji = null;
+
+        switch (accessibilityValue) {
+          case "accessible":
+            accessibilityEmoji = "♿️";
+            break;
+
+          case "caveats":
+            accessibilityEmoji = "☑️";
+            break;
+
+          case "stairs":
+            accessibilityEmoji = "📶";
+            break;
+
+          case "unknown":
+            accessibilityEmoji = "❓";
+            break;
+
+          default:
+            accessibilityEmoji = null;
+        }
+
+
+
+
 
         // VALIDATION
         if (!name || !address || !accessibility) {
@@ -223,6 +273,7 @@ async function renderVenues() {
           name,
           address,
           accessibility,
+          accessibilityEmoji,
           notes,
           link: link || null,
           approved: true,

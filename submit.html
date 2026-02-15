@@ -124,10 +124,30 @@
             </fieldset>
 
             <!-- Cost -->
-            <label>
-                Cost of entry
-                <input type="text" name="cost" />
-            </label>
+
+            <fieldset id="cost">
+                <legend>Cost of entry</legend>
+
+                <label>
+                    <input type="radio" name="cost" value="FREE" />
+                    Free
+                </label>
+
+                <label class="pwyw-option">
+                    <input type="radio" name="costType" value="PWYW" class="pwyw-radio" />
+                    <span class="pwyw-title">PWYW</span>
+                    <span class="pwyw-sub">suggested amount (optional)</span>
+                    <input type="number" id="pwywAmount" disabled />
+                </label>
+
+
+                <label>
+                    <input type="radio" name="costType" value="other" />
+                    $ <input type="number" id="otherAmount" disabled />
+                </label>
+
+
+            </fieldset>
 
             <!-- Links -->
             <label>

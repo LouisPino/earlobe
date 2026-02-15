@@ -90,6 +90,24 @@ form?.addEventListener("submit", async (e) => {
         }
     }
 
+    const costType = formData.get("costType"); // radio
+    let cost = null;
+
+    if (costType === "PWYW") {
+        const suggested = document.getElementById("pwywAmount").value;
+        if (suggested) {
+            cost = `PWYW/$${suggested}`
+        } else {
+            cost = "PWYW"
+        }
+
+    } else if (costType === "other") {
+        const otherVal = document.getElementById("otherAmount").value;
+        cost = `$${otherVal}`
+    } else {
+        cost = `Free`
+    }
+
     // Construct event object
     const eventObj = {
         email: formData.get("email"),
@@ -103,7 +121,7 @@ form?.addEventListener("submit", async (e) => {
         venueId: venueId,
         attendance: formData.get("attendance"),
         attendance_other: formData.get("attendance_other") || null,
-        cost: formData.get("cost") || null,
+        cost: cost,
         links: formData.get("links") || null,
         description: formData.get("description") || null,
         createdAt: new Date(),
@@ -199,6 +217,36 @@ if (venueSelect) {
     populateVenueSelect();
 }
 
+
+
+
+/**
+ * Handle cost of entry buttons / fields
+ */
+
+
+const radios = document.querySelectorAll('input[name="costType"]');
+const pwywInput = document.getElementById("pwywAmount");
+const otherInput = document.getElementById("otherAmount");
+
+radios.forEach(radio => {
+    radio.addEventListener("change", () => {
+        if (radio.value === "PWYW") {
+            pwywInput.disabled = false;
+            otherInput.disabled = true;
+            otherInput.value = "";
+        } else {
+            otherInput.disabled = false;
+            pwywInput.disabled = true;
+            pwywInput.value = "";
+        }
+    });
+});
+
+
+
+
+
 /**
  * ============================================================
  * DATE / TIME UTILITIES
@@ -250,7 +298,6 @@ async function createEventCard(eventObj) {
         venueData = event.venue
 
     }
-    // console.log(venueData)
     card.className = "event-card";
     if (isAdmin) {
         card.classList.add(event.confirmed ? "confirmed" : "unconfirmed")
@@ -391,7 +438,7 @@ async function renderGroupedEvents(events, container) {
             container.innerHTML = "<p>No events this week.</p>";
 
         } else {
-            container.innerHTML = "<p>No events.</p>";
+            container.innerHTML = "<p>No future events yet.</p>";
         }
         return;
     }

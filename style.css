@@ -301,6 +301,31 @@ body {
     color: #333;
 }
 
+.accessibility-group {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-family: sans-serif;
+}
+
+.accessibility-group label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    justify-content: start;
+}
+
+.accessibility-group input[type="radio"] {
+    cursor: pointer;
+    width: 10px;
+}
+
+
+
 
 @media (max-width: 700px) {
 

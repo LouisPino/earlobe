@@ -119,6 +119,28 @@
     font-weight: 600;
 }
 
+
+.pwyw-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: sans-serif;
+}
+
+
+.pwyw-sub {
+    color: #777;
+    font-size: 0.9em;
+}
+
+.pwyw-option input[type="number"],
+#otherAmount {
+    width: 90px;
+    padding: 4px 6px;
+}
+
+
+
 /* -------- Helper Text -------- */
 
 .earlobe-form small {
