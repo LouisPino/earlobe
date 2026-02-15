@@ -5,7 +5,7 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-#edit-img{
+#edit-img {
   width: 100%;
 }
 
@@ -52,4 +52,9 @@ textarea:focus {
 textarea {
   resize: vertical;
   line-height: 1.4;
+}
+
+.venue-note {
+  width: 500px;
+  margin: 12px auto 0 auto;
 }

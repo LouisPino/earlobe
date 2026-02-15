@@ -68,12 +68,12 @@ form?.addEventListener("submit", async (e) => {
     if (venueChoice === "other") {
         const name = formData.get("venue_name");
         const address = formData.get("venue_address");
-        // const accessibility = formData.get("venue_accessibility");
+        const accessibility = formData.get("venue_accessibility");
 
         venue = {
             name,
             address,
-            accessibility: "",
+            accessibility: accessibility,
             approved: false,
             notes: ""
         };
@@ -379,7 +379,10 @@ async function createEventCard(eventObj) {
 
 
 
-    card.className = "event-row";
+    card.className = `event-row`;
+    if (isAdmin) {
+        card.classList.add(event.confirmed ? "confirmed" : "unconfirmed")
+    }
 
     card.innerHTML = `
   <p class="event-line">

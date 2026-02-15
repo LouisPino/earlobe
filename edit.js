@@ -14,7 +14,7 @@
  * ============================================================
  */
 
-import { fetchVenues, getEventById, updateEvent } from "./dbScript.js";
+import { fetchVenues, fetchVenuesWithId, getEventById, updateEvent } from "./dbScript.js";
 
 /**
  * ============================================================
@@ -32,8 +32,7 @@ const btnEl = document.getElementById("approve-btn");
 
 // Fetch event and venue data
 const event = await getEventById(id);
-const venueOptions = await fetchVenues();
-
+const venueOptions = await fetchVenuesWithId();
 /**
  * ============================================================
  * GENERIC FORM UTILITIES
@@ -71,19 +70,40 @@ function populateEditEvent(event) {
   setValue("edit-cost", event.cost);
   setValue("edit-links", event.links);
   setValue("edit-description", event.description);
-  document.getElementById("edit-img").src = event.imageUrl
+  if (event.imageUrl) {
+    document.getElementById("edit-img").src = event.imageUrl;
+  }
 }
 
 /**
  * Populates venue fields from structured venue object.
  */
 function populateVenue(event) {
-  if (!event.venue) return;
+  const select = document.getElementById("venue-select");
 
-  setValue("venue-name", event.venue.name);
-  setValue("venue-address", event.venue.address);
-  setValue("venue-accessibility", event.venue.accessibility);
+  if (event.venueId) {
+    select.value = event.venueId;
+  } else if (event.venue) {
+    toggleManualVenue(true);
+    setValue("venue-name", event.venue.name);
+    setValue("venue-address", event.venue.address);
+    setValue("venue-accessibility", event.venue.accessibility);
+  }
 }
+
+function populateVenueSelect(venues) {
+  const select = document.getElementById("venue-select");
+
+  venues.forEach(v => {
+    const opt = document.createElement("option");
+    opt.value = v.id;
+    opt.textContent = v.data.name;
+    select.appendChild(opt);
+  });
+}
+
+populateVenueSelect(venueOptions);
+
 
 /**
  * Populates attendance radio buttons and optional "other" field.
@@ -136,6 +156,24 @@ function collectEditEvent() {
     'input[name="attendance"]:checked'
   );
 
+  const venueSelectVal = document.getElementById("venue-select").value;
+
+  let venue = null;
+  let venueId = null;
+
+  if (venueSelectVal) {
+    // Existing venue
+    venueId = venueSelectVal;
+  } else {
+    // Manual venue
+    venue = {
+      name: document.getElementById("venue-name").value || null,
+      address: document.getElementById("venue-address").value || null,
+      accessibility: document.getElementById("venue-accessibility").value || null
+    };
+  }
+
+
   return {
     email: document.getElementById("edit-email").value || null,
     event_name: document.getElementById("edit-name").value || null,
@@ -144,7 +182,7 @@ function collectEditEvent() {
     start_time: document.getElementById("edit-start-time").value || null,
     end_time: document.getElementById("edit-end-time").value || null,
     doors_time: document.getElementById("edit-doors-time").value || null,
-
+    venueId: venueId,
     venue: {
       name: document.getElementById("venue-name").value || null,
       address: document.getElementById("venue-address").value || null,
@@ -207,5 +245,19 @@ attendanceRadios.forEach(radio => {
       attendanceOtherInput.disabled = true;
       attendanceOtherInput.value = "";
     }
+  });
+});
+
+const costRadios = document.querySelectorAll('input[name="costType"]');
+const pwywInput = document.getElementById("pwywAmount");
+const otherInput = document.getElementById("otherAmount");
+
+costRadios.forEach(radio => {
+  radio.addEventListener("change", () => {
+    pwywInput.disabled = radio.value !== "PWYW";
+    otherInput.disabled = radio.value !== "other";
+
+    if (radio.value !== "PWYW") pwywInput.value = "";
+    if (radio.value !== "other") otherInput.value = "";
   });
 });

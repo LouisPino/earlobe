@@ -105,7 +105,7 @@ function populateEventPage(event) {
     venue.address || event.venue.address || "";
 
   document.getElementById("event-venue-accessibility").textContent =
-    `Accessibility: ${venue.accessibility || ""}`
+    `Accessibility: ${venue.accessibility || event.venue.accessibility || ""}`
 
   /**
    * ----------------------------
