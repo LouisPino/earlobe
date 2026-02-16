@@ -6,14 +6,17 @@
 }
 
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    /* font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; */
+    font-family: Georgia, "Times New Roman", serif;
+
     color: #111827;
     background: #ffffff;
     line-height: 1.6;
 }
 
 button {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    /* font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; */
+    font-family: Georgia, "Times New Roman", serif;
 
 }
 
@@ -320,7 +323,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    font-family: sans-serif;
 }
 
 .accessibility-group label {

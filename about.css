@@ -4,10 +4,6 @@
     max-width: 560px;
     margin: 0 auto;
     padding: 80px 24px 120px;
-
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Helvetica, Arial, sans-serif;
-
     color: #111;
     line-height: 1.6;
 }
