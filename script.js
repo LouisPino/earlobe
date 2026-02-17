@@ -93,6 +93,9 @@ form?.addEventListener("submit", async (e) => {
     const costType = formData.get("costType"); // radio
     let cost = null;
 
+    const botaflof = formData.get("costType"); // radio
+
+
     if (costType === "PWYW") {
         const suggested = document.getElementById("pwywAmount").value;
         if (suggested) {
@@ -103,9 +106,15 @@ form?.addEventListener("submit", async (e) => {
 
     } else if (costType === "other") {
         const otherVal = document.getElementById("otherAmount").value;
-        cost = `$${otherVal}`
+        if (otherVal >= 50) {
+            cost = `💰$${otherVal}`
+        } else if (25) {
+            cost = `💲$${otherVal}`
+        } else {
+            cost = `$${otherVal}`
+        }
     } else {
-        cost = `Free`
+        cost = `🌀Free`
     }
 
     // Construct event object
@@ -122,6 +131,7 @@ form?.addEventListener("submit", async (e) => {
         attendance: formData.get("attendance"),
         attendance_other: formData.get("attendance_other") || null,
         cost: cost,
+        notaflof: !!formData.get("notaflof"),
         links: formData.get("links") || null,
         description: formData.get("description") || null,
         createdAt: new Date(),
@@ -385,6 +395,15 @@ async function createEventCard(eventObj) {
     }
 
     card.innerHTML = `
+    
+            ${event.imageUrl ?
+            `
+                 <a class="event-img-link" href="./event.html?id=${eventObj.id}" rel="noopener">
+                 <img src=${event.imageUrl}/>
+                     </a>`
+            :
+            ""
+        }
   <p class="event-line">
 
     <span class="event-time">
@@ -410,23 +429,23 @@ async function createEventCard(eventObj) {
 
     ${event.attendance ? `// ${attendanceEmoji}` : ""}
     ${venueData.mapLink ? `// <a href="${venueData.mapLink}">MAP</a>` : ""}
-
-
+    
     ${isAdmin
             ? `
         <span class="admin-actions">
-          // 
-          <a class="edit-event" href="./edit.html?id=${eventObj.id}">EDIT</a>
-          |
-          <button class="delete-event" data-event-id="${eventObj.id}">
-            DELETE
-          </button>
+        // 
+        <a class="edit-event" href="./edit.html?id=${eventObj.id}">EDIT</a>
+        |
+        <button class="delete-event" data-event-id="${eventObj.id}">
+        DELETE
+        </button>
         </span>
-      `
+        `
             : ""
         }
+        
+        </p>
 
-  </p>
 `;
 
 

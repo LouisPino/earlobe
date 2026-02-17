@@ -133,9 +133,8 @@
 
             <fieldset id="cost">
                 <legend>Cost of entry</legend>
-
                 <label>
-                    <input type="radio" name="cost" value="FREE" />
+                    <input type="radio" name="costType" value="FREE" />
                     Free
                 </label>
 
@@ -151,6 +150,11 @@
                     <input type="radio" name="costType" value="other" />
                     $ <input type="number" id="otherAmount" disabled />
                 </label>
+                ---
+                <label>
+                    <input type="checkbox" name="notaflof" />
+                    No one turned away for lack of funds? <em>*(Please answer regardless of cost of entry)</em>
+                </label>
 
 
             </fieldset>
@@ -160,6 +164,14 @@
                 Links (ticket link, event page, etc)
                 <small>
                     Non-social media preferred, but still link it if it's the best option.
+                </small>
+                <small>
+                    Preferred format:
+                </small>
+                <small>
+
+                    Tickets - LinkToTicketPage.ca, Event - LinkToEventPage.com, LiveStream -
+                    LinkToLiveStream.gov
                 </small>
                 <input type="url" name="links" />
             </label>

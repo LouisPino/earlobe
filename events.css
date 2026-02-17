@@ -59,6 +59,7 @@
     margin-bottom: 0;
 }
 
+
 .event-img-link>img {
     height: 160px;
     max-width: auto;
@@ -132,6 +133,14 @@
     width: 100%;
     max-width: 700px;
     margin: 8px 12px 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    border: 1px solid teal;
+    padding: 12px;
+    border-radius: 12px;
+
 }
 
 .event-line {
