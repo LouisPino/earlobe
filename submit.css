@@ -125,19 +125,19 @@
 }
 
 
-.pwyw-option {
+.pwyc-option {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 
-.pwyw-sub {
+.pwyc-sub {
     color: #777;
     font-size: 0.9em;
 }
 
-.pwyw-option input[type="number"],
+.pwyc-option input[type="number"],
 #otherAmount {
     width: 90px;
     padding: 4px 6px;

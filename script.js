@@ -96,12 +96,12 @@ form?.addEventListener("submit", async (e) => {
     const botaflof = formData.get("costType"); // radio
 
 
-    if (costType === "PWYW") {
-        const suggested = document.getElementById("pwywAmount").value;
+    if (costType === "PWYC") {
+        const suggested = document.getElementById("pwycAmount").value;
         if (suggested) {
-            cost = `PWYW/$${suggested}`
+            cost = `PWYC/$${suggested}`
         } else {
-            cost = "PWYW"
+            cost = "PWYC"
         }
 
     } else if (costType === "other") {
@@ -236,19 +236,19 @@ if (venueSelect) {
 
 
 const radios = document.querySelectorAll('input[name="costType"]');
-const pwywInput = document.getElementById("pwywAmount");
+const pwycInput = document.getElementById("pwycAmount");
 const otherInput = document.getElementById("otherAmount");
 
 radios.forEach(radio => {
     radio.addEventListener("change", () => {
-        if (radio.value === "PWYW") {
-            pwywInput.disabled = false;
+        if (radio.value === "PWYC") {
+            pwycInput.disabled = false;
             otherInput.disabled = true;
             otherInput.value = "";
         } else {
             otherInput.disabled = false;
-            pwywInput.disabled = true;
-            pwywInput.value = "";
+            pwycInput.disabled = true;
+            pwycInput.value = "";
         }
     });
 });

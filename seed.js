@@ -18,14 +18,14 @@ function randDate(daysAhead = 30) {
 
 
 function randomCost() {
-    const type = rand(["free", "pwyw", "fixed"]);
+    const type = rand(["free", "pwyc", "fixed"]);
 
     if (type === "free") return "Free";
 
-    if (type === "pwyw") {
+    if (type === "pwyc") {
         return Math.random() > 0.5
-            ? `PWYW/$${randInt(5, 30)}`
-            : "PWYW";
+            ? `PWYC/$${randInt(5, 30)}`
+            : "PWYC";
     }
 
     return `$${randInt(5, 40)}`;

@@ -260,15 +260,15 @@ attendanceRadios.forEach(radio => {
 });
 
 const costRadios = document.querySelectorAll('input[name="costType"]');
-const pwywInput = document.getElementById("pwywAmount");
+const pwycInput = document.getElementById("pwycAmount");
 const otherInput = document.getElementById("otherAmount");
 
 costRadios.forEach(radio => {
   radio.addEventListener("change", () => {
-    pwywInput.disabled = radio.value !== "PWYW";
+    pwycInput.disabled = radio.value !== "PWYC";
     otherInput.disabled = radio.value !== "other";
 
-    if (radio.value !== "PWYW") pwywInput.value = "";
+    if (radio.value !== "PWYC") pwycInput.value = "";
     if (radio.value !== "other") otherInput.value = "";
   });
 });
