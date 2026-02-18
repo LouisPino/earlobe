@@ -362,7 +362,7 @@ createVenueBtn.addEventListener("click", async () => {
     mapLink,
     accessLink,
     link: link || null,
-    approved: false,
+    approved: true,
     createdAt: new Date(),
     updatedAt: new Date()
   };
