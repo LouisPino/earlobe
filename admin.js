@@ -1,4 +1,4 @@
-import { addArchive, addVenue, deleteEventById, deleteVenueById, fetchVenues, fetchVenuesWithId, updateVenue } from "./dbScript.js";
+import { addArchive, addVenue, deleteEventById, deleteVenueById, fetchVenues, fetchVenuesWithId, updateVenue, getUnapprovedEventCount } from "./dbScript.js";
 
 
 /**
@@ -18,6 +18,8 @@ import { addArchive, addVenue, deleteEventById, deleteVenueById, fetchVenues, fe
  */
 
 const archiveBtnEl = document.getElementById("archive-submit-btn");
+const venues = await fetchVenuesWithId();
+venues.sort((a, b) => a.data.name.localeCompare(b.data.name));
 
 /**
  * Collects archive form values into a normalized object.
@@ -45,6 +47,25 @@ archiveBtnEl.addEventListener("click", async (e) => {
   // Simple refresh after successful write
   window.location.reload();
 });
+
+
+//Unapproved event count
+
+const eventCountEl = document.querySelector(".manage-events-count")
+const unapprovedCount = await getUnapprovedEventCount()
+if (unapprovedCount < 1) {
+  eventCountEl.classList.add("empty")
+}
+eventCountEl.innerHTML = `There are currently ${unapprovedCount} events awaiting approval.`
+
+const venueCountEl = document.querySelector(".manage-venues-count")
+const unapprovedVenueCount = venues.filter(v => !v.data.approved).length;
+if (unapprovedVenueCount < 1) {
+  venueCountEl.classList.add("empty")
+}
+venueCountEl.innerHTML = `There are currently ${unapprovedVenueCount} venues awaiting approval.`
+
+
 
 /**
  * ============================================================
@@ -171,7 +192,6 @@ cancelDeleteButton.addEventListener("click", () => {
 
 async function renderVenues() {
   try {
-    const venues = await fetchVenuesWithId();
     // const venues = rawVenues.filter(v => !v.data.approved);
 
     container.innerHTML = "";

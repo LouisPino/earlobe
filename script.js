@@ -416,17 +416,17 @@ async function createEventCard(eventObj) {
     <span class="event-time">
       ${formatTime(event.start_time)}
       ${event.end_time ? "–" + formatTime(event.end_time) : ""}
-    </span>:
+    </span>
 
     <a class="event-title" href="./event.html?id=${eventObj.id}">
-      ${event.event_name || event.performers}
+      ${event.event_name ? `${event.event_name}${event.performers ? ":" : ""}` : ""}
+      ${event.performers ? `${event.performers}` : ""}
     </a>
 
-    ${event.event_name ? `<span class="event-artists">(${event.performers})</span>` : ""}
 
-    @ <strong>${venueData.name}</strong>
+    @ <strong> ${venueData.name}</strong >
 
-    ${event.doors_time ? `// Doors ${formatTime(event.doors_time)}` : ""}
+        ${event.doors_time ? `// Doors ${formatTime(event.doors_time)}` : ""}
 
     ${event.cost ? `// ${event.cost}` : ""}
 
@@ -456,9 +456,9 @@ async function createEventCard(eventObj) {
             : ""
         }
         
-        </p>
+        </p >
 
-`;
+    `;
 
 
     return card;

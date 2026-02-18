@@ -230,6 +230,18 @@ export async function fetchEvents() {
     return eventsArr;
 }
 
+export async function getUnapprovedEventCount() {
+    await ensureAuth();
+
+    const q = query(
+        eventCollection,
+        where("confirmed", "==", false)
+    );
+
+    const snapshot = await getDocs(q);
+    return snapshot.size;
+}
+
 
 /**
  * Fetches a single event by document ID.
