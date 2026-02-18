@@ -160,23 +160,28 @@ function populateEventPage(event) {
     if (pairs.length) {
       pairs.forEach((pair, i) => {
         const [labelRaw, urlRaw] = pair.split(" - ").map(s => s?.trim());
+        if (!urlRaw) return;
 
-        if (!urlRaw) return; // skip malformed
-
-        const label = labelRaw || urlRaw;
+        const label = labelRaw || "";
         const url = urlRaw.startsWith("http") ? urlRaw : `https://${urlRaw}`;
 
+        // container line
+        const line = document.createElement("div");
+
+        // TEXT: "Label - "
+        if (label) {
+          line.appendChild(document.createTextNode(label + " - "));
+        }
+
+        // LINK: "link.com"
         const a = document.createElement("a");
         a.href = url;
-        a.textContent = label;
+        a.textContent = urlRaw; // show raw, not https://
         a.target = "_blank";
         a.rel = "noopener noreferrer";
 
-        linksEl.appendChild(a);
-
-        if (i < pairs.length - 1) {
-          linksEl.appendChild(document.createElement("br"));
-        }
+        line.appendChild(a);
+        linksEl.appendChild(line);
       });
 
       linksSection.hidden = false;
