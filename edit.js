@@ -241,7 +241,7 @@ btnEl.addEventListener("click", async (e) => {
     confirmed: true
   });
 
-  // window.location.replace("./admin.html");
+  window.location.replace("./admin.html");
 });
 
 /**
