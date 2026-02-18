@@ -1,5 +1,5 @@
 .venues-page {
-    max-width: 1000px;
+    max-width: 100%;
     margin: 40px auto;
     padding: 0 20px;
 }
@@ -10,12 +10,13 @@
 }
 
 .venues-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .venue-card {
     display: flex;
+    width: 400px;
     flex-direction: column;
     justify-content: space-around;
     border: 1px solid #ddd;

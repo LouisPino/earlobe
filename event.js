@@ -146,31 +146,35 @@ function populateEventPage(event) {
    * ----------------------------
    * Supports comma-separated URLs.
    */
-
   const linksSection = document.getElementById("event-links-section");
   const linksEl = document.getElementById("event-links");
 
-  // Clear any previously rendered links
   linksEl.innerHTML = "";
 
   if (event.links) {
-    const links = event.links
+    const pairs = event.links
       .split(",")
       .map(l => l.trim())
       .filter(Boolean);
 
-    if (links.length) {
-      links.forEach((url, i) => {
+    if (pairs.length) {
+      pairs.forEach((pair, i) => {
+        const [labelRaw, urlRaw] = pair.split(" - ").map(s => s?.trim());
+
+        if (!urlRaw) return; // skip malformed
+
+        const label = labelRaw || urlRaw;
+        const url = urlRaw.startsWith("http") ? urlRaw : `https://${urlRaw}`;
+
         const a = document.createElement("a");
         a.href = url;
-        a.textContent = url;
+        a.textContent = label;
         a.target = "_blank";
         a.rel = "noopener noreferrer";
 
         linksEl.appendChild(a);
 
-        // Line break between links
-        if (i < links.length - 1) {
+        if (i < pairs.length - 1) {
           linksEl.appendChild(document.createElement("br"));
         }
       });
