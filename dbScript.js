@@ -127,12 +127,12 @@ export async function addArchive(obj) {
 
 
 export async function uploadImage(file) {
+
     const imageRef = ref(storage, `images/${Date.now()}-${file.name}`);
 
     await uploadBytes(imageRef, file, {
         contentType: file.type
     });
-
     return await getDownloadURL(imageRef);
 }
 
@@ -303,12 +303,12 @@ export async function fetchArchive() {
  * Accepts a partial eventData object.
  */
 export async function updateEvent(id, eventData) {
+    console.log(id, eventData)
     const updateResp = await updateDoc(
         doc(eventCollection, id),
         eventData
     );
-
-    console.log(updateResp);
+    console.log(updateResp)
 }
 
 export async function updateVenue(id, venueData) {

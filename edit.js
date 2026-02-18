@@ -14,7 +14,7 @@
  * ============================================================
  */
 
-import { fetchVenues, fetchVenuesWithId, getEventById, updateEvent } from "./dbScript.js";
+import { fetchVenues, fetchVenuesWithId, getEventById, updateEvent, uploadImage } from "./dbScript.js";
 
 /**
  * ============================================================
@@ -163,12 +163,19 @@ function populateNotaflof(bool) {
  * Collects current form values into an event object.
  * Returned object is suitable for Firestore update.
  */
-function collectEditEvent() {
+async function collectEditEvent() {
   const selectedAttendance = document.querySelector(
     'input[name="attendance"]:checked'
   );
+  let url = null
 
   const venueSelectVal = document.getElementById("venue-select").value;
+
+  const imageEl = document.getElementById("imageInput")
+  if (imageEl.files && imageEl.files.length > 0) {
+    const file = imageEl.files[0];
+    url = await uploadImage(file);
+  }
 
   let venue = null;
   let venueId = null;
@@ -209,7 +216,9 @@ function collectEditEvent() {
 
     cost: document.getElementById("edit-cost").value || null,
     links: document.getElementById("edit-links").value || null,
-    description: document.getElementById("edit-description").value || null
+    description: document.getElementById("edit-description").value || null,
+    imageUrl: url || null
+
   };
 }
 
@@ -225,14 +234,14 @@ function collectEditEvent() {
 btnEl.addEventListener("click", async (e) => {
   e.preventDefault();
 
-  const eventData = collectEditEvent();
+  const eventData = await collectEditEvent();
 
   await updateEvent(id, {
     ...eventData,
     confirmed: true
   });
 
-  window.location.replace("./admin.html");
+  // window.location.replace("./admin.html");
 });
 
 /**
