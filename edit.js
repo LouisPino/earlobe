@@ -33,6 +33,7 @@ const btnEl = document.getElementById("approve-btn");
 // Fetch event and venue data
 const event = await getEventById(id);
 const venueOptions = await fetchVenuesWithId();
+console.log(event)
 /**
  * ============================================================
  * GENERIC FORM UTILITIES
@@ -146,9 +147,9 @@ function populateNotaflof(bool) {
   const el = document.getElementById("notaflof-note");
 
   if (bool) {
-    el.innerHTML = "*This event was marked as notaflof"
+    el.innerHTML = "<strong>*This event was marked as notaflof by the submitter</strong>"
   } else {
-    el.innerHTML = "*This event was <em>not</em> marked as notaflof when submitted. If unsure, contact submitter for confirmation"
+    el.innerHTML = "<strong>*This event was <em>not</em> marked as notaflof when submitted. </strong>If unsure, contact submitter for confirmation"
   }
 }
 

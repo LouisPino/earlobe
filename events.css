@@ -135,7 +135,7 @@
     margin: 8px 12px 8px 12px;
     display: flex;
     justify-content: space-between;
-    align-items: end;
+    align-items: center;
     gap: 20px;
     border: 1px solid teal;
     padding: 12px;

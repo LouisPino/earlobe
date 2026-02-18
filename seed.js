@@ -24,7 +24,7 @@ function randomCost() {
 
     if (type === "pwyc") {
         return Math.random() > 0.5
-            ? `PWYC/$${randInt(5, 30)}`
+            ? `PWYC-$${randInt(5, 30)}`
             : "PWYC";
     }
 

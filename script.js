@@ -50,10 +50,20 @@ const form = document.getElementById("earlobeForm");
 
 form?.addEventListener("submit", async (e) => {
     e.preventDefault(); // prevent full page reload
-    showSubmitModal();
 
     let url = null
     const formData = new FormData(form);
+
+    const event_name = formData.get("event_name") || null
+    const performers = formData.get("performers") || null
+
+    if (!event_name && !performers) {
+        alert("Please provide either name of event or performers (or both)")
+        return
+    }
+    showSubmitModal();
+
+
     const imageEl = document.getElementById("imageInput")
     if (imageEl.files && imageEl.files.length > 0) {
         const file = imageEl.files[0];
@@ -90,38 +100,35 @@ form?.addEventListener("submit", async (e) => {
         }
     }
 
-    const costType = formData.get("costType"); // radio
-    let cost = null;
+    // let cost = null;
+    // const costType = formData.get("costType"); // radio
 
-    const botaflof = formData.get("costType"); // radio
+    // if (costType === "PWYC") {
+    //     const suggested = document.getElementById("pwycAmount").value;
+    //     if (suggested) {
+    //         cost = `PWYC-$${suggested}`
+    //     } else {
+    //         cost = "PWYC"
+    //     }
 
-
-    if (costType === "PWYC") {
-        const suggested = document.getElementById("pwycAmount").value;
-        if (suggested) {
-            cost = `PWYC/$${suggested}`
-        } else {
-            cost = "PWYC"
-        }
-
-    } else if (costType === "other") {
-        const otherVal = document.getElementById("otherAmount").value;
-        if (otherVal >= 50) {
-            cost = `💰$${otherVal}`
-        } else if (25) {
-            cost = `💲$${otherVal}`
-        } else {
-            cost = `$${otherVal}`
-        }
-    } else {
-        cost = `🌀Free`
-    }
+    // } else if (costType === "other") {
+    //     const otherVal = document.getElementById("otherAmount").value;
+    //     if (otherVal >= 50) {
+    //         cost = `💰$${otherVal}`
+    //     } else if (25) {
+    //         cost = `💲$${otherVal}`
+    //     } else {
+    //         cost = `$${otherVal}`
+    //     }
+    // } else {
+    //     cost = `🌀Free`
+    // }
 
     // Construct event object
     const eventObj = {
         email: formData.get("email"),
-        event_name: formData.get("event_name") || null,
-        performers: formData.get("performers"),
+        event_name: event_name,
+        performers: performers,
         date: formData.get("date"),
         start_time: formData.get("start_time"),
         end_time: formData.get("end_time") || null,
@@ -130,7 +137,7 @@ form?.addEventListener("submit", async (e) => {
         venueId: venueId,
         attendance: formData.get("attendance"),
         attendance_other: formData.get("attendance_other") || null,
-        cost: cost,
+        cost: formData.get("cost") || null,
         notaflof: !!formData.get("notaflof"),
         links: formData.get("links") || null,
         description: formData.get("description") || null,
@@ -432,7 +439,7 @@ async function createEventCard(eventObj) {
 
     
 
-    ${event.attendance ? `// ${attendanceEmoji ? attendanceEmoji : ""}` : ""}
+    ${event.attendance ? `${attendanceEmoji ? attendanceEmoji : ""}` : ""}
     ${venueData.mapLink ? `// <a href="${venueData.mapLink}">MAP</a>` : ""}
     
     ${isAdmin

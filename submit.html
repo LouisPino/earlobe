@@ -47,11 +47,11 @@
 
             <!-- Performers -->
             <label>
-                Performers / Artists Names *
+                Performers / Artists Names
                 <small>
                     Preferred format if applicable: Group 1 (perf 1 / perf 2) , Group 2 (perf 3 / perf 4)
                 </small>
-                <input type="text" name="performers" required />
+                <input type="text" name="performers" />
             </label>
 
             <!-- Date -->
@@ -133,7 +133,7 @@
 
             <fieldset id="cost">
                 <legend>Cost of entry</legend>
-                <label>
+                <!-- <label>
                     <input type="radio" name="costType" value="FREE" />
                     Free
                 </label>
@@ -145,15 +145,18 @@
                     <input type="number" id="pwycAmount" disabled />
                 </label>
 
-
                 <label>
                     <input type="radio" name="costType" value="other" />
                     $ <input type="number" id="otherAmount" disabled />
-                </label>
-                ---
+                </label> -->
+
                 <label>
                     <input type="checkbox" name="notaflof" />
-                    No one turned away for lack of funds? <em>*(Please answer regardless of cost of entry)</em>
+                    No one turned away for lack of funds?
+                </label>
+                <small> (eg. $20; PWYC-$20; General $20, Advance $15)</small>
+                <label>
+                    <input type="text" id="cost" name="cost" />
                 </label>
 
 
