@@ -28,8 +28,7 @@ const id = params.get("id");
 const event = await getEventById(id);
 const venue = await fetchVenueById(event.venueId)
 
-console.log(venue)
-const attendaceMap = { "all_ages": "All Ages", "19_plus": "19+" }
+const attendaceMap = { "all_ages": "🅰️All Ages", "19_plus": "19+" }
 /**
  * ============================================================
  * UTILITY FUNCTIONS
