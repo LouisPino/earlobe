@@ -59,7 +59,7 @@
 
         </div>
 
-
+        <button id="open-add-venue-btn"> ADD A NEW VENUE</button>
 
     </main>
 
@@ -118,6 +118,33 @@
             </div>
         </div>
     </div>
+
+    <!-- ADD VENUE MODAL -->
+    <div id="add-venue-modal" class="modal" hidden>
+
+        <div class="modal-card">
+            <h3>Add Venue</h3>
+
+            <input id="new-venue-name" placeholder="Name" />
+            <textarea id="new-venue-address" placeholder="Address"></textarea>
+            <textarea id="new-venue-accessibility" placeholder="Accessibility"></textarea>
+
+            <fieldset class="accessibility-group" id="new-accessibility-group">
+                <label><input type="radio" name="new-accessibility" value="accessible" /> ♿️</label>
+                <label><input type="radio" name="new-accessibility" value="caveats" /> ☑️</label>
+                <label><input type="radio" name="new-accessibility" value="stairs" /> 📶</label>
+                <label><input type="radio" name="new-accessibility" value="unknown" /> ❓</label>
+            </fieldset>
+
+            <input id="new-venue-access-link" placeholder="Accessibility Link" />
+            <input id="new-venue-link" placeholder="Website" />
+            <input id="new-venue-map-link" placeholder="Map Link" />
+            <textarea id="new-venue-notes" placeholder="Notes"></textarea>
+
+            <button id="create-venue-btn">Create Venue</button>
+        </div>
+    </div>
+
 
 
 </body>

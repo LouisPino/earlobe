@@ -419,13 +419,18 @@ async function createEventCard(eventObj) {
 
     @ <strong>${venueData.name}</strong>
 
-    ${venueData.area ? `// ${venueData.area}` : ""}
-
     ${event.doors_time ? `// Doors ${formatTime(event.doors_time)}` : ""}
 
     ${event.cost ? `// ${event.cost}` : ""}
 
-    // ACCESS: ${venueData.accessibilityEmoji || "❓"}
+    ${venueData.accessLink ?
+            `// <a href="${venueData.accessLink}">ACCESS</a>: ${venueData.accessibilityEmoji || "❓"}`
+            :
+            `// ACCESS: ${venueData.accessibilityEmoji || "❓"}`
+
+        }
+
+    
 
     ${event.attendance ? `// ${attendanceEmoji}` : ""}
     ${venueData.mapLink ? `// <a href="${venueData.mapLink}">MAP</a>` : ""}

@@ -266,6 +266,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    width: 80vw;
+    margin: 24px auto;
+    border: 1px solid black;
 }
 
 /* LABELS */
@@ -311,9 +314,18 @@ body {
     min-height: 70px;
 }
 
+
 /* OPTIONAL LINK STYLE */
 .venue-link {
     color: #333;
+}
+
+.venue-card.approved {
+    background-color: #c2ffd1;
+}
+
+.venue-card.unapproved {
+    background-color: #ffc7c7;
 }
 
 .accessibility-group {
@@ -337,6 +349,42 @@ body {
     cursor: pointer;
     width: 10px;
 }
+
+
+.modal-card {
+    position: relative;
+    z-index: 1;
+    width: 420px;
+    max-width: 92vw;
+    max-height: 90vh;
+    overflow-y: auto;
+
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.08);
+
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+
+    animation: modalIn 0.18s ease-out;
+}
+
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
 
 
 

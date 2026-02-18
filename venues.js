@@ -18,6 +18,7 @@ async function renderVenues() {
                     ${v.mapLink ? `<a href="${v.mapLink}" target="_blank">Open in Maps</a>` : ""}
                     <div class="venue-accessibility-title">Accessibility ${v.accessibilityEmoji || ""}</div>
                     <div class="venue-accessibility">${v.accessibility || "No accessibility info"}</div>
+                    ${v.accessLink ? `<div class="venue-access-link"><a href="${v.accessLink}" target="_blank">Accessibility Details</a></div>` : ""}
                     ${v.notes ? `<div class="venue-notes">Notes: ${v.notes}</div>` : ""}
                     ${v.link ? `<a href="${v.link}" target="_blank">Visit Website</a>` : ""}
                 `;

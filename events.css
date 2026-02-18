@@ -43,11 +43,11 @@
 }
 
 .confirmed {
-    background-color: aquamarine;
+    background-color: #c2ffd1;
 }
 
 .unconfirmed {
-    background-color: rgb(255, 127, 127);
+    background-color: #ffc7c7;
 }
 
 

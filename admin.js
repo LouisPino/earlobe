@@ -1,4 +1,4 @@
-import { addArchive, deleteEventById, deleteVenueById, fetchVenues, fetchVenuesWithId, updateVenue } from "./dbScript.js";
+import { addArchive, addVenue, deleteEventById, deleteVenueById, fetchVenues, fetchVenuesWithId, updateVenue } from "./dbScript.js";
 
 
 /**
@@ -171,15 +171,22 @@ cancelDeleteButton.addEventListener("click", () => {
 
 async function renderVenues() {
   try {
-    const rawVenues = await fetchVenuesWithId();
-    const venues = rawVenues.filter(v => !v.data.approved);
+    const venues = await fetchVenuesWithId();
+    // const venues = rawVenues.filter(v => !v.data.approved);
 
     container.innerHTML = "";
 
     venues.forEach(v => {
       const card = document.createElement("div");
       card.className = "venue-card";
+      if (v.data.approved) {
+        card.classList.add("approved")
+      } else {
+        card.classList.add("unapproved")
+
+      }
       card.dataset.id = v.id;
+      const radioGroupName = `accessibility-emoji-${v.id}`;
 
       card.innerHTML = `
         <label>NAME</label>
@@ -192,35 +199,38 @@ async function renderVenues() {
         <textarea class="venue-accessibility">${v.data.accessibility || ""}</textarea>
  <fieldset class="accessibility-group">
   <label>
-    <input type="radio" name="accessibility-emoji" value="accessible" />
+    <input type="radio" name="${radioGroupName}" value="accessible"  ${v.data.accessibilityEmoji === "♿️" ? "checked" : ""}/>
     ♿️ Accessible
   </label>
 
   <label>
-    <input type="radio" name="accessibility-emoji" value="caveats" />
+    <input type="radio" name="${radioGroupName}" value="caveats"  ${v.data.accessibilityEmoji === "☑️" ? "checked" : ""} />
     ☑️ Access w/ caveats
   </label>
 
   <label>
-    <input type="radio" name="accessibility-emoji" value="stairs" />
+    <input type="radio" name="${radioGroupName}" value="stairs"  ${v.data.accessibilityEmoji === "📶" ? "checked" : ""}/>
     📶 Stairs / not accessible
   </label>
 
   <label>
-    <input type="radio" name="accessibility-emoji" value="unknown" />
+    <input type="radio" name="${radioGroupName}" value="unknown"  ${v.data.accessibilityEmoji === "❓" ? "checked" : ""}/>
     ❓ Accessibility unknown
   </label>
 </fieldset>
 
+
+
         
-        <label>EXTRA NOTES</label>
-        <textarea class="venue-notes">${v.data.notes || ""}</textarea>
-
-        <label>LINK</label>
+        <label>ACCESSIBILITY LINK</label>
+        <input class="venue-access-link" value="${v.data.accessLink || ""}"/>
+        <label>LINK TO WEBSITE</label>
         <input class="venue-link" value="${v.data.link || ""}"/>
-
+        
         <label>MAP LINK</label>
         <input class="venue-map-link" value="${v.data.mapLink || ""}"/>
+        <label>EXTRA NOTES</label>
+        <textarea class="venue-notes">${v.data.notes || ""}</textarea>
 
         <button class="venue-submit-btn">APPROVE VENUE</button>
         <button class="venue-delete-btn">DELETE VENUE</button>
@@ -238,30 +248,13 @@ async function renderVenues() {
         const link = card.querySelector(".venue-link").value.trim();
         const mapLink = card.querySelector(".venue-map-link").value.trim();
         const notes = card.querySelector(".venue-notes").value.trim();
+        const accessLink = card.querySelector(".venue-access-link").value.trim();
         const accessibilityValue =
-          card.querySelector('.accessibility-group input[name="accessibility-emoji"]:checked')?.value || null;
+          card.querySelector(`input[name="${radioGroupName}"]:checked`)?.value || null;
+
         let accessibilityEmoji = null;
 
-        switch (accessibilityValue) {
-          case "accessible":
-            accessibilityEmoji = "♿️";
-            break;
-
-          case "caveats":
-            accessibilityEmoji = "☑️";
-            break;
-
-          case "stairs":
-            accessibilityEmoji = "📶";
-            break;
-
-          case "unknown":
-            accessibilityEmoji = "❓";
-            break;
-
-          default:
-            accessibilityEmoji = null;
-        }
+        accessibilityEmoji = getAccessibilityEmoji(accessibilityValue)
 
 
 
@@ -280,6 +273,7 @@ async function renderVenues() {
           accessibilityEmoji,
           notes,
           mapLink,
+          accessLink,
           link: link || null,
           approved: true,
           updatedAt: new Date()
@@ -319,3 +313,71 @@ async function renderVenues() {
 }
 
 renderVenues();
+
+
+function getAccessibilityEmoji(value) {
+  switch (value) {
+    case "accessible": return "♿️";
+    case "caveats": return "☑️";
+    case "stairs": return "📶";
+    case "unknown": return "❓";
+    default: return null;
+  }
+}
+
+
+const openAddVenueBtn = document.getElementById("open-add-venue-btn");
+const createVenueBtn = document.getElementById("create-venue-btn");
+
+
+openAddVenueBtn.addEventListener("click", () => {
+  document.getElementById("add-venue-modal").hidden = false
+})
+
+createVenueBtn.addEventListener("click", async () => {
+  const name = document.getElementById("new-venue-name").value.trim();
+  const address = document.getElementById("new-venue-address").value.trim();
+  const accessibility = document.getElementById("new-venue-accessibility").value.trim();
+  const notes = document.getElementById("new-venue-notes").value.trim();
+  const link = document.getElementById("new-venue-link").value.trim();
+  const mapLink = document.getElementById("new-venue-map-link").value.trim();
+  const accessLink = document.getElementById("new-venue-access-link").value.trim();
+
+  const accessibilityValue =
+    document.querySelector('#new-accessibility-group input[name="new-accessibility"]:checked')?.value || null;
+
+  const accessibilityEmoji = getAccessibilityEmoji(accessibilityValue);
+
+  if (!name || !address || !accessibility) {
+    alert("Name, Address, and Accessibility are required.");
+    return;
+  }
+
+  const payload = {
+    name,
+    address,
+    accessibility,
+    accessibilityEmoji,
+    notes,
+    mapLink,
+    accessLink,
+    link: link || null,
+    approved: false,
+    createdAt: new Date(),
+    updatedAt: new Date()
+  };
+
+  try {
+    createVenueBtn.disabled = true;
+    createVenueBtn.textContent = "Saving...";
+
+    await addVenue(payload);
+
+    window.location.reload();
+  } catch (err) {
+    console.error(err);
+    alert("Failed to create venue");
+    createVenueBtn.disabled = false;
+    createVenueBtn.textContent = "Create Venue";
+  }
+});
