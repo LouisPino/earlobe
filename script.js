@@ -545,7 +545,9 @@ async function renderGroupedEvents(events, container) {
 
     container.innerHTML = "";
 
+
     const grouped = groupEventsByDate(events);
+
     const dates = Object.keys(grouped).sort(
         (a, b) => new Date(a) - new Date(b)
     );
@@ -556,13 +558,22 @@ async function renderGroupedEvents(events, container) {
         header.textContent = formatDateHeader(date);
         container.appendChild(header);
 
-        for (const event of grouped[date]) {
+        // ✅ sort by start_time (HH:MM format)
+        const sortedEvents = grouped[date].sort((a, b) => {
+            const timeA = a.data.start_time ?? "00:00";
+            const timeB = b.data.start_time ?? "00:00";
+            return timeA.localeCompare(timeB);
+        });
+
+        for (const event of sortedEvents) {
             const card = await createEventCard(event);
             container.appendChild(card);
         }
     }
 
 
+
+    console.log(grouped)
 }
 
 
