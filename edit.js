@@ -163,13 +163,16 @@ function populateNotaflof(bool) {
  * Collects current form values into an event object.
  * Returned object is suitable for Firestore update.
  */
+
 async function collectEditEvent() {
   const selectedAttendance = document.querySelector(
     'input[name="attendance"]:checked'
   );
-  let url = null
-
   const venueSelectVal = document.getElementById("venue-select").value;
+  let url = document.getElementById("edit-img").src
+  if (!url.length) {
+    url = null
+  }
 
   const imageEl = document.getElementById("imageInput")
   if (imageEl.files && imageEl.files.length > 0) {
