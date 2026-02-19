@@ -190,7 +190,6 @@ cancelDeleteButton.addEventListener("click", () => {
 
 async function renderVenues() {
   try {
-    // const venues = rawVenues.filter(v => !v.data.approved);
 
     container.innerHTML = "";
 

@@ -1,0 +1,105 @@
+/* Remove default event dots & styling */
+.fc-daygrid-event {
+    display: none !important;
+}
+
+/* Clean grid look */
+.fc .fc-daygrid-day {
+    background: #fefff9;
+    border: 1px solid #e1ded8;
+}
+
+/* Default day numbers */
+.fc .fc-daygrid-day-number {
+    font-weight: 600;
+    font-size: 18px;
+    text-decoration: none;
+    color: #777;
+}
+
+/* Greyed out next/prev month */
+.fc-day-outside-custom .fc-daygrid-day-number {
+    color: #bbb;
+}
+
+/* Blue underlined days WITH events */
+.fc-day-has-event .fc-daygrid-day-number {
+    color: #0a2ea6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+/* Make cells taller and center content */
+.fc .fc-daygrid-day-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Remove default top-right positioning */
+.fc .fc-daygrid-day-top {
+    position: static;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Big centered numbers */
+.fc .fc-daygrid-day-number {
+    font-size: 28px;
+    font-weight: 700;
+    text-decoration: none;
+    color: #777;
+}
+
+/* Outside month grey */
+.fc-day-outside-custom .fc-daygrid-day-number {
+    color: #bbb;
+}
+
+/* Blue underline for event days */
+.fc-day-has-event .fc-daygrid-day-number {
+    color: #0a2ea6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.fc-dayGridMonth-button {
+    display: none;
+}
+
+/* Default number sizing */
+.fc .fc-daygrid-day-number {
+    font-size: 28px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* Event days = blue */
+.fc-day-has-event .fc-daygrid-day-number {
+    color: #0a2ea6;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* Future without event = black */
+.fc-day-future-no-event .fc-daygrid-day-number {
+    color: #000;
+}
+
+/* Past without event = gray */
+.fc-day-past-no-event .fc-daygrid-day-number {
+    color: #999;
+}
+
+/* Outside month */
+.fc-day-outside-custom .fc-daygrid-day-number {
+    color: #ccc;
+}
+
+/* Light yellow background for today */
+.fc-day-today-custom {
+    background-color: #d6fdcc !important;
+}

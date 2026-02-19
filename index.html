@@ -7,11 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="events.css" />
+    <link rel="stylesheet" href="calendar.css" />
     <link rel="icon" type="image/x-icon" href="earlobe_logo.ico">
     <script src="dbScript.js" type="module" defer></script>
     <script src="script.js" type="module" defer></script>
     <script src="layout.js" type="module"></script>
     <script src="seed.js" type="module"></script>
+    <!-- FullCalendar (global bundle) -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js"></script>
+
+    <!-- Your calendar widget -->
+    <script src="calendar.js" type="module" defer></script>
+
 </head>
 
 <body>
@@ -50,6 +57,24 @@
                 💲tix above $25,💰tix above $50
             </p>
         </div>
+        <section class="events-section">
+            <div class="calendar-toolbar">
+                <!-- <button id="toggleCalendarBtn" class="calendar-toggle">Hide</button> -->
+            </div>
+
+            <div id="eventsCalendar"></div>
+        </section>
+
+        <!-- Simple modal for event details -->
+        <div id="eventModal" class="modal" hidden>
+            <div class="modal-backdrop" data-close></div>
+
+            <div class="modal-card" role="dialog" aria-modal="true" aria-label="Event details">
+                <button class="modal-close" data-close aria-label="Close">×</button>
+                <div id="eventModalContent"></div>
+            </div>
+        </div>
+
         <section class="events-section">
             <h2>This Week</h2>
             <div id="weekEventsGrid" class="events-grid"></div>

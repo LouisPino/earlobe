@@ -242,8 +242,7 @@ export async function fetchEvents() {
     const todayStr = new Date().toISOString().split("T")[0];
 
     const q = query(
-        eventCollection,
-        where("date", ">=", todayStr)
+        eventCollection
     );
 
     const querySnapshot = await getDocs(q);
