@@ -6,7 +6,6 @@ async function renderVenues() {
     try {
         const rawVenues = await fetchVenues();
         const venues = rawVenues.filter((v) => v.approved)
-        venues.sort((a, b) => a.name.localeCompare(b.name));
         container.innerHTML = "";
 
         venues.forEach(v => {

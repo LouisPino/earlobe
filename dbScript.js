@@ -162,7 +162,22 @@ export async function fetchVenues() {
     querySnapshot.forEach((doc) => {
         venueArr.push(doc.data());
     });
-    return venueArr;
+
+
+    const sorted = venueArr.sort((a, b) => {
+        const normalize = (name) =>
+            name
+                .trim()
+                .replace(/^the\s+/i, ""); // remove leading "The "
+
+        return normalize(a.name).localeCompare(
+            normalize(b.name),
+            undefined,
+            { sensitivity: "base" } // optional: case-insensitive sort
+        );
+    });
+
+    return sorted;
 }
 
 export async function fetchVenueById(id) {
@@ -176,6 +191,7 @@ export async function fetchVenueById(id) {
     } else {
         venueData = null
     }
+
     return venueData;
 }
 
@@ -192,9 +208,17 @@ export async function fetchVenuesWithId() {
     });
 
     const sorted = venueArr.sort((a, b) => {
-        return a.name - b.name;
-    });
+        const normalize = (name) =>
+            name
+                .trim()
+                .replace(/^the\s+/i, ""); // remove leading "The "
 
+        return normalize(a.data.name).localeCompare(
+            normalize(b.data.name),
+            undefined,
+            { sensitivity: "base" } // optional: case-insensitive sort
+        );
+    });
     return sorted;
 }
 

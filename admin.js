@@ -19,8 +19,6 @@ import { addArchive, addVenue, deleteEventById, deleteVenueById, fetchVenues, fe
 
 const archiveBtnEl = document.getElementById("archive-submit-btn");
 const venues = await fetchVenuesWithId();
-venues.sort((a, b) => a.data.name.localeCompare(b.data.name));
-
 /**
  * Collects archive form values into a normalized object.
  * Nulls are used instead of empty strings to keep DB data clean.

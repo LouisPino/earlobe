@@ -26,8 +26,7 @@ import { fetchEvents, addEvent, addVenue, fetchVenuesWithId, fetchVenueById, upl
 // Fetch existing venues for select dropdown
 const venueOptionsResp = await fetchVenuesWithId();
 
-export const venueOptions = venueOptionsResp.filter((v) => v.data.approved).sort((a, b) => a.data.name.localeCompare(b.data.name))
-
+export const venueOptions = venueOptionsResp.filter((v) => v.data.approved)
 
 // Event grids
 const weekGrid = document.getElementById("weekEventsGrid");
