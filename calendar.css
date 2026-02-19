@@ -103,3 +103,9 @@
 .fc-day-today-custom {
     background-color: #d6fdcc !important;
 }
+
+
+/* Calendar title (Month Year) */
+.fc .fc-toolbar-title {
+    font-size: 20px;
+}
