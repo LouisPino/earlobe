@@ -85,7 +85,7 @@ function populateEventPage(event) {
     document.getElementById("event-img").src =
       event.imageUrl;
   }
-  document.getElementById("event-name").textContent =
+  document.getElementById("event-name").innerHTML =
     event.event_name || event.performers;
 
   const dateText = formatDate(event.date);
@@ -112,7 +112,7 @@ function populateEventPage(event) {
    * ----------------------------
    */
 
-  document.getElementById("event-performers").textContent =
+  document.getElementById("event-performers").innerHTML =
     event.performers || "—";
 
   document.getElementById("event-cost").textContent =

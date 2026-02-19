@@ -303,7 +303,6 @@ export async function fetchArchive() {
  * Accepts a partial eventData object.
  */
 export async function updateEvent(id, eventData) {
-    console.log(id, eventData)
     const updateResp = await updateDoc(
         doc(eventCollection, id),
         eventData
