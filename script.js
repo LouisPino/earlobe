@@ -137,7 +137,7 @@ form?.addEventListener("submit", async (e) => {
         attendance: formData.get("attendance"),
         attendance_other: formData.get("attendance_other") || null,
         cost: formData.get("cost") || null,
-        notaflof: !!formData.get("notaflof"),
+        // notaflof: !!formData.get("notaflof"),
         links: formData.get("links") || null,
         description: formData.get("description") || null,
         createdAt: new Date(),
@@ -430,7 +430,7 @@ async function createEventCard(eventObj) {
     ${event.cost ? `// ${event.cost}` : ""}
 
     ${venueData.accessLink ?
-            `// <a href="${venueData.accessLink}">ACCESS</a>: ${venueData.accessibilityEmoji || "❓"}`
+            `// <a href="${venueData.accessLink}" class="venue-access-link">ACCESS</a>: ${venueData.accessibilityEmoji || "❓"}`
             :
             `// ACCESS: ${venueData.accessibilityEmoji || "❓"}`
 

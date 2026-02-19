@@ -40,10 +40,6 @@
                 Name of event / Series / xxx presents
                 <input type="text" name="event_name" />
             </label>
-            <label>
-                Poster
-                <input type="file" accept="image/*" id="imageInput" />
-            </label>
 
             <!-- Performers -->
             <label>
@@ -52,6 +48,10 @@
                     Preferred format if applicable: Group 1 (perf 1 / perf 2) , Group 2 (perf 3 / perf 4)
                 </small>
                 <input type="text" name="performers" />
+            </label>
+            <label>
+                Poster
+                <input type="file" accept="image/*" id="imageInput" />
             </label>
 
             <!-- Date -->
@@ -150,10 +150,10 @@
                     $ <input type="number" id="otherAmount" disabled />
                 </label> -->
 
-                <label>
+                <!-- <label>
                     <input type="checkbox" name="notaflof" />
                     No one turned away for lack of funds?
-                </label>
+                </label> -->
                 <small> (eg. $20; PWYC-$20; General $20, Advance $15)</small>
                 <label>
                     <input type="text" id="cost" name="cost" />

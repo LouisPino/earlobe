@@ -140,7 +140,7 @@ if (event) {
   populateEditEvent(event);
   populateVenue(event);
   populateAttendance(event);
-  populateNotaflof(event.notaflof);
+  // populateNotaflof(event.notaflof);
 }
 
 function populateNotaflof(bool) {
