@@ -394,7 +394,6 @@ async function createEventCard(eventObj) {
 
 
 
-
     card.className = `event-row`;
     if (isAdmin) {
         card.classList.add(event.confirmed ? "confirmed" : "unconfirmed")
