@@ -368,8 +368,8 @@ createVenueBtn.addEventListener("click", async () => {
 
   const accessibilityEmoji = getAccessibilityEmoji(accessibilityValue);
 
-  if (!name || !address || !accessibility) {
-    alert("Name, Address, and Accessibility are required.");
+  if (!name || !address) {
+    alert("Name and Address are required.");
     return;
   }
 
