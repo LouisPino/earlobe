@@ -143,6 +143,10 @@ body {
     color: white;
 }
 
+.events-section>h2 {
+    text-align: center;
+    margin-top: 60px
+}
 
 /* FOOTER */
 .site-footer {
