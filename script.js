@@ -208,8 +208,8 @@ attendanceSelect?.addEventListener("change", () => {
         attendanceOther.style.display = "block";
         attendanceOther.focus();
     } else {
-        attendanceOther.style.display = "none";
-        attendanceOther.value = "";
+        // attendanceOther.style.display = "none";
+        // attendanceOther.value = "";
     }
 });
 
@@ -509,7 +509,7 @@ async function loadEvents() {
                 past.push(event);
             } else if (eventDate <= weekEnd && eventDate >= today) {
                 thisWeek.push(event);
-            } else {
+            } else if (eventDate > weekEnd) {
                 upcoming.push(event);
             }
         });
