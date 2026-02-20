@@ -12,16 +12,12 @@
 /* Default day numbers */
 .fc .fc-daygrid-day-number {
     font-family: serif;
-    font-weight: 600;
-    font-size: 18px;
-    text-decoration: none;
     color: #777;
+    font-size: 28px;
+    font-weight: 700;
+    text-decoration: none;
 }
 
-/* Greyed out next/prev month */
-.fc-day-outside-custom .fc-daygrid-day-number {
-    color: #bbb;
-}
 
 /* Blue underlined days WITH events */
 .fc-day-has-event .fc-daygrid-day-number {
@@ -47,43 +43,11 @@
     justify-content: center;
 }
 
-/* Big centered numbers */
-.fc .fc-daygrid-day-number {
-    font-size: 28px;
-    font-weight: 700;
-    text-decoration: none;
-    color: #777;
-}
-
-/* Outside month grey */
-.fc-day-outside-custom .fc-daygrid-day-number {
-    color: #bbb;
-}
-
-/* Blue underline for event days */
-.fc-day-has-event .fc-daygrid-day-number {
-    color: #0a2ea6;
-    text-decoration: underline;
-    cursor: pointer;
-}
 
 .fc-dayGridMonth-button {
     display: none;
 }
 
-/* Default number sizing */
-.fc .fc-daygrid-day-number {
-    font-size: 28px;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-/* Event days = blue */
-.fc-day-has-event .fc-daygrid-day-number {
-    color: #0a2ea6;
-    text-decoration: underline;
-    cursor: pointer;
-}
 
 /* Future without event = black */
 .fc-day-future-no-event .fc-daygrid-day-number {
@@ -100,7 +64,7 @@
     color: #ccc;
 }
 
-/* Light yellow background for today */
+/* Light green background for today */
 .fc-day-today-custom {
     background-color: #d6fdcc !important;
 }
