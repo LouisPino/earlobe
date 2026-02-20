@@ -11,6 +11,7 @@
 
 /* Default day numbers */
 .fc .fc-daygrid-day-number {
+    font-family: serif;
     font-weight: 600;
     font-size: 18px;
     text-decoration: none;
