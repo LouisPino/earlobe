@@ -282,16 +282,15 @@ function formatDate(dateStr) {
 
 function formatTime(time) {
     if (!time) return "";
-    if (Number(time.slice(0, 2)) === 12) {
-        time = time + " PM"
-    } else if (Number(time.slice(0, 2)) > 12) {
-        time = String((Number(time.slice(0, 2)) - 12) + time.slice(2) + " PM")
-    } else {
-        time = time + " AM"
-    }
-    return time;
-}
 
+    const [h, m] = time.split(":");
+    let hour = Number(h);
+    const suffix = hour >= 12 ? "PM" : "AM";
+
+    hour = hour % 12 || 12;
+
+    return `${hour}:${m} ${suffix}`;
+}
 /**
  * ============================================================
  * EVENT CARD RENDERING
