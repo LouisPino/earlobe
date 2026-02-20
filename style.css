@@ -172,7 +172,16 @@ body {
 
 #admin-modal {
     background: rgba(0, 0, 0);
+}
 
+.admin-docs {
+    display: block;
+    width: fit-content;
+    /* or a fixed width */
+    margin: 0 auto;
+    border: 3px solid green;
+    padding: 4px;
+    color: blue;
 }
 
 .modal-dialog {
