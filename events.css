@@ -173,6 +173,10 @@
     /* font-weight: 600; */
 }
 
+.event-row-map-link {
+    color: blue;
+}
+
 .map-link {
     color: #2563eb;
     text-decoration: underline;

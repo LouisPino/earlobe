@@ -437,7 +437,7 @@ async function createEventCard(eventObj) {
     
 
     ${event.attendance ? `${attendanceEmoji ? attendanceEmoji : ""}` : ""}
-    ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank">MAP</a>` : ""}
+    ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link">MAP</a>` : ""}
     
     ${isAdmin
             ? `
@@ -456,7 +456,6 @@ async function createEventCard(eventObj) {
         </p >
 
     `;
-
 
     return card;
 }
