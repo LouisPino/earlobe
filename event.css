@@ -80,6 +80,7 @@
 .event-description p {
   font-size: 1rem;
   color: #222;
+  white-space: pre-wrap;
 }
 
 /* Links */
