@@ -72,6 +72,7 @@ body {
     font-size: 2.4rem;
     font-weight: 600;
     margin-bottom: 32px;
+    text-align: center;
 }
 
 .main-content p {
@@ -90,6 +91,12 @@ body {
 }
 
 /* NEWSLETTER */
+
+.signup-prompt {
+    text-align: center;
+    font-weight: 600;
+}
+
 .newsletter {
     display: flex;
     gap: 12px;
