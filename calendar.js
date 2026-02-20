@@ -20,7 +20,12 @@ async function getEvents() {
     );
 }
 
-
+const torontoFormatter = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Toronto",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+});
 async function initCalendar() {
     const calendarEl = document.getElementById("eventsCalendar");
     if (!calendarEl) return;
@@ -33,9 +38,21 @@ async function initCalendar() {
         approvedEvents.map(e => (e.data ?? e).date)
     );
 
-    const todayStr = new Date().toISOString().split("T")[0];
+    function getTorontoToday() {
+        const formatter = new Intl.DateTimeFormat("en-CA", {
+            timeZone: "America/Toronto",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit"
+        });
 
-    const calendar = new FullCalendar.Calendar(calendarEl, {
+        return formatter.format(new Date()); // YYYY-MM-DD format (en-CA)
+    }
+
+    const todayStr = new Date().toLocaleDateString("en-CA", {
+        timeZone: "America/Toronto"
+    }); const calendar = new FullCalendar.Calendar(calendarEl, {
+        timeZone: "America/Toronto",
         initialView: "dayGridMonth",
         height: "auto",
         fixedWeekCount: false,
@@ -50,7 +67,7 @@ async function initCalendar() {
             const dateStr = info.dateStr;
 
             // 🔹 Past date → go to archive
-            if (dateStr < todayStr) {
+            if (dateStr < todayStr && eventDateSet.has(dateStr)) {
                 window.location.href = `/archive.html`;
                 return;
             }
