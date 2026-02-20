@@ -97,31 +97,6 @@ body {
     font-weight: 600;
 }
 
-.newsletter {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-
-.newsletter input {
-    flex: 1;
-    padding: 12px 14px;
-    font-size: 0.95rem;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-}
-
-.newsletter button {
-    padding: 12px 18px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: #ffffff;
-    background: #34f5c5;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
 /* POWERED BY */
 .powered-by {
     font-size: 0.8rem;
