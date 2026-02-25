@@ -20,12 +20,6 @@ async function getEvents() {
     );
 }
 
-const torontoFormatter = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "America/Toronto",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit"
-});
 async function initCalendar() {
     const calendarEl = document.getElementById("eventsCalendar");
     if (!calendarEl) return;
@@ -38,20 +32,11 @@ async function initCalendar() {
         approvedEvents.map(e => (e.data ?? e).date)
     );
 
-    function getTorontoToday() {
-        const formatter = new Intl.DateTimeFormat("en-CA", {
-            timeZone: "America/Toronto",
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit"
-        });
-
-        return formatter.format(new Date()); // YYYY-MM-DD format (en-CA)
-    }
 
     const todayStr = new Date().toLocaleDateString("en-CA", {
         timeZone: "America/Toronto"
-    }); const calendar = new FullCalendar.Calendar(calendarEl, {
+    });
+    const calendar = new FullCalendar.Calendar(calendarEl, {
         timeZone: "America/Toronto",
         initialView: "dayGridMonth",
         height: "auto",
@@ -86,38 +71,58 @@ async function initCalendar() {
             }
         },
 
-        dayCellDidMount: function (info) {
-            const dateStr = info.date.toISOString().split("T")[0];
+        datesSet: function () {
 
-            if (info.isOther) {
-                info.el.classList.add("fc-day-outside-custom");
-                return;
-            }
+            const dayCells = document.querySelectorAll(".fc-daygrid-day");
 
-            // Highlight today (independent of event status)
-            if (dateStr === todayStr) {
-                info.el.classList.add("fc-day-today-custom");
-            }
+            dayCells.forEach(cell => {
 
-            if (eventDateSet.has(dateStr)) {
-                if (dateStr < todayStr) {
-                    info.el.classList.add("fc-day-past-has-event");
-                } else {
-                    info.el.classList.add("fc-day-future-has-event");
+                const dateStr = cell.getAttribute("data-date");
+
+                if (!dateStr) return;
+
+                // Remove all state classes first (important)
+                cell.classList.remove(
+                    "fc-day-outside-custom",
+                    "fc-day-today-custom",
+                    "fc-day-past-has-event",
+                    "fc-day-future-has-event",
+                    "fc-day-past-no-event",
+                    "fc-day-future-no-event"
+                );
+
+                const isOther = cell.classList.contains("fc-day-other");
+
+                if (isOther) {
+                    cell.classList.add("fc-day-outside-custom");
                 }
-                return;
-            }
-            if (dateStr < todayStr) {
-                info.el.classList.add("fc-day-past-no-event");
-            } else {
-                info.el.classList.add("fc-day-future-no-event");
-            }
+
+                if (dateStr === todayStr) {
+                    cell.classList.add("fc-day-today-custom");
+                }
+
+                if (eventDateSet.has(dateStr)) {
+                    if (dateStr < todayStr) {
+                        cell.classList.add("fc-day-past-has-event");
+                    } else {
+                        cell.classList.add("fc-day-future-has-event");
+                    }
+                } else {
+                    if (dateStr < todayStr) {
+                        cell.classList.add("fc-day-past-no-event");
+                    } else {
+                        cell.classList.add("fc-day-future-no-event");
+                    }
+                }
+            });
         }
+
 
     });
 
 
     calendar.render();
+
 }
 
 
