@@ -5,14 +5,14 @@
 
 /* Clean grid look */
 .fc .fc-daygrid-day {
-    background: #fefff9;
+    background: #f9fffc;
     border: 1px solid #e1ded8;
 }
 
 /* Default day numbers */
 .fc .fc-daygrid-day-number {
     font-family: serif;
-    color: #777;
+    /* color: #777; */
     font-size: 28px;
     font-weight: 500;
     text-decoration: none;
