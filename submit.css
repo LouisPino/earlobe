@@ -34,7 +34,7 @@
     font-size: 1.9rem;
     font-weight: 700;
     letter-spacing: -0.01em;
-    color: #1ce6ac
+    color: #11b687
 }
 
 .required-note {
@@ -167,7 +167,7 @@
     letter-spacing: 0.01em;
 
     color: #ffffff;
-    background: #1ce6ac;
+    background: #8b05a3;
     border: none;
     border-radius: 12px;
     cursor: pointer;
