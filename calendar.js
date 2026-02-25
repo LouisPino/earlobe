@@ -100,10 +100,13 @@ async function initCalendar() {
             }
 
             if (eventDateSet.has(dateStr)) {
-                info.el.classList.add("fc-day-has-event");
+                if (dateStr < todayStr) {
+                    info.el.classList.add("fc-day-past-has-event");
+                } else {
+                    info.el.classList.add("fc-day-future-has-event");
+                }
                 return;
             }
-
             if (dateStr < todayStr) {
                 info.el.classList.add("fc-day-past-no-event");
             } else {
