@@ -15,7 +15,7 @@
 .events-grid {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    /* gap: 24px; */
     align-items: center;
     /* centers the cards */
 }
