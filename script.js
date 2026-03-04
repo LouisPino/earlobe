@@ -46,7 +46,7 @@ const form = document.getElementById("earlobeForm");
  * EVENT SUBMISSION (PUBLIC FORM)
  * ============================================================
  */
-form.addEventListener("keydown", (e) => {
+form?.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.target.closest("textarea")) {
         e.preventDefault();
     }
