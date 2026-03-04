@@ -54,13 +54,17 @@ function formatDate(dateStr) {
  */
 function formatTime(timeStr) {
   if (!timeStr) return "";
+
   const [h, m] = timeStr.split(":");
   const date = new Date();
   date.setHours(h, m);
-  return date.toLocaleTimeString(undefined, {
+
+  const options = {
     hour: "numeric",
-    minute: "2-digit"
-  });
+    ...(m !== "00" && { minute: "2-digit" })
+  };
+
+  return date.toLocaleTimeString(undefined, options);
 }
 
 /**

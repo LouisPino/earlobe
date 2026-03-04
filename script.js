@@ -273,27 +273,30 @@ radios.forEach(radio => {
  * ============================================================
  */
 
-function formatDate(dateStr) {
-    const [y, m, d] = dateStr.split("-").map(Number);
-    const date = new Date(y, m - 1, d);
-    return date.toLocaleDateString(undefined, {
-        weekday: "short",
-        month: "short",
-        day: "numeric",
-        year: "numeric"
-    });
-}
+// function formatDate(dateStr) {
+//     const [y, m, d] = dateStr.split("-").map(Number);
+//     const date = new Date(y, m - 1, d);
+//     return date.toLocaleDateString(undefined, {
+//         weekday: "short",
+//         month: "short",
+//         day: "numeric",
+//         year: "numeric"
+//     });
+// }
 
-function formatTime(time) {
-    if (!time) return "";
+function formatTime(timeStr) {
+    if (!timeStr) return "";
 
-    const [h, m] = time.split(":");
-    let hour = Number(h);
-    const suffix = hour >= 12 ? "PM" : "AM";
+    const [h, m] = timeStr.split(":");
+    const date = new Date();
+    date.setHours(h, m);
 
-    hour = hour % 12 || 12;
+    const options = {
+        hour: "numeric",
+        ...(m !== "00" && { minute: "2-digit" })
+    };
 
-    return `${hour}:${m} ${suffix}`;
+    return date.toLocaleTimeString(undefined, options);
 }
 /**
  * ============================================================
@@ -304,7 +307,7 @@ function formatTime(time) {
 async function createEventCard(eventObj) {
     const event = eventObj.data;
     let venueData
-    if (event.venueId) { //every event SHOULD have an id, but some venues may have been deleted so mucst check for data.
+    if (event.venueId) { //every event SHOULD have an id, but some venues may have been deleted so must check for data.
         const venueDataResp = await fetchVenueById(event.venueId)
         if (venueDataResp) { //use db venue data if exists
             venueData = venueDataResp
