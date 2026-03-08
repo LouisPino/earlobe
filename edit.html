@@ -24,7 +24,9 @@
       <label>
         Poster - This will overwrite the previous poster if there is one.
         <input type="file" accept="image/*" id="imageInput" />
+        <button class="delete-poster-btn" id="open-delete-poster">Delete Poster</button>
       </label>
+
       <div class="field">
         <label for="edit-email">Contact Email</label>
         <input id="edit-email" type="email" />
@@ -153,6 +155,25 @@
 
       <button id="approve-btn">CONFIRM DETAILS</button>
     </form>
+
+
+
+    <div id="delete-poster-modal" class="modal" hidden>
+      <div class="modal-backdrop"></div>
+
+      <div class="modal-dialog" role="dialog" aria-modal="true">
+        <h3>Delete poster?</h3>
+        <p>This action cannot be undone.</p>
+
+        <div class="modal-actions">
+          <button id="cancel-delete-poster-btn">Cancel</button>
+          <button id="delete-poster-btn" class="danger">Delete</button>
+        </div>
+      </div>
+    </div>
+
+
+
   </main>
 
 

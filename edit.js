@@ -29,11 +29,13 @@ const id = params.get("id");
 
 // Admin approval button
 const btnEl = document.getElementById("approve-btn");
+const openDeletePosterBtnEl = document.getElementById("open-delete-poster");
+const deletePosterBtnEl = document.getElementById("delete-poster-btn");
+const cancelDeletePosterBtnEl = document.getElementById("cancel-delete-poster-btn");
 
 // Fetch event and venue data
 const event = await getEventById(id);
 const venueOptions = await fetchVenuesWithId();
-console.log(event)
 /**
  * ============================================================
  * GENERIC FORM UTILITIES
@@ -143,15 +145,15 @@ if (event) {
   // populateNotaflof(event.notaflof);
 }
 
-function populateNotaflof(bool) {
-  const el = document.getElementById("notaflof-note");
+// function populateNotaflof(bool) {
+//   const el = document.getElementById("notaflof-note");
 
-  if (bool) {
-    el.innerHTML = "<strong>*This event was marked as notaflof by the submitter</strong>"
-  } else {
-    el.innerHTML = "<strong>*This event was <em>not</em> marked as notaflof when submitted. </strong>If unsure, contact submitter for confirmation"
-  }
-}
+//   if (bool) {
+//     el.innerHTML = "<strong>*This event was marked as notaflof by the submitter</strong>"
+//   } else {
+//     el.innerHTML = "<strong>*This event was <em>not</em> marked as notaflof when submitted. </strong>If unsure, contact submitter for confirmation"
+//   }
+// }
 
 /**
  * ============================================================
@@ -180,7 +182,6 @@ async function collectEditEvent() {
     url = await uploadImage(file);
   }
 
-  let venue = null;
   let venueId = null;
 
   if (venueSelectVal) {
@@ -285,3 +286,28 @@ costRadios.forEach(radio => {
     if (radio.value !== "other") otherInput.value = "";
   });
 });
+
+
+
+
+// Delete poster
+
+openDeletePosterBtnEl.addEventListener("click", (e) => {
+  e.preventDefault()
+  document.getElementById("delete-poster-modal").hidden = false
+  document.querySelector(".modal-backdrop").hidden = false
+  cancelDeletePosterBtnEl.addEventListener("click", (e) => {
+    e.preventDefault()
+    document.getElementById("delete-poster-modal").hidden = true
+    document.querySelector(".modal-backdrop").hidden = true
+  })
+  deletePosterBtnEl.addEventListener("click", (e) => {
+    e.preventDefault()
+    //DELETEPOSTER
+    //when saved it save image link as null
+    document.getElementById("edit-img").removeAttribute("src");
+    document.getElementById("delete-poster-modal").hidden = true
+    document.querySelector(".modal-backdrop").hidden = true
+  })
+})
+

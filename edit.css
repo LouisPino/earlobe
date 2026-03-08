@@ -57,3 +57,11 @@ textarea {
   width: 500px;
   margin: 12px auto 0 auto;
 }
+
+.delete-poster-btn {
+  background-color: red;
+  color: white;
+  padding: 8px;
+  margin-left: 8px;
+  ;
+}
