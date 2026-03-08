@@ -113,17 +113,36 @@ export async function addVenue(obj) {
 
 /**
  * Adds an archive entry.
- * Automatically appends a createdAt timestamp.
+ * If a document with the same title exists, update its link.
+ * Otherwise create a new document.
  */
 export async function addArchive(obj) {
-    const resp = await addDoc(archiveCollection, {
-        ...obj,
-        createdAt: new Date()
-    });
+    const q = query(
+        archiveCollection,
+        where("title", "==", obj.title)
+    );
 
-    console.log(resp);
+    const snapshot = await getDocs(q);
+
+    if (!snapshot.empty) {
+        // Update the first matching archive
+        const docRef = snapshot.docs[0].ref;
+
+        await updateDoc(docRef, {
+            links: obj.links,
+            updatedAt: new Date()
+        });
+
+        console.log("Archive updated");
+    } else {
+        const resp = await addDoc(archiveCollection, {
+            ...obj,
+            createdAt: new Date()
+        });
+
+        console.log("Archive created", resp);
+    }
 }
-
 
 
 export async function uploadImage(file) {
