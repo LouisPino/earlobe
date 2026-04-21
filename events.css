@@ -253,10 +253,23 @@
 @media (max-width: 768px) {
     .event-card {
         flex-direction: column;
+        align-items: center;
         width: 100%;
     }
 
     .event-card-header {
         flex: none;
+    }
+
+    .event-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .event-img-link>img {
+        height: auto;
+        max-height: 240px;
+        width: 100%;
+        object-fit: cover;
     }
 }
