@@ -12,6 +12,7 @@
  */
 
 import { getEventById, fetchVenueById } from "./dbScript.js";
+import { buildICS, downloadICS } from "./utils.js";
 
 /**
  * ============================================================
@@ -100,6 +101,13 @@ function populateEventPage(event) {
     dateText && startText && endText
       ? `${dateText} · ${startText} – ${endText}`
       : "";
+
+  // const addToCalBtn = document.getElementById("add-to-cal");
+  // addToCalBtn.onclick = () => {
+  //   const ics = buildICS({ ...event, id: id }, venue.name ? venue : event.venue);
+  //   const filename = (event.event_name || event.performers || "event").replace(/\s+/g, "-") + ".ics";
+  //   downloadICS(ics, filename);
+  // };
 
   document.getElementById("event-venue-name").textContent =
     venue.name || event.venue.name || "";

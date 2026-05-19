@@ -36,6 +36,22 @@
   font-weight: 600;
 }
 
+.add-to-cal-btn {
+  display: inline-block;
+  margin: 10px 0 0;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  border: 1px solid #111;
+  background: transparent;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+}
+
+.add-to-cal-btn:hover {
+  background: #111;
+  color: #fff;
+}
+
 .event-venue-address,
 .event-venue-accessibility {
   font-size: 0.95rem;

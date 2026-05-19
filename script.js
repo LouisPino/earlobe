@@ -16,6 +16,7 @@
  */
 ;
 import { fetchEvents, addEvent, addVenue, fetchVenuesWithId, fetchVenueById, uploadImage } from "./dbScript.js";
+import { buildICS, downloadICS } from "./utils.js";
 
 /**
  * ============================================================
@@ -102,30 +103,6 @@ form?.addEventListener("submit", async (e) => {
             }
         }
     }
-
-    // let cost = null;
-    // const costType = formData.get("costType"); // radio
-
-    // if (costType === "PWYC") {
-    //     const suggested = document.getElementById("pwycAmount").value;
-    //     if (suggested) {
-    //         cost = `PWYC-$${suggested}`
-    //     } else {
-    //         cost = "PWYC"
-    //     }
-
-    // } else if (costType === "other") {
-    //     const otherVal = document.getElementById("otherAmount").value;
-    //     if (otherVal >= 50) {
-    //         cost = `💰$${otherVal}`
-    //     } else if (25) {
-    //         cost = `💲$${otherVal}`
-    //     } else {
-    //         cost = `$${otherVal}`
-    //     }
-    // } else {
-    //     cost = `🌀Free`
-    // }
 
     // Construct event object
     const eventObj = {
@@ -445,7 +422,8 @@ async function createEventCard(eventObj) {
 
     ${event.attendance ? `${attendanceEmoji ? attendanceEmoji : ""}` : ""}
     ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link">MAP</a>` : ""}
-    
+    <!-- // <button class="event-row-cal-btn" data-event-id="${eventObj.id}">+ CAL</button> -->
+
     ${isAdmin
             ? `
         <span class="admin-actions">
@@ -463,6 +441,15 @@ async function createEventCard(eventObj) {
         </p >
 
     `;
+
+    // const calBtn = card.querySelector(".event-row-cal-btn");
+    // if (calBtn) {
+    //     calBtn.addEventListener("click", () => {
+    //         const ics = buildICS({ ...event, id: eventObj.id }, venueData);
+    //         const filename = (event.event_name || event.performers || "event").replace(/\s+/g, "-") + ".ics";
+    //         downloadICS(ics, filename);
+    //     });
+    // }
 
     return card;
 }
