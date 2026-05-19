@@ -222,15 +222,15 @@ attendanceSelect?.addEventListener("change", () => {
  * Populate venue dropdown from database.
  */
 function populateVenueSelect() {
+    venueSelect.innerHTML += `
+    <option value="other" class="other-venue">Add New Venue</option>
+  `;
     for (let venue of venueOptions) {
         venueSelect.innerHTML += `
       <option value="${venue.id}">${venue.data.name}</option>
     `;
     }
 
-    venueSelect.innerHTML += `
-    <option value="other" class="other-venue">Add New Venue</option>
-  `;
 }
 
 if (venueSelect) {
