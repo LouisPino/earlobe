@@ -412,10 +412,9 @@ async function createEventCard(eventObj) {
     ${event.cost ? `// ${event.cost}` : ""}
 
     ${venueData.accessLink ?
-            `// <a href="${venueData.accessLink}" class="venue-access-link" target="_blank">ACCESS</a>: ${venueData.accessibilityEmoji || "❓"}`
+            `// <a href="${venueData.accessLink}" class="venue-access-link" target="_blank">ACCESS</a>: ${venueData.accessibilityEmoji || "❓"}${venueData.accessibilityEmoji === "☑️" && venueData.accessibility ? ` (${venueData.accessibility})` : ""}`
             :
-            `// ACCESS: ${venueData.accessibilityEmoji || "❓"}`
-
+            `// ACCESS: ${venueData.accessibilityEmoji || "❓"}${venueData.accessibilityEmoji === "☑️" && venueData.accessibility ? ` (${venueData.accessibility})` : ""}`
         }
 
     
