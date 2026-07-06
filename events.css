@@ -140,7 +140,6 @@
     border: 1px solid teal;
     padding: 12px;
     border-radius: 12px;
-
 }
 
 .event-line {
@@ -148,6 +147,10 @@
     font-size: 0.95rem;
     line-height: 1.4;
 }
+
+/* .event-extra {
+    font-size: 14px;
+} */
 
 .event-title {
     color: #7c3aed;

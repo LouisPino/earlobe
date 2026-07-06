@@ -32,11 +32,14 @@ body {
     display: flex;
     align-items: center;
     justify-content: start;
+    background-color: rgb(120, 255, 221);
+    margin-bottom: 25px;
 }
 
 .logo img {
     width: 130px;
     height: auto;
+    clip-path: inset(4px 4px);
 }
 
 .main-nav {
@@ -48,7 +51,7 @@ body {
 .main-nav a {
     text-decoration: none;
     color: #111827;
-    font-size: 0.95rem;
+    font-size: 1.15rem;
 }
 
 /* BURGER */

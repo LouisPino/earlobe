@@ -306,77 +306,8 @@ async function createEventCard(eventObj) {
 
 
     const card = document.createElement("article");
-    //     card.className = "event-card";
 
-
-    //     if (isAdmin) {
-    //         card.classList.add(event.confirmed ? "confirmed" : "unconfirmed")
-    //     }
-
-
-
-    //     card.innerHTML = `
-    //     <div class="event-card-header">
-    //       <h2>${event.event_name || event.performers}</h2>
-    //       ${event.imageUrl ?
-    //             `
-    //  <a class="event-img-link" href="./event.html?id=${eventObj.id}" rel="noopener">
-    //  <img src=${event.imageUrl} />
-    // </a>
-    // ` : ""}
-
-    //       <p class="event-date">${formatDate(event.date)}</p>
-    //           ${isAdmin ?
-    //             `<div class="event-card-footer">
-    //             <a class="edit-event" href="./edit.html?id=${eventObj.id}" rel="noopener">
-    //               EDIT EVENT →
-    //             </a>
-    // <button class="delete-event" data-event-id="${eventObj.id}">
-    //   DELETE EVENT
-    // </button>          </div> 
-    // `
-    //             : ""}
-
-    //     </div>
-
-    //     <div class="event-card-body">
-    //      ${event.event_name ?
-    //             `  <p class="event-performers">
-    //                 <strong>Artists:</strong> ${event.performers}
-    //             </p>`
-    //             :
-    //             ""
-    //         }
-
-    //       <p>
-    //         <strong>Time:</strong>
-    //         ${formatTime(event.start_time)}
-    //         ${event.end_time ? "– " + formatTime(event.end_time) : ""}
-    //       </p>
-
-    //       <p>
-    //         <strong>Venue:</strong> ${venueData.name}
-    //       </p>
-
-    //       ${event.cost ? `<p><strong>Cost:</strong> ${event.cost}</p>` : ""}
-
-
-    //     </div >
-
-    //         ${!isAdmin
-    //             ? `<div class="event-card-footer">
-    //             <a href="./event.html?id=${eventObj.id}" target="_blank" rel="noopener">
-    //               More info →
-    //             </a>
-    //           </div>`
-    //             : ""
-    //         }
-    //   <p class="access">Accessibility - ${venueData.accessibilityEmoji || "❓"}</p>
-    //   ${event.attendance ? `<p class="access">Attendance - ${attendanceEmoji}</p>` : ""}
-    //     `;
-
-
-
+    
     card.className = `event-row`;
     if (isAdmin) {
         card.classList.add(event.confirmed ? "confirmed" : "unconfirmed")
@@ -407,6 +338,7 @@ async function createEventCard(eventObj) {
 
     @ <strong> ${venueData.name}</strong >
 
+    <span class="event-extra">
         ${event.doors_time ? `// Doors ${formatTime(event.doors_time)}` : ""}
 
     ${event.cost ? `// ${event.cost}` : ""}
@@ -417,11 +349,12 @@ async function createEventCard(eventObj) {
             `// ACCESS: ${venueData.accessibilityEmoji || "❓"}${venueData.accessibilityEmoji === "☑️" && venueData.accessibility ? ` (${venueData.accessibility})` : ""}`
         }
 
-    
+
 
     ${event.attendance ? `${attendanceEmoji ? attendanceEmoji : ""}` : ""}
     ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link">MAP</a>` : ""}
     <!-- // <button class="event-row-cal-btn" data-event-id="${eventObj.id}">+ CAL</button> -->
+    </span>
 
     ${isAdmin
             ? `
