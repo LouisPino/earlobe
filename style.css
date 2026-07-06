@@ -82,12 +82,15 @@ body {
 }
 
 .submit-link {
-    display: inline-block;
-    margin: 16px 0 32px 0;
+    display: block;
+    width: fit-content;
+    margin: 16px auto 32px auto;
     color: #11b687;
     font-weight: 600;
+    font-size: 1.5em;
     text-decoration: underline;
     letter-spacing: 0.02em;
+    text-align: center;
 }
 
 /* NEWSLETTER */

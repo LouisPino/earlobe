@@ -233,12 +233,34 @@ async function collectEditEvent() {
  */
 
 /**
+ * Validates the "Links" field against the required format:
+ * "Type - link.com, Type - link.com" (comma-separated "Label - url" pairs).
+ * The field is optional, so an empty value is considered valid.
+ */
+function isValidLinksFormat(links) {
+  if (!links) return true;
+
+  return links.split(",").every(entry => {
+    const parts = entry.trim().split(" - ");
+    if (parts.length !== 2) return false;
+
+    const [label, url] = parts.map(s => s.trim());
+    return Boolean(label) && Boolean(url) && !/\s/.test(url) && url.includes(".");
+  });
+}
+
+/**
  * Approves and updates the event, then redirects back to admin.
  */
 btnEl.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const eventData = await collectEditEvent();
+
+  if (!isValidLinksFormat(eventData.links)) {
+    alert("Links must match the format exactly: Type - link.com, Type - link.com");
+    return;
+  }
 
   await updateEvent(id, {
     ...eventData,

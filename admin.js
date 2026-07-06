@@ -31,6 +31,32 @@ function collectArchiveData() {
 }
 
 /**
+ * Validates archive form values against the suggested formats:
+ * - title: "Month Day(st/nd/rd/th), Year" e.g. "April 20th, 2025"
+ * - links: a valid URL
+ */
+const ARCHIVE_TITLE_REGEX = /^[A-Z][a-z]+ \d{1,2}(st|nd|rd|th), \d{4}$/;
+
+function isValidArchiveLink(link) {
+  try {
+    new URL(link);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function validateArchiveData({ title, links }) {
+  if (!title || !ARCHIVE_TITLE_REGEX.test(title)) {
+    return `Date must match the format "April 20th, 2025".`;
+  }
+  if (!links || !isValidArchiveLink(links)) {
+    return "Link must be a valid URL.";
+  }
+  return null;
+}
+
+/**
  * Handles archive submission.
  * Prevents default form submission, writes archive to DB,
  * then reloads the page to reflect the updated state.
@@ -39,6 +65,12 @@ archiveBtnEl.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const archiveData = collectArchiveData();
+
+  const validationError = validateArchiveData(archiveData);
+  if (validationError) {
+    alert(validationError);
+    return;
+  }
 
   await addArchive(archiveData);
 
