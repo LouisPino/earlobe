@@ -132,7 +132,7 @@
 .event-row {
     width: 100%;
     max-width: 700px;
-    margin: 8px 12px 8px 12px;
+    margin: 2px 12px 2px 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
