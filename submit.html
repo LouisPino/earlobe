@@ -81,9 +81,13 @@
             <!-- Venue -->
             <label>
                 Venue *
-                <select name="venue" id="venue-select" required>
-                    <option value="" disabled selected>Choose</option>
-                </select>
+                <div class="venue-combobox">
+                    <input type="text" id="venue-combobox-input" placeholder="Type to search venues…"
+                        autocomplete="off" role="combobox" aria-expanded="false" aria-autocomplete="list"
+                        aria-controls="venue-combobox-list" />
+                    <input type="hidden" id="venue-select" name="venue" />
+                    <ul id="venue-combobox-list" class="venue-combobox-list" role="listbox" hidden></ul>
+                </div>
             </label>
 
             <!-- Venue Details (Only if Other) -->

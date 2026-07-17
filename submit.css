@@ -14,6 +14,48 @@
 }
 
 
+/* -------- Venue Combobox -------- */
+
+.venue-combobox {
+    position: relative;
+}
+
+.venue-combobox-list {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    max-height: 220px;
+    overflow-y: auto;
+    margin: 0;
+    padding: 4px 0;
+    list-style: none;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.venue-combobox-list[hidden] {
+    display: none;
+}
+
+.venue-combobox-list li {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.venue-combobox-list li:hover {
+    background: #f3f4f6;
+}
+
+.venue-combobox-list li[data-id="other"] {
+    font-weight: 600;
+    border-bottom: 1px solid #e5e7eb;
+}
+
 /* -------- Form Container -------- */
 
 .earlobe-form {

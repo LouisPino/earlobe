@@ -65,6 +65,11 @@ form?.addEventListener("submit", async (e) => {
         alert("Please provide either name of event or performers (or both)")
         return
     }
+
+    if (!formData.get("venue")) {
+        alert("Please select a venue from the list.")
+        return
+    }
     showSubmitModal();
 
 
@@ -150,26 +155,86 @@ form?.addEventListener("submit", async (e) => {
 
 /**
  * ============================================================
- * VENUE SELECT UI
+ * VENUE COMBOBOX UI
+ * ------------------------------------------------------------
+ * A single search field: typing filters a suggestion list of
+ * venues (plus an always-present "Add New Venue" option).
+ * Clicking/selecting a suggestion is the only way to set the
+ * hidden #venue-select value that actually gets submitted —
+ * editing the text after a selection clears it, so the form
+ * can never submit stale/unselected text as if it were a choice.
  * ============================================================
  */
 
-const venueSelect = document.getElementById("venue-select");
+const venueComboInput = document.getElementById("venue-combobox-input");
+const venueComboList = document.getElementById("venue-combobox-list");
+const venueSelect = document.getElementById("venue-select"); // hidden input, name="venue"
 const venueOtherFields = document.getElementById("venue-other-fields");
 
-// Toggle custom venue fields
-venueSelect?.addEventListener("change", () => {
-    if (venueSelect.value === "other") {
-        venueOtherFields.style.display = "block";
-    } else {
-        venueOtherFields.style.display = "none";
-
-        // Clear values to prevent stale submissions
+function showVenueOtherFields(show) {
+    if (!venueOtherFields) return;
+    venueOtherFields.style.display = show ? "block" : "none";
+    if (!show) {
         venueOtherFields
             .querySelectorAll("input, textarea")
             .forEach(el => (el.value = ""));
     }
+}
+
+function closeVenueCombobox() {
+    venueComboList.hidden = true;
+    venueComboInput.setAttribute("aria-expanded", "false");
+}
+
+function selectVenue(id, name) {
+    venueSelect.value = id;
+    venueComboInput.value = name;
+    closeVenueCombobox();
+    showVenueOtherFields(id === "other");
+}
+
+function renderVenueCombobox(venues) {
+    venueComboList.innerHTML = `<li role="option" data-id="other" data-name="Add New Venue">Add New Venue</li>`;
+    for (const venue of venues) {
+        venueComboList.innerHTML += `<li role="option" data-id="${venue.id}" data-name="${venue.data.name}">${venue.data.name}</li>`;
+    }
+    venueComboList.hidden = false;
+    venueComboInput.setAttribute("aria-expanded", "true");
+}
+
+venueComboInput?.addEventListener("input", () => {
+    // Any manual edit invalidates the previous selection.
+    venueSelect.value = "";
+    showVenueOtherFields(false);
+
+    const term = venueComboInput.value.trim().toLowerCase();
+    const filtered = term
+        ? venueOptions.filter(v => v.data.name?.toLowerCase().includes(term))
+        : venueOptions;
+    renderVenueCombobox(filtered);
 });
+
+venueComboInput?.addEventListener("focus", () => {
+    if (venueComboList.hidden) {
+        renderVenueCombobox(venueOptions);
+    }
+});
+
+venueComboList?.addEventListener("mousedown", (e) => {
+    // mousedown (not click) so this fires before the input's blur.
+    const li = e.target.closest("li[data-id]");
+    if (!li) return;
+    e.preventDefault();
+    selectVenue(li.dataset.id, li.dataset.name);
+});
+
+if (venueComboInput) {
+    document.addEventListener("click", (e) => {
+        if (!e.target.closest(".venue-combobox")) {
+            closeVenueCombobox();
+        }
+    });
+}
 
 
 /**
@@ -193,28 +258,6 @@ attendanceSelect?.addEventListener("change", () => {
         // attendanceOther.value = "";
     }
 });
-
-
-/**
- * Populate venue dropdown from database.
- */
-function populateVenueSelect() {
-    venueSelect.innerHTML += `
-    <option value="other" class="other-venue">Add New Venue</option>
-  `;
-    for (let venue of venueOptions) {
-        venueSelect.innerHTML += `
-      <option value="${venue.id}">${venue.data.name}</option>
-    `;
-    }
-
-}
-
-if (venueSelect) {
-    populateVenueSelect();
-}
-
-
 
 
 /**
