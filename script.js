@@ -16,7 +16,7 @@
  */
 ;
 import { fetchEvents, addEvent, addVenue, fetchVenuesWithId, fetchVenueById, uploadImage } from "./dbScript.js";
-import { buildICS, downloadICS } from "./utils.js";
+import { buildICS, downloadICS, buildGoogleCalendarUrl } from "./utils.js";
 
 /**
  * ============================================================
@@ -237,6 +237,14 @@ if (venueComboInput) {
 }
 
 
+// Close any open "+ CAL" dropdown when clicking outside of it
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".add-to-cal-inline")) {
+        document.querySelectorAll(".add-to-cal-menu").forEach(menu => (menu.hidden = true));
+    }
+});
+
+
 /**
  * ============================================================
  * ATTENDANCE SELECT UI
@@ -410,7 +418,13 @@ async function createEventCard(eventObj) {
 
     ${event.attendance ? `${attendanceEmoji ? attendanceEmoji : ""}` : ""}
     ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link" style="color: blue">MAP</a>` : ""}
-    <!-- // <button class="event-row-cal-btn" data-event-id="${eventObj.id}">+ CAL</button> -->
+    // <span class="add-to-cal-inline">
+        <button class="event-row-cal-btn" type="button">+ CAL</button>
+        <span class="add-to-cal-menu" hidden>
+          <a class="add-to-cal-google" target="_blank" rel="noopener noreferrer">Google Calendar</a>
+          <button class="add-to-cal-ics" type="button">Apple / iCal (.ics)</button>
+        </span>
+      </span>
     </span>
         </p >
 
@@ -434,14 +448,24 @@ async function createEventCard(eventObj) {
 
     `;
 
-    // const calBtn = card.querySelector(".event-row-cal-btn");
-    // if (calBtn) {
-    //     calBtn.addEventListener("click", () => {
-    //         const ics = buildICS({ ...event, id: eventObj.id }, venueData);
-    //         const filename = (event.event_name || event.performers || "event").replace(/\s+/g, "-") + ".ics";
-    //         downloadICS(ics, filename);
-    //     });
-    // }
+    const calBtn = card.querySelector(".event-row-cal-btn");
+    const calMenu = card.querySelector(".add-to-cal-menu");
+    const calGoogle = card.querySelector(".add-to-cal-google");
+    const calIcs = card.querySelector(".add-to-cal-ics");
+
+    calBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        calMenu.hidden = !calMenu.hidden;
+    });
+
+    calGoogle.href = buildGoogleCalendarUrl({ ...event, id: eventObj.id }, venueData);
+
+    calIcs.addEventListener("click", () => {
+        const ics = buildICS({ ...event, id: eventObj.id }, venueData);
+        const filename = (event.event_name || event.performers || "event").replace(/\s+/g, "-") + ".ics";
+        downloadICS(ics, filename);
+        calMenu.hidden = true;
+    });
 
     return card;
 }
