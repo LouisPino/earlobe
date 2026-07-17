@@ -225,6 +225,12 @@ cancelDeleteButton.addEventListener("click", () => {
   pendingDeleteVenueId = null
 })
 
+confirmDeleteButton.addEventListener("click", async () => {
+  if (!pendingDeleteVenueId) return;
+  await deleteVenueById(pendingDeleteVenueId)
+  window.location.reload()
+})
+
 
 
 async function renderVenues() {
@@ -350,13 +356,9 @@ async function renderVenues() {
         }
       });
 
-      deleteButton.addEventListener("click", async () => {
+      deleteButton.addEventListener("click", () => {
         pendingDeleteVenueId = card.dataset.id;
         venueDeleteModal.hidden = false
-        confirmDeleteButton.addEventListener("click", async () => {
-          await deleteVenueById(pendingDeleteVenueId)
-          window.location.reload()
-        })
       });
 
       container.appendChild(card);
