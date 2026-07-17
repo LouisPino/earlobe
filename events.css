@@ -148,9 +148,6 @@
     line-height: 1.4;
 }
 
-/* .event-extra {
-    font-size: 14px;
-} */
 
 .event-title {
     color: #7c3aed;
@@ -231,13 +228,6 @@
 
 
 
-
-
-
-
-
-
-
 /* States */
 
 .events-section {
@@ -252,12 +242,16 @@
 
 
 .event-date-header {
-    grid-column: 1 / -1;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    align-self: stretch;
+    background: #fff;
     margin: 32px 0 12px;
+    padding: 8px 0 6px;
     font-size: 1.25rem;
     font-weight: 500;
     border-bottom: 1px solid var(--border);
-    padding-bottom: 6px;
 }
 
 @media (max-width: 768px) {
