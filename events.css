@@ -240,11 +240,6 @@
 
 /* States */
 
-.loading {
-    font-size: 1rem;
-    color: #6b7280;
-}
-
 .events-section {
     margin-bottom: 64px;
 }

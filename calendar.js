@@ -24,6 +24,7 @@ async function initCalendar() {
     const calendarEl = document.getElementById("eventsCalendar");
     if (!calendarEl) return;
 
+    calendarEl.innerHTML = "<p class='loading'>Loading…</p>";
 
     const rawEvents = await getEvents();
     // Build a Set of YYYY-MM-DD strings
@@ -120,7 +121,7 @@ async function initCalendar() {
 
     });
 
-
+    calendarEl.innerHTML = "";
     calendar.render();
 
 }

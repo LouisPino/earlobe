@@ -3,6 +3,7 @@ import { fetchVenues } from "./dbScript.js";
 
 async function renderVenues() {
     const container = document.getElementById("venues-container");
+    container.innerHTML = "<p class='loading'>Loading…</p>";
     try {
         const rawVenues = await fetchVenues();
         const venues = rawVenues.filter((v) => v.approved)

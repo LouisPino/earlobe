@@ -260,6 +260,15 @@ body {
     margin: 30px;
 }
 
+/* Loading state (shared across pages) */
+.loading {
+    display: block;
+    font-size: 1.5rem;
+    color: #6b7280;
+    text-align: center;
+    margin: 40px auto;
+}
+
 /* GRID LAYOUT */
 .venues-grid {
     display: grid;

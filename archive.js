@@ -15,11 +15,13 @@ import { fetchArchive } from "./dbScript.js";
  * ============================================================
  */
 
-// Fetch archive records
-const archiveArr = await fetchArchive();
-
 // Target <ul>
 const archiveUl = document.querySelector(".archive-list");
+archiveUl.innerHTML = "<li class='loading'>Loading…</li>";
+
+// Fetch archive records
+const archiveArr = await fetchArchive();
+archiveUl.innerHTML = "";
 
 // ---------- HELPERS ----------
 
