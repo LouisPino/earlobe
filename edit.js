@@ -34,8 +34,15 @@ const deletePosterBtnEl = document.getElementById("delete-poster-btn");
 const cancelDeletePosterBtnEl = document.getElementById("cancel-delete-poster-btn");
 
 // Fetch event and venue data
-const event = await getEventById(id);
-const venueOptions = await fetchVenuesWithId();
+let event = null;
+let venueOptions = [];
+try {
+  event = await getEventById(id);
+  venueOptions = await fetchVenuesWithId();
+} catch (err) {
+  console.error("Failed to load event/venue data", err);
+  alert("Failed to load event data. Please refresh the page.");
+}
 /**
  * ============================================================
  * GENERIC FORM UTILITIES

@@ -27,7 +27,14 @@ import {
  */
 
 const archiveBtnEl = document.getElementById("archive-submit-btn");
-const venues = await fetchVenuesWithId();
+
+let venues = [];
+try {
+  venues = await fetchVenuesWithId();
+} catch (err) {
+  console.error("Failed to load venues", err);
+  alert("Failed to load venue data. Please refresh the page.");
+}
 /**
  * Collects archive form values into a normalized object.
  * Nulls are used instead of empty strings to keep DB data clean.
@@ -97,7 +104,12 @@ archiveBtnEl.addEventListener("click", async (e) => {
 //Unapproved event count
 
 const eventCountEl = document.querySelector(".manage-events-count");
-const unapprovedCount = await getUnapprovedEventCount();
+let unapprovedCount = 0;
+try {
+  unapprovedCount = await getUnapprovedEventCount();
+} catch (err) {
+  console.error("Failed to load unapproved event count", err);
+}
 if (unapprovedCount < 1) {
   eventCountEl.classList.add("empty");
 }

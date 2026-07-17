@@ -25,7 +25,12 @@ import { buildICS, downloadICS, buildGoogleCalendarUrl } from "./utils.js";
  */
 
 // Fetch existing venues for select dropdown
-const venueOptionsResp = await fetchVenuesWithId();
+let venueOptionsResp = [];
+try {
+    venueOptionsResp = await fetchVenuesWithId();
+} catch (err) {
+    console.error("Failed to load venues", err);
+}
 
 export const venueOptions = venueOptionsResp.filter((v) => v.data.approved)
 
