@@ -15,7 +15,6 @@
 .events-grid {
     display: flex;
     flex-direction: column;
-    /* gap: 24px; */
     align-items: center;
     /* centers the cards */
 }
@@ -35,9 +34,6 @@
     border-radius: 8px;
     border: 1px solid var(--border-strong);
     padding: 22px 24px;
-    /* box-shadow:
-        0 10px 25px rgba(0, 0, 0, 0.08),
-        0 4px 8px rgba(0, 0, 0, 0.04); */
 
 
 }

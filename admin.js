@@ -1,5 +1,14 @@
-import { addArchive, archiveTitleExists, addVenue, deleteEventById, deleteVenueById, fetchVenues, fetchVenuesWithId, updateVenue, getUnapprovedEventCount } from "./dbScript.js";
-
+import {
+  addArchive,
+  archiveTitleExists,
+  addVenue,
+  deleteEventById,
+  deleteVenueById,
+  fetchVenues,
+  fetchVenuesWithId,
+  updateVenue,
+  getUnapprovedEventCount,
+} from "./dbScript.js";
 
 /**
  * ============================================================
@@ -74,7 +83,7 @@ archiveBtnEl.addEventListener("click", async (e) => {
 
   if (await archiveTitleExists(archiveData.title)) {
     const confirmed = confirm(
-      `An archive entry for "${archiveData.title}" already exists. Overwrite it with this new link?`
+      `An archive entry for "${archiveData.title}" already exists. Overwrite it with this new link?`,
     );
     if (!confirmed) return;
   }
@@ -85,24 +94,21 @@ archiveBtnEl.addEventListener("click", async (e) => {
   window.location.reload();
 });
 
-
 //Unapproved event count
 
-const eventCountEl = document.querySelector(".manage-events-count")
-const unapprovedCount = await getUnapprovedEventCount()
+const eventCountEl = document.querySelector(".manage-events-count");
+const unapprovedCount = await getUnapprovedEventCount();
 if (unapprovedCount < 1) {
-  eventCountEl.classList.add("empty")
+  eventCountEl.classList.add("empty");
 }
-eventCountEl.innerHTML = `There are currently ${unapprovedCount} events awaiting approval.`
+eventCountEl.innerHTML = `There are currently ${unapprovedCount} events awaiting approval.`;
 
-const venueCountEl = document.querySelector(".manage-venues-count")
-const unapprovedVenueCount = venues.filter(v => !v.data.approved).length;
+const venueCountEl = document.querySelector(".manage-venues-count");
+const unapprovedVenueCount = venues.filter((v) => !v.data.approved).length;
 if (unapprovedVenueCount < 1) {
-  venueCountEl.classList.add("empty")
+  venueCountEl.classList.add("empty");
 }
-venueCountEl.innerHTML = `There are currently ${unapprovedVenueCount} venues awaiting approval.`
-
-
+venueCountEl.innerHTML = `There are currently ${unapprovedVenueCount} venues awaiting approval.`;
 
 /**
  * ============================================================
@@ -167,7 +173,6 @@ input.addEventListener("keydown", (e) => {
 
 requireAdmin();
 
-
 let pendingDeleteEventId = null;
 
 // Event delegation (works for dynamically created cards)
@@ -195,25 +200,30 @@ function closeDeleteModal() {
 }
 
 // Cancel
-document.getElementById("cancel-delete").addEventListener("click", closeDeleteModal);
+document
+  .getElementById("cancel-delete")
+  .addEventListener("click", closeDeleteModal);
 
 // Click outside dialog
-document.querySelector(".modal-backdrop").addEventListener("click", closeDeleteModal);
+document
+  .querySelector(".modal-backdrop")
+  .addEventListener("click", closeDeleteModal);
 
 // Confirm
-document.getElementById("confirm-delete").addEventListener("click", async () => {
-  if (!pendingDeleteEventId) return;
+document
+  .getElementById("confirm-delete")
+  .addEventListener("click", async () => {
+    if (!pendingDeleteEventId) return;
 
-  try {
-    await deleteEventById(pendingDeleteEventId); // your existing delete function
-    closeDeleteModal();
-    location.reload(); // or remove the card from DOM
-  } catch (err) {
-    alert("Failed to delete event.");
-    console.error(err);
-  }
-});
-
+    try {
+      await deleteEventById(pendingDeleteEventId); // your existing delete function
+      closeDeleteModal();
+      location.reload(); // or remove the card from DOM
+    } catch (err) {
+      alert("Failed to delete event.");
+      console.error(err);
+    }
+  });
 
 //venue management
 const container = document.querySelector(".venues-container");
@@ -221,38 +231,34 @@ const venueDeleteModal = document.getElementById("venue-delete-modal");
 const confirmDeleteButton = document.getElementById("venue-delete-confirm");
 const cancelDeleteButton = document.getElementById("cancel-venue-delete");
 cancelDeleteButton.addEventListener("click", () => {
-  venueDeleteModal.hidden = true
-  pendingDeleteVenueId = null
-})
+  venueDeleteModal.hidden = true;
+  pendingDeleteVenueId = null;
+});
 
 confirmDeleteButton.addEventListener("click", async () => {
   if (!pendingDeleteVenueId) return;
-  await deleteVenueById(pendingDeleteVenueId)
-  window.location.reload()
-})
-
-
+  await deleteVenueById(pendingDeleteVenueId);
+  window.location.reload();
+});
 
 async function renderVenues() {
   try {
-
     container.innerHTML = "";
 
-    venues.forEach(v => {
+    venues.forEach((v) => {
       const card = document.createElement("div");
       card.className = "venue-card";
       if (v.data.approved) {
-        card.classList.add("approved")
+        card.classList.add("approved");
       } else {
-        card.classList.add("unapproved")
-
+        card.classList.add("unapproved");
       }
       card.dataset.id = v.id;
       const radioGroupName = `accessibility-emoji-${v.id}`;
 
       card.innerHTML = `
         <label>NAME</label>
-        <input class="venue-name" value="${v.data.name || ""}"/>
+        <input class="venue-name-input" value="${v.data.name || ""}"/>
 
         <label>ADDRESS</label>
         <textarea class="venue-address">${v.data.address || ""}</textarea>
@@ -304,23 +310,24 @@ async function renderVenues() {
       button.addEventListener("click", async () => {
         const id = card.dataset.id;
 
-        const name = card.querySelector(".venue-name").value.trim();
+        const name = card.querySelector(".venue-name-input").value.trim();
         const address = card.querySelector(".venue-address").value.trim();
-        const accessibility = card.querySelector(".venue-accessibility").value.trim();
+        const accessibility = card
+          .querySelector(".venue-accessibility")
+          .value.trim();
         const link = card.querySelector(".venue-link").value.trim();
         const mapLink = card.querySelector(".venue-map-link").value.trim();
         const notes = card.querySelector(".venue-notes").value.trim();
-        const accessLink = card.querySelector(".venue-access-link").value.trim();
+        const accessLink = card
+          .querySelector(".venue-access-link")
+          .value.trim();
         const accessibilityValue =
-          card.querySelector(`input[name="${radioGroupName}"]:checked`)?.value || null;
+          card.querySelector(`input[name="${radioGroupName}"]:checked`)
+            ?.value || null;
 
         let accessibilityEmoji = null;
 
-        accessibilityEmoji = getAccessibilityEmoji(accessibilityValue)
-
-
-
-
+        accessibilityEmoji = getAccessibilityEmoji(accessibilityValue);
 
         // VALIDATION
         if (!name || !address || !accessibility) {
@@ -338,7 +345,7 @@ async function renderVenues() {
           accessLink,
           link: link || null,
           approved: true,
-          updatedAt: new Date()
+          updatedAt: new Date(),
         };
 
         try {
@@ -358,12 +365,11 @@ async function renderVenues() {
 
       deleteButton.addEventListener("click", () => {
         pendingDeleteVenueId = card.dataset.id;
-        venueDeleteModal.hidden = false
+        venueDeleteModal.hidden = false;
       });
 
       container.appendChild(card);
     });
-
   } catch (err) {
     console.error("Failed to load venues", err);
     container.innerHTML = "<p>Could not load venues.</p>";
@@ -372,37 +378,62 @@ async function renderVenues() {
 
 renderVenues();
 
-
 function getAccessibilityEmoji(value) {
   switch (value) {
-    case "accessible": return "♿️";
-    case "caveats": return "☑️";
-    case "stairs": return "📶";
-    case "unknown": return "❓";
-    default: return null;
+    case "accessible":
+      return "♿️";
+    case "caveats":
+      return "☑️";
+    case "stairs":
+      return "📶";
+    case "unknown":
+      return "❓";
+    default:
+      return null;
   }
 }
 
-
 const openAddVenueBtn = document.getElementById("open-add-venue-btn");
 const createVenueBtn = document.getElementById("create-venue-btn");
-
+const cancelAddVenueBtn = document.getElementById("cancel-add-venue-btn");
+const addVenueModal = document.getElementById("add-venue-modal");
+const addVenueModalBackdrop = document.getElementById("add-venue-modal-backdrop");
 
 openAddVenueBtn.addEventListener("click", () => {
-  document.getElementById("add-venue-modal").hidden = false
-})
+  addVenueModal.hidden = false;
+});
+
+function closeAddVenueModal() {
+  addVenueModal.hidden = true;
+  addVenueModal.querySelectorAll("input, textarea").forEach((el) => {
+    if (el.type === "radio") {
+      el.checked = false;
+    } else {
+      el.value = "";
+    }
+  });
+}
+
+cancelAddVenueBtn.addEventListener("click", closeAddVenueModal);
+addVenueModalBackdrop.addEventListener("click", closeAddVenueModal);
 
 createVenueBtn.addEventListener("click", async () => {
   const name = document.getElementById("new-venue-name").value.trim();
   const address = document.getElementById("new-venue-address").value.trim();
-  const accessibility = document.getElementById("new-venue-accessibility").value.trim();
+  const accessibility = document
+    .getElementById("new-venue-accessibility")
+    .value.trim();
   const notes = document.getElementById("new-venue-notes").value.trim();
   const link = document.getElementById("new-venue-link").value.trim();
   const mapLink = document.getElementById("new-venue-map-link").value.trim();
-  const accessLink = document.getElementById("new-venue-access-link").value.trim();
+  const accessLink = document
+    .getElementById("new-venue-access-link")
+    .value.trim();
 
   const accessibilityValue =
-    document.querySelector('#new-accessibility-group input[name="new-accessibility"]:checked')?.value || null;
+    document.querySelector(
+      '#new-accessibility-group input[name="new-accessibility"]:checked',
+    )?.value || null;
 
   const accessibilityEmoji = getAccessibilityEmoji(accessibilityValue);
 
@@ -422,7 +453,7 @@ createVenueBtn.addEventListener("click", async () => {
     link: link || null,
     approved: true,
     createdAt: new Date(),
-    updatedAt: new Date()
+    updatedAt: new Date(),
   };
 
   try {

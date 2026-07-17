@@ -28,7 +28,7 @@ archiveUl.innerHTML = "";
 // Extract "September 2025" from "September 1st, 2025"
 function getMonthKey(title) {
   // Split by comma → ["September 1st", " 2025"]
-  const [monthDay, year] = title.split(",").map(s => s.trim());
+  const [monthDay, year] = title.split(",").map((s) => s.trim());
 
   // Month is first word of "September 1st"
   const month = monthDay.split(" ")[0];

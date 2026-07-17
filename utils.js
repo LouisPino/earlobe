@@ -14,7 +14,13 @@ function getEventFields(event, venue) {
   function fromMinutes(dateBase, totalMins) {
     const h = Math.floor(totalMins / 60) % 24;
     const m = totalMins % 60;
-    return dateBase + "T" + String(h).padStart(2, "0") + String(m).padStart(2, "0") + "00";
+    return (
+      dateBase +
+      "T" +
+      String(h).padStart(2, "0") +
+      String(m).padStart(2, "0") +
+      "00"
+    );
   }
 
   function toICSTime(dateBase, timeStr) {
@@ -34,7 +40,10 @@ function getEventFields(event, venue) {
     return str.replace(/<[^>]*>/g, "");
   }
 
-  const summary = [event.event_name, event.performers].filter(Boolean).map(stripTags).join(": ");
+  const summary = [event.event_name, event.performers]
+    .filter(Boolean)
+    .map(stripTags)
+    .join(": ");
   const location = [venue?.name, venue?.address].filter(Boolean).join(", ");
   const description = event.description || "";
 
@@ -46,10 +55,17 @@ function getEventFields(event, venue) {
  */
 export function buildICS(event, venue) {
   const dateStr = event.date?.replace(/-/g, "") ?? "";
-  const { dtstart, dtend, summary, location, description } = getEventFields(event, venue);
+  const { dtstart, dtend, summary, location, description } = getEventFields(
+    event,
+    venue,
+  );
 
   function icsEscape(str) {
-    return str.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
+    return str
+      .replace(/\\/g, "\\\\")
+      .replace(/;/g, "\\;")
+      .replace(/,/g, "\\,")
+      .replace(/\n/g, "\\n");
   }
 
   const uid = `earlobe-${event.id || dateStr}-${Date.now()}@earlobe.ca`;
@@ -67,14 +83,19 @@ export function buildICS(event, venue) {
     description ? `DESCRIPTION:${icsEscape(description)}` : null,
     "END:VEVENT",
     "END:VCALENDAR",
-  ].filter(Boolean).join("\r\n");
+  ]
+    .filter(Boolean)
+    .join("\r\n");
 }
 
 /**
  * Builds a Google Calendar "add event" link for a single event.
  */
 export function buildGoogleCalendarUrl(event, venue) {
-  const { dtstart, dtend, summary, location, description } = getEventFields(event, venue);
+  const { dtstart, dtend, summary, location, description } = getEventFields(
+    event,
+    venue,
+  );
 
   const params = new URLSearchParams({
     action: "TEMPLATE",

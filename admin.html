@@ -1,159 +1,186 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Earlobe</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="events.css" />
-    <link rel="icon" type="image/x-icon" href="earlobe_logo.ico">
+    <link rel="icon" type="image/x-icon" href="earlobe_logo.ico" />
     <script src="script.js" type="module" defer></script>
     <script src="admin.js" type="module" defer></script>
     <script type="module" src="dbScript.js"></script>
     <script src="layout.js" type="module"></script>
     <script src="seed.js" type="module"></script>
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div id="site-header"></div>
 
     <main class="admin-page">
-        <a class="admin-docs"
-            href="https://docs.google.com/document/d/1RUdHMekacb1h0IxuxyAHtTzTg_0A-fmmpfKKH2mxF8I/edit?usp=sharing"
-            target="_blank">REFER
-            TO ADMIN
-            GUIDE HERE!</a>
-        <h1 class="archive-add-title">Add an Archive Link</h1>
-        <form id="archive-form">
-            <label>Date</label>
-            <input type="text" id="archive-title" placeholder="Format: April 20th, 2025" />
-            <label>Link</label>
-            <input type="text" id="archive-link" />
-            <button id="archive-submit-btn">Submit</button>
-        </form>
+      <a
+        class="admin-docs"
+        href="https://docs.google.com/document/d/1RUdHMekacb1h0IxuxyAHtTzTg_0A-fmmpfKKH2mxF8I/edit?usp=sharing"
+        target="_blank"
+        >REFER TO ADMIN GUIDE HERE!</a
+      >
+      <h1 class="archive-add-title">Add an Archive Link</h1>
+      <form id="archive-form">
+        <label>Date</label>
+        <input
+          type="text"
+          id="archive-title"
+          placeholder="Format: April 20th, 2025"
+        />
+        <label>Link</label>
+        <input type="text" id="archive-link" />
+        <button id="archive-submit-btn">Submit</button>
+      </form>
 
+      <h1 class="manage-events-title">Manage Events</h1>
+      <h3 class="manage-events-count"></h3>
+      <h3 class="manage-venues-count"></h3>
+      <p class="manage-events-desc">
+        Green events are shown to everyone, red events still need admin
+        approval. Click "Edit Event" to change any necessary details and
+        approve.
+      </p>
 
+      <section class="events-section">
+        <h2>This Week</h2>
+        <div id="weekEventsGrid" class="events-grid"></div>
+      </section>
 
-        <h1 class="manage-events-title">Manage Events</h1>
-        <h3 class="manage-events-count"></h3>
-        <h3 class="manage-venues-count"></h3>
-        <p class="manage-events-desc">Green events are shown to everyone, red events still need admin approval. Click
-            "Edit Event" to change any necessary details and approve.</p>
+      <section class="events-section">
+        <h2>Upcoming Events</h2>
+        <div id="upcomingEventsGrid" class="events-grid"></div>
+      </section>
 
-        <section class="events-section">
-            <h2>This Week</h2>
-            <div id="weekEventsGrid" class="events-grid"></div>
-        </section>
+      <section class="events-section">
+        <h2>Past Events</h2>
+        <div id="pastEventsGrid" class="events-grid"></div>
+      </section>
 
-        <section class="events-section">
-            <h2>Upcoming Events</h2>
-            <div id="upcomingEventsGrid" class="events-grid"></div>
-        </section>
+      <h1 class="manage-venues-title">Manage Venues</h1>
+      <p class="manage-venues-desc">
+        Venues are added automatically when someone submits an event at a new
+        venue.
+      </p>
+      <p class="manage-venues-desc">
+        Here, we add accessibility info, verify name and address, then link to
+        website and add any extra notes if applicable.
+      </p>
+      <p class="manage-venues-desc">
+        Approving the venue will then display it to the public facing venues
+        page.
+      </p>
+      <div class="venues-container"></div>
 
-        <section class="events-section">
-            <h2>Past Events</h2>
-            <div id="pastEventsGrid" class="events-grid"></div>
-        </section>
-
-        <h1 class="manage-venues-title">Manage Venues</h1>
-        <p class="manage-venues-desc">Venues are added automatically when someone submits an event at a new venue.</p>
-        <p class="manage-venues-desc">Here, we add accessibility info, verify name and address, then link to website and
-            add any extra notes if applicable.</p>
-        <p class="manage-venues-desc">Approving the venue will then display it to the public facing venues page.</p>
-        <div class="venues-container">
-
-        </div>
-
-        <button id="open-add-venue-btn"> ADD A NEW VENUE</button>
-
+      <button id="open-add-venue-btn">ADD A NEW VENUE</button>
     </main>
 
-
     <!-- FOOTER -->
-    <footer class="site-footer">
-        Earlobe
-    </footer>
-
+    <footer class="site-footer">Earlobe</footer>
 
     <div id="delete-modal" class="modal" hidden>
-        <div class="modal-backdrop"></div>
+      <div class="modal-backdrop"></div>
 
-        <div class="modal-dialog" role="dialog" aria-modal="true">
-            <h3>Delete event?</h3>
-            <p>This action cannot be undone.</p>
+      <div class="modal-dialog" role="dialog" aria-modal="true">
+        <h3>Delete event?</h3>
+        <p>This action cannot be undone.</p>
 
-            <div class="modal-actions">
-                <button id="cancel-delete">Cancel</button>
-                <button id="confirm-delete" class="danger">Delete</button>
-            </div>
+        <div class="modal-actions">
+          <button id="cancel-delete">Cancel</button>
+          <button id="confirm-delete" class="danger">Delete</button>
         </div>
+      </div>
     </div>
 
     <div id="venue-delete-modal" class="modal" hidden>
-        <div class="modal-backdrop"></div>
+      <div class="modal-backdrop"></div>
 
-        <div class="modal-dialog" role="dialog" aria-modal="true">
-            <h3>Delete Venue?</h3>
-            <p>This action cannot be undone, and should only be done for venues that we don't want listed to the public.
-            </p>
+      <div class="modal-dialog" role="dialog" aria-modal="true">
+        <h3>Delete Venue?</h3>
+        <p>
+          This action cannot be undone, and should only be done for venues that
+          we don't want listed to the public.
+        </p>
 
-            <div class="modal-actions">
-                <button id="cancel-venue-delete">Cancel</button>
-                <button id="venue-delete-confirm" class="danger">Delete</button>
-            </div>
+        <div class="modal-actions">
+          <button id="cancel-venue-delete">Cancel</button>
+          <button id="venue-delete-confirm" class="danger">Delete</button>
         </div>
+      </div>
     </div>
 
     <!-- ADMIN AUTH MODAL -->
     <div id="admin-auth-modal" class="modal" hidden>
-        <div class="modal-backdrop" id="admin-modal"></div>
+      <div class="modal-backdrop" id="admin-modal"></div>
 
-        <div class="modal-dialog" role="dialog" aria-modal="true">
-            <h3>Admin Access</h3>
-            <p>Please enter the admin password to continue.</p>
+      <div class="modal-dialog" role="dialog" aria-modal="true">
+        <h3>Admin Access</h3>
+        <p>Please enter the admin password to continue.</p>
 
-            <input type="password" id="admin-password-input" placeholder="Password" autocomplete="current-password" />
+        <input
+          type="password"
+          id="admin-password-input"
+          placeholder="Password"
+          autocomplete="current-password"
+        />
 
-            <p id="admin-auth-error" class="auth-error" hidden>
-                Incorrect password
-            </p>
+        <p id="admin-auth-error" class="auth-error" hidden>
+          Incorrect password
+        </p>
 
-            <div class="modal-actions">
-                <button id="admin-auth-submit">Unlock</button>
-            </div>
+        <div class="modal-actions">
+          <button id="admin-auth-submit">Unlock</button>
         </div>
+      </div>
     </div>
 
     <!-- ADD VENUE MODAL -->
     <div id="add-venue-modal" class="modal" hidden>
+      <div class="modal-backdrop" id="add-venue-modal-backdrop"></div>
 
-        <div class="modal-card">
-            <h3>Add Venue</h3>
+      <div class="modal-card" role="dialog" aria-modal="true">
+        <h3>Add Venue</h3>
 
-            <input id="new-venue-name" placeholder="Name" />
-            <textarea id="new-venue-address" placeholder="Address"></textarea>
-            <textarea id="new-venue-accessibility" placeholder="Accessibility"></textarea>
+        <input id="new-venue-name" placeholder="Name" />
+        <textarea id="new-venue-address" placeholder="Address"></textarea>
+        <textarea
+          id="new-venue-accessibility"
+          placeholder="Accessibility"
+        ></textarea>
 
-            <fieldset class="accessibility-group" id="new-accessibility-group">
-                <label><input type="radio" name="new-accessibility" value="accessible" /> ♿️</label>
-                <label><input type="radio" name="new-accessibility" value="caveats" /> ☑️</label>
-                <label><input type="radio" name="new-accessibility" value="stairs" /> 📶</label>
-                <label><input type="radio" name="new-accessibility" value="unknown" /> ❓</label>
-            </fieldset>
+        <fieldset class="accessibility-group" id="new-accessibility-group">
+          <label
+            ><input type="radio" name="new-accessibility" value="accessible" />
+            ♿️</label
+          >
+          <label
+            ><input type="radio" name="new-accessibility" value="caveats" />
+            ☑️</label
+          >
+          <label
+            ><input type="radio" name="new-accessibility" value="stairs" />
+            📶</label
+          >
+          <label
+            ><input type="radio" name="new-accessibility" value="unknown" />
+            ❓</label
+          >
+        </fieldset>
 
-            <input id="new-venue-access-link" placeholder="Accessibility Link" />
-            <input id="new-venue-link" placeholder="Website" />
-            <input id="new-venue-map-link" placeholder="Map Link" />
-            <textarea id="new-venue-notes" placeholder="Notes"></textarea>
+        <input id="new-venue-access-link" placeholder="Accessibility Link" />
+        <input id="new-venue-link" placeholder="Website" />
+        <input id="new-venue-map-link" placeholder="Map Link" />
+        <textarea id="new-venue-notes" placeholder="Notes"></textarea>
 
-            <button id="create-venue-btn">Create Venue</button>
+        <div class="modal-actions">
+          <button id="cancel-add-venue-btn">Cancel</button>
+          <button id="create-venue-btn">Create Venue</button>
         </div>
+      </div>
     </div>
-
-
-
-</body>
-
+  </body>
 </html>
