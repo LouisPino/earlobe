@@ -142,18 +142,8 @@ if (event) {
   populateEditEvent(event);
   populateVenue(event);
   populateAttendance(event);
-  // populateNotaflof(event.notaflof);
 }
 
-// function populateNotaflof(bool) {
-//   const el = document.getElementById("notaflof-note");
-
-//   if (bool) {
-//     el.innerHTML = "<strong>*This event was marked as notaflof by the submitter</strong>"
-//   } else {
-//     el.innerHTML = "<strong>*This event was <em>not</em> marked as notaflof when submitted. </strong>If unsure, contact submitter for confirmation"
-//   }
-// }
 
 /**
  * ============================================================

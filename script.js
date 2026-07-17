@@ -301,17 +301,6 @@ radios.forEach(radio => {
  * ============================================================
  */
 
-// function formatDate(dateStr) {
-//     const [y, m, d] = dateStr.split("-").map(Number);
-//     const date = new Date(y, m - 1, d);
-//     return date.toLocaleDateString(undefined, {
-//         weekday: "short",
-//         month: "short",
-//         day: "numeric",
-//         year: "numeric"
-//     });
-// }
-
 function formatSubmittedAt(createdAt) {
     if (!createdAt) return "";
     const date = createdAt?.toDate ? createdAt.toDate() : new Date(createdAt);
