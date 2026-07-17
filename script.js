@@ -304,6 +304,19 @@ radios.forEach(radio => {
 //     });
 // }
 
+function formatSubmittedAt(createdAt) {
+    if (!createdAt) return "";
+    const date = createdAt?.toDate ? createdAt.toDate() : new Date(createdAt);
+    if (isNaN(date)) return "";
+    return date.toLocaleString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit"
+    });
+}
+
 function formatTime(timeStr) {
     if (!timeStr) return "";
 
@@ -357,7 +370,7 @@ async function createEventCard(eventObj) {
     }
 
     card.innerHTML = `
-    
+
             ${event.imageUrl ?
             `
                  <a class="event-img-link" href="./event.html?id=${eventObj.id}" rel="noopener">
@@ -366,6 +379,7 @@ async function createEventCard(eventObj) {
             :
             ""
         }
+  <div class="event-body">
   <p class="event-line">
 
     <span class="event-time">
@@ -398,22 +412,25 @@ async function createEventCard(eventObj) {
     ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link" style="color: blue">MAP</a>` : ""}
     <!-- // <button class="event-row-cal-btn" data-event-id="${eventObj.id}">+ CAL</button> -->
     </span>
+        </p >
 
     ${isAdmin
             ? `
+        <div class="event-footer">
         <span class="admin-actions">
-        // 
+        
         <a class="edit-event" href="./edit.html?id=${eventObj.id}">EDIT</a>
         |
         <button class="delete-event" data-event-id="${eventObj.id}">
         DELETE
         </button>
         </span>
+        ${event.createdAt ? `<span class="event-submitted-at">Submitted ${formatSubmittedAt(event.createdAt)}</span>` : ""}
+        </div>
         `
             : ""
         }
-        
-        </p >
+  </div>
 
     `;
 

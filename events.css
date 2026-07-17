@@ -142,10 +142,22 @@
     border-radius: 12px;
 }
 
+.event-body {
+    min-width: 0;
+}
+
 .event-line {
     margin: 4px 0;
     font-size: 0.95rem;
     line-height: 1.4;
+}
+
+.event-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-top: 6px;
 }
 
 
@@ -200,8 +212,12 @@
 
 
 .admin-actions {
-    margin-left: 6px;
     font-size: 0.85rem;
+}
+
+.event-submitted-at {
+    font-size: 0.75rem;
+    color: #9ca3af;
 }
 
 .edit-event {
@@ -213,6 +229,9 @@
 }
 
 .delete-event {
+    display: inline;
+    vertical-align: baseline;
+    font: inherit;
     color: #dc2626;
     background: none;
     border: none;
