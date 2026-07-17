@@ -1,4 +1,4 @@
-import { addArchive, addVenue, deleteEventById, deleteVenueById, fetchVenues, fetchVenuesWithId, updateVenue, getUnapprovedEventCount } from "./dbScript.js";
+import { addArchive, archiveTitleExists, addVenue, deleteEventById, deleteVenueById, fetchVenues, fetchVenuesWithId, updateVenue, getUnapprovedEventCount } from "./dbScript.js";
 
 
 /**
@@ -70,6 +70,13 @@ archiveBtnEl.addEventListener("click", async (e) => {
   if (validationError) {
     alert(validationError);
     return;
+  }
+
+  if (await archiveTitleExists(archiveData.title)) {
+    const confirmed = confirm(
+      `An archive entry for "${archiveData.title}" already exists. Overwrite it with this new link?`
+    );
+    if (!confirmed) return;
   }
 
   await addArchive(archiveData);

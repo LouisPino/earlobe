@@ -112,6 +112,19 @@ export async function addVenue(obj) {
 }
 
 /**
+ * Returns true if an archive entry with this title already exists.
+ */
+export async function archiveTitleExists(title) {
+    const q = query(
+        archiveCollection,
+        where("title", "==", title)
+    );
+
+    const snapshot = await getDocs(q);
+    return !snapshot.empty;
+}
+
+/**
  * Adds an archive entry.
  * If a document with the same title exists, update its link.
  * Otherwise create a new document.
