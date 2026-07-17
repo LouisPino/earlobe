@@ -9,6 +9,23 @@
     margin-bottom: 30px;
 }
 
+.venue-search {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 30px;
+    padding: 10px 14px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.venue-search:focus {
+    outline: none;
+    border-color: #4c9ffe;
+    box-shadow: 0 0 0 2px rgba(76, 159, 254, 0.15);
+}
+
 .venues-grid {
     display: inline-flex;
     flex-wrap: wrap;
