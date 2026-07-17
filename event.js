@@ -26,8 +26,13 @@ const params = new URLSearchParams(queryString);
 const id = params.get("id");
 
 // Fetch event data
-const event = await getEventById(id);
-const venue = await fetchVenueById(event.venueId)
+let event, venue;
+try {
+  event = await getEventById(id);
+  venue = event ? await fetchVenueById(event.venueId) : null;
+} catch (err) {
+  console.error("Failed to load event", err);
+}
 
 const attendaceMap = { "all_ages": "🅰️All Ages", "19_plus": "19+" }
 /**
@@ -110,13 +115,13 @@ function populateEventPage(event) {
   // };
 
   document.getElementById("event-venue-name").textContent =
-    venue.name || event.venue.name || "";
+    venue?.name || event.venue?.name || "";
 
   document.getElementById("event-venue-address").textContent =
-    venue.address || event.venue.address || "";
+    venue?.address || event.venue?.address || "";
 
   document.getElementById("event-venue-accessibility").textContent =
-    `Accessibility: ${venue.accessibility || event.venue.accessibility || ""}`
+    `Accessibility: ${venue?.accessibility || event.venue?.accessibility || ""}`
 
   /**
    * ----------------------------
@@ -221,4 +226,18 @@ function populateEventPage(event) {
  */
 
 // Populate page once event data is loaded
-populateEventPage(event);
+const loadingEl = document.getElementById("event-loading");
+const mainEl = document.getElementById("event-main");
+
+if (event) {
+  try {
+    populateEventPage(event);
+    loadingEl.hidden = true;
+    mainEl.hidden = false;
+  } catch (err) {
+    console.error("Failed to populate event page", err);
+    loadingEl.textContent = "Could not load event.";
+  }
+} else {
+  loadingEl.textContent = "Event not found.";
+}

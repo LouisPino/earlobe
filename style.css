@@ -269,6 +269,10 @@ body {
     margin: 40px auto;
 }
 
+.loading[hidden] {
+    display: none;
+}
+
 /* GRID LAYOUT */
 .venues-grid {
     display: grid;
