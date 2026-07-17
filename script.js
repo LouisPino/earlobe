@@ -344,7 +344,7 @@ async function createEventCard(eventObj) {
     ${event.cost ? `// ${event.cost}` : ""}
 
     ${venueData.accessLink ?
-            `// <a href="${venueData.accessLink}" class="venue-access-link" target="_blank">ACCESS</a>: ${venueData.accessibilityEmoji || "❓"}${venueData.accessibilityEmoji === "☑️" && venueData.accessibility ? ` (${venueData.accessibility})` : ""}`
+            `// <a href="${venueData.accessLink}" class="venue-access-link" style="color: green" target="_blank">ACCESS</a>: ${venueData.accessibilityEmoji || "❓"}${venueData.accessibilityEmoji === "☑️" && venueData.accessibility ? ` (${venueData.accessibility})` : ""}`
             :
             `// ACCESS: ${venueData.accessibilityEmoji || "❓"}${venueData.accessibilityEmoji === "☑️" && venueData.accessibility ? ` (${venueData.accessibility})` : ""}`
         }
@@ -352,7 +352,7 @@ async function createEventCard(eventObj) {
 
 
     ${event.attendance ? `${attendanceEmoji ? attendanceEmoji : ""}` : ""}
-    ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link">MAP</a>` : ""}
+    ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link" style="color: blue">MAP</a>` : ""}
     <!-- // <button class="event-row-cal-btn" data-event-id="${eventObj.id}">+ CAL</button> -->
     </span>
 
