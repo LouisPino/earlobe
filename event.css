@@ -36,9 +36,14 @@
   font-weight: 600;
 }
 
-.add-to-cal-btn {
+.add-to-cal {
+  position: relative;
   display: inline-block;
   margin: 10px 0 0;
+}
+
+.add-to-cal-btn {
+  display: inline-block;
   padding: 6px 14px;
   font-size: 0.85rem;
   border: 1px solid #111;
@@ -48,6 +53,42 @@
 }
 
 .add-to-cal-btn:hover {
+  background: #111;
+  color: #fff;
+}
+
+.add-to-cal-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  border: 1px solid #111;
+  background: #fff;
+}
+
+.add-to-cal-menu[hidden] {
+  display: none;
+}
+
+.add-to-cal-menu a,
+.add-to-cal-menu button {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  text-align: left;
+  color: #111;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.add-to-cal-menu a:hover,
+.add-to-cal-menu button:hover {
   background: #111;
   color: #fff;
 }

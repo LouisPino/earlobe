@@ -12,7 +12,7 @@
  */
 
 import { getEventById, fetchVenueById } from "./dbScript.js";
-import { buildICS, downloadICS } from "./utils.js";
+import { buildICS, downloadICS, buildGoogleCalendarUrl } from "./utils.js";
 
 /**
  * ============================================================
@@ -107,12 +107,24 @@ function populateEventPage(event) {
       ? `${dateText} · ${startText} – ${endText}`
       : "";
 
-  // const addToCalBtn = document.getElementById("add-to-cal");
-  // addToCalBtn.onclick = () => {
-  //   const ics = buildICS({ ...event, id: id }, venue.name ? venue : event.venue);
-  //   const filename = (event.event_name || event.performers || "event").replace(/\s+/g, "-") + ".ics";
-  //   downloadICS(ics, filename);
-  // };
+  const addToCalBtn = document.getElementById("add-to-cal-btn");
+  const addToCalMenu = document.getElementById("add-to-cal-menu");
+  const addToCalGoogle = document.getElementById("add-to-cal-google");
+  const addToCalIcs = document.getElementById("add-to-cal-ics");
+  const eventVenue = venue?.name ? venue : event.venue;
+
+  addToCalBtn.onclick = () => {
+    addToCalMenu.hidden = !addToCalMenu.hidden;
+  };
+
+  addToCalGoogle.href = buildGoogleCalendarUrl({ ...event, id: id }, eventVenue);
+
+  addToCalIcs.onclick = () => {
+    const ics = buildICS({ ...event, id: id }, eventVenue);
+    const filename = (event.event_name || event.performers || "event").replace(/\s+/g, "-") + ".ics";
+    downloadICS(ics, filename);
+    addToCalMenu.hidden = true;
+  };
 
   document.getElementById("event-venue-name").textContent =
     venue?.name || event.venue?.name || "";

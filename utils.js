@@ -1,8 +1,9 @@
 /**
- * Builds an .ics file string for a single event.
+ * Computes the shared fields (times, summary, location, description) used
+ * by both the .ics file and the Google Calendar link.
  * Uses floating local time (no TZID) — appropriate for a Toronto-only site.
  */
-export function buildICS(event, venue) {
+function getEventFields(event, venue) {
   const dateStr = event.date?.replace(/-/g, "") ?? "";
 
   function toMinutes(timeStr) {
@@ -37,6 +38,16 @@ export function buildICS(event, venue) {
   const location = [venue?.name, venue?.address].filter(Boolean).join(", ");
   const description = event.description || "";
 
+  return { dtstart, dtend, summary, location, description };
+}
+
+/**
+ * Builds an .ics file string for a single event.
+ */
+export function buildICS(event, venue) {
+  const dateStr = event.date?.replace(/-/g, "") ?? "";
+  const { dtstart, dtend, summary, location, description } = getEventFields(event, venue);
+
   function icsEscape(str) {
     return str.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\n/g, "\\n");
   }
@@ -57,6 +68,23 @@ export function buildICS(event, venue) {
     "END:VEVENT",
     "END:VCALENDAR",
   ].filter(Boolean).join("\r\n");
+}
+
+/**
+ * Builds a Google Calendar "add event" link for a single event.
+ */
+export function buildGoogleCalendarUrl(event, venue) {
+  const { dtstart, dtend, summary, location, description } = getEventFields(event, venue);
+
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: summary,
+    dates: `${dtstart}/${dtend}`,
+    details: description,
+    location: location,
+  });
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
 
 /**

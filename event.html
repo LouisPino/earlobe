@@ -25,10 +25,16 @@
       <img id="event-img" />
       <h1 id="event-name"></h1>
       <p class="event-date-time" id="event-datetime"></p>
-      <!-- <button id="add-to-cal" class="add-to-cal-btn">+ Add to Calendar</button> -->
       <p class="event-venue-name" id="event-venue-name"></p>
       <p class="event-venue-address" id="event-venue-address"></p>
       <p class="event-venue-accessibility" id="event-venue-accessibility"></p>
+      <div class="add-to-cal">
+        <button id="add-to-cal-btn" class="add-to-cal-btn">+ Add to Calendar</button>
+        <div id="add-to-cal-menu" class="add-to-cal-menu" hidden>
+          <a id="add-to-cal-google" target="_blank" rel="noopener noreferrer">Google Calendar</a>
+          <button id="add-to-cal-ics">Apple / iCal (.ics)</button>
+        </div>
+      </div>
     </header>
 
     <section class="event-meta">
