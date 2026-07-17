@@ -31,10 +31,11 @@
     margin: 0;
     padding: 4px 0;
     list-style: none;
-    background: #fff;
-    border: 1px solid #d1d5db;
+    color: var(--text);
+    background: var(--card-bg);
+    border: 1px solid var(--input-border);
     border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px var(--shadow);
 }
 
 .venue-combobox-list[hidden] {
@@ -48,12 +49,12 @@
 }
 
 .venue-combobox-list li:hover {
-    background: #f3f4f6;
+    background: var(--border);
 }
 
 .venue-combobox-list li[data-id="other"] {
     font-weight: 600;
-    border-bottom: 1px solid #e5e7eb;
+    border-bottom: 1px solid var(--border);
 }
 
 /* -------- Form Container -------- */
@@ -62,7 +63,8 @@
     max-width: 680px;
     margin: 0 auto;
     padding: 32px 36px 40px;
-    background: #ffffff;
+    color: var(--text);
+    background: var(--card-bg);
     border-radius: 18px;
     box-shadow:
         0 20px 40px rgba(0, 0, 0, 0.08),
@@ -82,7 +84,7 @@
 .required-note {
     margin-bottom: 28px;
     font-size: 0.9rem;
-    color: #6b7280;
+    color: var(--text-muted);
 }
 
 /* -------- Labels & Inputs -------- */
@@ -102,13 +104,53 @@
     padding: 12px 14px;
     font-size: 0.95rem;
     font-family: inherit;
-    color: #111827;
+    color: var(--text);
 
-    border: 1px solid #d1d5db;
+    border: 1px solid var(--input-border);
     border-radius: 10px;
-    background: #ffffff;
+    background: var(--input-bg);
 
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* -------- Date/time picker icons --------
+   The native calendar/clock icon Chrome/Safari draw inside
+   type="date" / type="time" inputs is dark by default, which
+   disappears against a dark input background. color-scheme tells
+   the browser to draw its native form chrome (incl. that icon) in
+   a light-on-dark style; the invert filter is a belt-and-suspenders
+   fallback for engines that don't fully honor color-scheme here. */
+@media (prefers-color-scheme: dark) {
+
+    .earlobe-form input[type="date"],
+    .earlobe-form input[type="time"] {
+        color-scheme: dark;
+    }
+
+    .earlobe-form input[type="date"]::-webkit-calendar-picker-indicator,
+    .earlobe-form input[type="time"]::-webkit-calendar-picker-indicator {
+        filter: invert(1);
+    }
+}
+
+:root[data-theme="dark"] .earlobe-form input[type="date"],
+:root[data-theme="dark"] .earlobe-form input[type="time"] {
+    color-scheme: dark;
+}
+
+:root[data-theme="dark"] .earlobe-form input[type="date"]::-webkit-calendar-picker-indicator,
+:root[data-theme="dark"] .earlobe-form input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+:root[data-theme="light"] .earlobe-form input[type="date"],
+:root[data-theme="light"] .earlobe-form input[type="time"] {
+    color-scheme: light;
+}
+
+:root[data-theme="light"] .earlobe-form input[type="date"]::-webkit-calendar-picker-indicator,
+:root[data-theme="light"] .earlobe-form input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: none;
 }
 
 /* -------- Focus States -------- */
@@ -175,7 +217,7 @@
 
 
 .pwyc-sub {
-    color: #777;
+    color: var(--text-muted);
     font-size: 0.9em;
 }
 
@@ -194,7 +236,7 @@
     margin-top: 6px;
     font-size: 0.8rem;
     line-height: 1.4;
-    color: #6b7280;
+    color: var(--text-muted);
 }
 
 /* -------- Button -------- */

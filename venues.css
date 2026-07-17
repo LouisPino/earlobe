@@ -16,7 +16,9 @@
     margin: 0 auto 30px;
     padding: 10px 14px;
     font-size: 1rem;
-    border: 1px solid #ccc;
+    color: var(--text);
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
     border-radius: 8px;
 }
 
@@ -38,11 +40,12 @@
     width: min(400px, calc(100vw - 40px));
     flex-direction: column;
     justify-content: space-around;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border);
     border-radius: 10px;
     padding: 16px;
-    background: white;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    color: var(--text);
+    background: var(--card-bg);
+    box-shadow: 0 2px 6px var(--shadow);
     transition: transform 0.15s ease;
 }
 
@@ -54,16 +57,26 @@
 }
 
 .venue-address {
-    color: #555;
+    color: var(--text-muted);
 }
 
 .venue-accessibility {
     font-size: 0.9rem;
-    color: #000000;
+    color: var(--text);
 }
 
 .venue-notes {
     margin-top: 12px;
     font-size: 0.9rem;
-    color: #000000;
+    color: var(--text);
+}
+
+@media (prefers-color-scheme: dark) {
+    .venue-card a {
+        color: #60a5fa;
+    }
+}
+
+:root[data-theme="dark"] .venue-card a {
+    color: #60a5fa;
 }

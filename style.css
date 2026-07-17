@@ -5,12 +5,83 @@
     padding: 0;
 }
 
+/* ============================================================
+   THEME TOKENS
+   Shared across every page (style.css is loaded everywhere).
+   Defaults follow the visitor's OS/browser preference via
+   prefers-color-scheme; the header toggle can override that by
+   stamping data-theme="dark"/"light" on <html>, which always wins
+   since an attribute selector on :root is more specific than a
+   plain :root inside a media query.
+   ============================================================ */
+:root {
+    --bg: #ffffff;
+    --text: #111827;
+    --text-muted: #6b7280;
+    --card-bg: #ffffff;
+    --border: #e3e3e3;
+    --border-strong: #000000;
+    --header-bg: rgb(120, 255, 221);
+    --input-bg: #ffffff;
+    --input-border: #ccc;
+    --link: #00a88f;
+    --shadow: rgba(0, 0, 0, 0.08);
+    --overlay: rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #121212;
+        --text: #e5e7eb;
+        --text-muted: #9ca3af;
+        --card-bg: #1e1e1e;
+        --border: #333333;
+        --border-strong: #666666;
+        --header-bg: #0d3b30;
+        --input-bg: #1e1e1e;
+        --input-border: #4b5563;
+        --link: #2dd4bf;
+        --shadow: rgba(0, 0, 0, 0.5);
+        --overlay: rgba(0, 0, 0, 0.6);
+    }
+}
+
+:root[data-theme="dark"] {
+    --bg: #121212;
+    --text: #e5e7eb;
+    --text-muted: #9ca3af;
+    --card-bg: #1e1e1e;
+    --border: #333333;
+    --border-strong: #666666;
+    --header-bg: #0d3b30;
+    --input-bg: #1e1e1e;
+    --input-border: #4b5563;
+    --link: #2dd4bf;
+    --shadow: rgba(0, 0, 0, 0.5);
+    --overlay: rgba(0, 0, 0, 0.6);
+}
+
+:root[data-theme="light"] {
+    --bg: #ffffff;
+    --text: #111827;
+    --text-muted: #6b7280;
+    --card-bg: #ffffff;
+    --border: #e3e3e3;
+    --border-strong: #000000;
+    --header-bg: rgb(120, 255, 221);
+    --input-bg: #ffffff;
+    --input-border: #ccc;
+    --link: #00a88f;
+    --shadow: rgba(0, 0, 0, 0.08);
+    --overlay: rgba(0, 0, 0, 0.4);
+}
+
 body {
     /* font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; */
     font-family: Georgia, "Times New Roman", serif;
 
-    color: #111827;
-    background: #ffffff;
+    color: var(--text);
+    background: var(--bg);
     line-height: 1.6;
 }
 
@@ -32,7 +103,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: start;
-    background-color: rgb(120, 255, 221);
+    background-color: var(--header-bg);
     margin-bottom: 25px;
 }
 
@@ -50,18 +121,30 @@ body {
 
 .main-nav a {
     text-decoration: none;
-    color: #111827;
+    color: var(--text);
     font-size: 1.15rem;
+}
+
+/* THEME TOGGLE */
+.theme-toggle {
+    margin-left: auto;
+    font-size: 1.3rem;
+    line-height: 1;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
 }
 
 /* BURGER */
 .burger {
     display: none;
+    margin-left: 8px;
     font-size: 40px;
     background: none;
     border: none;
     cursor: pointer;
-    color: #111827;
+    color: var(--text);
 }
 
 /* MAIN CONTENT */
@@ -81,7 +164,7 @@ body {
 .main-content p {
     font-size: 1rem;
     margin-bottom: 20px;
-    color: #1f2937;
+    color: var(--text);
 }
 
 .submit-link {
@@ -106,7 +189,7 @@ body {
 /* POWERED BY */
 .powered-by {
     font-size: 0.8rem;
-    color: #6b7280;
+    color: var(--text-muted);
     margin-top: 8px;
 }
 
@@ -141,7 +224,7 @@ body {
     margin-top: 140px;
     padding: 32px;
     font-size: 0.85rem;
-    color: #111827;
+    color: var(--text);
 }
 
 
@@ -155,7 +238,7 @@ body {
 .modal-backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.4);
+    background: var(--overlay);
 }
 
 #admin-modal {
@@ -178,7 +261,7 @@ body {
     margin: 20vh auto 0;
     padding: 24px;
 
-    background: #fff;
+    background: var(--card-bg);
     border-radius: 12px;
 
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
@@ -215,7 +298,9 @@ body {
     padding: 10px;
     margin-top: 12px;
     font-size: 1rem;
-    border: 1px solid #ccc;
+    color: var(--text);
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
 }
 
 .manage-events-count,
@@ -264,7 +349,7 @@ body {
 .loading {
     display: block;
     font-size: 1.5rem;
-    color: #6b7280;
+    color: var(--text-muted);
     text-align: center;
     margin: 40px auto;
 }
@@ -282,17 +367,17 @@ body {
 
 /* CARD */
 .venue-card {
-    border: 1px solid #e3e3e3;
+    border: 1px solid var(--border-strong);
     border-radius: 12px;
     padding: 18px;
-    background: #fff;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.04);
+    background: var(--card-bg);
+    box-shadow: 0 3px 8px var(--shadow);
     display: flex;
     flex-direction: column;
     gap: 10px;
     width: 80vw;
     margin: 24px auto;
-    border: 1px solid black;
+    color: var(--text);
 }
 
 /* LABELS */
@@ -300,7 +385,7 @@ body {
     font-size: 0.75rem;
     letter-spacing: 0.05em;
     font-weight: 600;
-    color: #666;
+    color: var(--text-muted);
     margin-top: 6px;
 }
 
@@ -310,10 +395,11 @@ body {
     width: 100%;
     padding: 8px 10px;
     border-radius: 6px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--input-border);
     font-size: 0.95rem;
     font-family: inherit;
-    background: #fafafa;
+    color: var(--text);
+    background: var(--input-bg);
     resize: vertical;
 }
 
@@ -321,7 +407,7 @@ body {
 .venue-card textarea:focus {
     outline: none;
     border-color: #4c9ffe;
-    background: #fff;
+    background: var(--input-bg);
     box-shadow: 0 0 0 2px rgba(76, 159, 254, 0.15);
 }
 
@@ -341,15 +427,17 @@ body {
 
 /* OPTIONAL LINK STYLE */
 .venue-link {
-    color: #333;
+    color: var(--text-muted);
 }
 
 .venue-card.approved {
     background-color: #c2ffd1;
+    color: #111;
 }
 
 .venue-card.unapproved {
     background-color: #ffc7c7;
+    color: #111;
 }
 
 .accessibility-group {
@@ -383,7 +471,8 @@ body {
     max-height: 90vh;
     overflow-y: auto;
 
-    background: #ffffff;
+    background: var(--card-bg);
+    color: var(--text);
     border-radius: 16px;
     padding: 24px;
     box-shadow:
@@ -424,15 +513,15 @@ body {
 
     .burger {
         display: block;
-        color: black;
+        color: var(--text);
     }
 
     .main-nav {
         position: absolute;
         top: 70px;
         right: 16px;
-        background: white;
-        border: 1px solid #ddd;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
         border-radius: 6px;
         padding: 12px 16px;
         flex-direction: column;

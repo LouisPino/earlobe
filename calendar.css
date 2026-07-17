@@ -3,10 +3,28 @@
     display: none !important;
 }
 
+/* Theme-aware FullCalendar chrome: these point at the same tokens
+   style.css already flips for prefers-color-scheme / the header
+   toggle, so this file doesn't need to duplicate that logic. */
+.fc {
+    --fc-border-color: var(--border);
+    --fc-page-bg-color: var(--bg);
+    --fc-neutral-bg-color: var(--card-bg);
+    --fc-list-event-hover-bg-color: var(--border);
+    --fc-button-bg-color: var(--card-bg);
+    --fc-button-border-color: var(--border-strong);
+    --fc-button-text-color: var(--text);
+    --fc-button-hover-bg-color: var(--border);
+    --fc-button-hover-border-color: var(--border-strong);
+    --fc-button-active-bg-color: var(--border);
+    --fc-button-active-border-color: var(--border-strong);
+    color: var(--text);
+}
+
 /* Clean grid look */
 .fc .fc-daygrid-day {
-    background: #f9fffc;
-    border: 1px solid #e1ded8;
+    background: var(--bg);
+    border: 1px solid var(--border);
 }
 
 /* Default day numbers */
@@ -84,4 +102,84 @@
 /* Calendar title (Month Year) */
 .fc .fc-toolbar-title {
     font-size: 20px;
+}
+
+/* Dark-mode-only accent colors for the day-state classes above.
+   These need explicit rules for both the system preference (media
+   query) and the manual header toggle (data-theme attribute), since
+   the toggle must also be able to force it back to light even when
+   the OS itself prefers dark. */
+@media (prefers-color-scheme: dark) {
+
+    .fc-day-future-has-event .fc-daygrid-day-number {
+        color: #7dd3fc;
+    }
+
+    .fc-day-past-has-event .fc-daygrid-day-number {
+        color: #999;
+    }
+
+    .fc-day-future-no-event .fc-daygrid-day-number {
+        color: #e5e7eb;
+    }
+
+    .fc-day-past-no-event .fc-daygrid-day-number {
+        color: #777;
+    }
+
+    .fc-day-outside-custom .fc-daygrid-day-number {
+        color: #555;
+    }
+
+    .fc-day-today-custom {
+        background-color: #0d3b30 !important;
+    }
+}
+
+:root[data-theme="dark"] .fc-day-future-has-event .fc-daygrid-day-number {
+    color: #7dd3fc;
+}
+
+:root[data-theme="dark"] .fc-day-past-has-event .fc-daygrid-day-number {
+    color: #999;
+}
+
+:root[data-theme="dark"] .fc-day-future-no-event .fc-daygrid-day-number {
+    color: #e5e7eb;
+}
+
+:root[data-theme="dark"] .fc-day-past-no-event .fc-daygrid-day-number {
+    color: #777;
+}
+
+:root[data-theme="dark"] .fc-day-outside-custom .fc-daygrid-day-number {
+    color: #555;
+}
+
+:root[data-theme="dark"] .fc-day-today-custom {
+    background-color: #0d3b30 !important;
+}
+
+:root[data-theme="light"] .fc-day-future-has-event .fc-daygrid-day-number {
+    color: #0a2ea6;
+}
+
+:root[data-theme="light"] .fc-day-past-has-event .fc-daygrid-day-number {
+    color: #999;
+}
+
+:root[data-theme="light"] .fc-day-future-no-event .fc-daygrid-day-number {
+    color: #000;
+}
+
+:root[data-theme="light"] .fc-day-past-no-event .fc-daygrid-day-number {
+    color: #999;
+}
+
+:root[data-theme="light"] .fc-day-outside-custom .fc-daygrid-day-number {
+    color: #ccc;
+}
+
+:root[data-theme="light"] .fc-day-today-custom {
+    background-color: #c7fff4 !important;
 }

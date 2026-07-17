@@ -31,9 +31,9 @@
     flex-direction: row;
     gap: 24px;
 
-    background: #ffffff;
+    background: var(--card-bg);
     border-radius: 8px;
-    border: 1px solid black;
+    border: 1px solid var(--border-strong);
     padding: 22px 24px;
     /* box-shadow:
         0 10px 25px rgba(0, 0, 0, 0.08),
@@ -44,10 +44,12 @@
 
 .confirmed {
     background-color: #c2ffd1;
+    color: #111;
 }
 
 .unconfirmed {
     background-color: #ffc7c7;
+    color: #111;
 }
 
 
@@ -177,7 +179,7 @@
 }
 
 .event-time {
-    color: #111;
+    color: inherit;
 }
 
 .venue-access-link {
@@ -191,6 +193,52 @@
 
 .event-row-tickets-link {
     color: blue;
+}
+
+@media (prefers-color-scheme: dark) {
+
+    .event-title,
+    .event-artists {
+        color: #a78bfa;
+    }
+
+    .venue-access-link {
+        color: #22c55e !important;
+    }
+
+    .event-row-map-link,
+    .event-row-tickets-link {
+        color: #60a5fa !important;
+    }
+}
+
+/* Manual theme toggle overrides (wins over prefers-color-scheme either way) */
+:root[data-theme="dark"] .event-title,
+:root[data-theme="dark"] .event-artists {
+    color: #a78bfa;
+}
+
+:root[data-theme="dark"] .venue-access-link {
+    color: #22c55e !important;
+}
+
+:root[data-theme="dark"] .event-row-map-link,
+:root[data-theme="dark"] .event-row-tickets-link {
+    color: #60a5fa !important;
+}
+
+:root[data-theme="light"] .event-title,
+:root[data-theme="light"] .event-artists {
+    color: #7c3aed;
+}
+
+:root[data-theme="light"] .venue-access-link {
+    color: green !important;
+}
+
+:root[data-theme="light"] .event-row-map-link,
+:root[data-theme="light"] .event-row-tickets-link {
+    color: blue !important;
 }
 
 .event-row-cal-btn {
@@ -218,8 +266,8 @@
     display: flex;
     flex-direction: column;
     min-width: 170px;
-    border: 1px solid #111;
-    background: #fff;
+    border: 1px solid var(--border-strong);
+    background: var(--card-bg);
 }
 
 .add-to-cal-menu[hidden] {
@@ -238,7 +286,7 @@
     padding: 6px 10px;
     font-size: 0.8rem;
     text-align: left;
-    color: #111;
+    color: var(--text);
     text-decoration: none;
     background: transparent;
     border: none;
@@ -247,8 +295,8 @@
 
 .add-to-cal-menu a:hover,
 .add-to-cal-menu button:hover {
-    background: #111;
-    color: #fff;
+    background: var(--text);
+    color: var(--card-bg);
 }
 
 .map-link {
@@ -267,7 +315,7 @@
 
 .event-submitted-at {
     font-size: 0.75rem;
-    color: #9ca3af;
+    color: var(--text-muted);
 }
 
 .edit-event {
@@ -315,7 +363,8 @@
     top: 0;
     z-index: 5;
     align-self: stretch;
-    background: #fff;
+    background: var(--bg);
+    color: var(--text);
     margin: 32px 0 12px;
     padding: 8px 0 6px;
     font-size: 1.25rem;
