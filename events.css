@@ -222,6 +222,11 @@
     display: none;
 }
 
+.add-to-cal-menu.align-right {
+    left: auto;
+    right: 0;
+}
+
 .add-to-cal-menu a,
 .add-to-cal-menu button {
     display: block;

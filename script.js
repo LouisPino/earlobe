@@ -453,8 +453,15 @@ async function createEventCard(eventObj) {
     const calGoogle = card.querySelector(".add-to-cal-google");
     const calIcs = card.querySelector(".add-to-cal-ics");
 
+    const CAL_MENU_WIDTH = 170; // keep in sync with .add-to-cal-menu min-width in events.css
+
     calBtn.addEventListener("click", (e) => {
         e.stopPropagation();
+        if (calMenu.hidden) {
+            const btnRect = calBtn.getBoundingClientRect();
+            const overflowsRight = btnRect.left + CAL_MENU_WIDTH > window.innerWidth;
+            calMenu.classList.toggle("align-right", overflowsRight);
+        }
         calMenu.hidden = !calMenu.hidden;
     });
 
