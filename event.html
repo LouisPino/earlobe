@@ -22,8 +22,8 @@
 
   <main class="event-page" id="event-main" hidden>
     <header class="event-header">
-      <img id="event-img" />
       <h1 id="event-name"></h1>
+      <img id="event-img" />
       <p class="event-date-time" id="event-datetime"></p>
       <p class="event-venue-name" id="event-venue-name"></p>
       <p class="event-venue-address" id="event-venue-address"></p>
@@ -36,9 +36,12 @@
         </div>
       </div>
     </header>
-
+    <section class="event-links" id="event-links-section" hidden>
+      <h2>Links</h2>
+      <p id="event-links" target="_blank" rel="noopener noreferrer"></p>
+    </section>
     <section class="event-meta">
-      <div><strong>Performers:</strong> <span id="event-performers"></span></div>
+      <!-- <div><strong>Performers:</strong> <span id="event-performers"></span></div> -->
       <div><strong>Cost:</strong> <span id="event-cost"></span></div>
       <div><strong>Attendance:</strong> <span id="event-attendance"></span></div>
       <div><strong>Doors:</strong> <span id="event-doors"></span></div>
@@ -51,10 +54,7 @@
       <p id="event-description"></p>
     </section>
 
-    <section class="event-links" id="event-links-section" hidden>
-      <h2>Links</h2>
-      <p id="event-links" target="_blank" rel="noopener noreferrer"></p>
-    </section>
+
 
     <footer class="event-footer">
       <p class="event-contact">

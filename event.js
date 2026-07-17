@@ -141,8 +141,8 @@ function populateEventPage(event) {
    * ----------------------------
    */
 
-  document.getElementById("event-performers").innerHTML =
-    event.performers || "—";
+  // document.getElementById("event-performers").innerHTML =
+  //   event.performers || "—";
 
   document.getElementById("event-cost").textContent =
     event.cost || "—";
