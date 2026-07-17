@@ -325,6 +325,26 @@ function formatSubmittedAt(createdAt) {
     });
 }
 
+/**
+ * Finds a "Tickets - url" / "Reservations - url" pair inside the
+ * freeform comma-separated links field (same format used on the
+ * event detail page).
+ */
+function getTicketsLink(linksStr) {
+    if (!linksStr) return null;
+
+    const pairs = linksStr.split(",").map(l => l.trim()).filter(Boolean);
+
+    for (const pair of pairs) {
+        const [labelRaw, urlRaw] = pair.split(" - ").map(s => s?.trim());
+        const label = labelRaw?.toLowerCase() || "";
+        if ((label.includes("ticket") || label.includes("reserv")) && urlRaw) {
+            return urlRaw.startsWith("http") ? urlRaw : `https://${urlRaw}`;
+        }
+    }
+    return null;
+}
+
 function formatTime(timeStr) {
     if (!timeStr) return "";
 
@@ -366,6 +386,8 @@ async function createEventCard(eventObj) {
     } else {
         attendanceEmoji = event.attendance_other
     }
+
+    const ticketsLink = getTicketsLink(event.links);
 
 
 
@@ -418,6 +440,7 @@ async function createEventCard(eventObj) {
 
     ${event.attendance ? `${attendanceEmoji ? attendanceEmoji : ""}` : ""}
     ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link" style="color: blue">MAP</a>` : ""}
+    ${ticketsLink ? `// <a href="${ticketsLink}" target="_blank" class="event-row-tickets-link" style="color: blue">TICKETS</a>` : ""}
     // <span class="add-to-cal-inline">
         <button class="event-row-cal-btn" type="button">+ CAL</button>
         <span class="add-to-cal-menu" hidden>
