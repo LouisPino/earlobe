@@ -52,7 +52,7 @@ Each HTML page has a corresponding JS file:
 
 `layout.js` is loaded on every page — it fetches `header.html` and injects it into `#site-header`, then wires up the mobile burger menu.
 
-`dbScript.js` is the data layer — imported by all page scripts, never directly loaded in HTML (except `index.html` where it is loaded to make `fetchEvents` available to `calendar.js`).
+`dbScript.js` is the data layer — imported by all page scripts, never directly loaded in HTML.
 
 ### Admin authentication
 
