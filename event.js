@@ -98,6 +98,14 @@ function populateEventPage(event) {
   document.getElementById("event-name").innerHTML =
     event.event_name || event.performers;
 
+  const performersRow = document.getElementById("event-performers-row");
+  if (event.event_name && event.performers) {
+    document.getElementById("event-performers").innerHTML = event.performers;
+    performersRow.hidden = false;
+  } else {
+    performersRow.hidden = true;
+  }
+
   const dateText = formatDate(event.date);
   const startText = formatTime(event.start_time);
   const endText = formatTime(event.end_time);
@@ -140,9 +148,6 @@ function populateEventPage(event) {
    * Meta Information
    * ----------------------------
    */
-
-  // document.getElementById("event-performers").innerHTML =
-  //   event.performers || "—";
 
   document.getElementById("event-cost").textContent =
     event.cost || "—";
