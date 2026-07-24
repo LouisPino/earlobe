@@ -109,7 +109,7 @@
 @media (prefers-color-scheme: dark) {
 
     .fc-day-future-has-event .fc-daygrid-day-number {
-        color: #7dd3fc;
+        color: #ffffff;
     }
 
     .fc-day-past-has-event .fc-daygrid-day-number {
@@ -134,7 +134,7 @@
 }
 
 :root[data-theme="dark"] .fc-day-future-has-event .fc-daygrid-day-number {
-    color: #7dd3fc;
+    color: #ffffff;
 }
 
 :root[data-theme="dark"] .fc-day-past-has-event .fc-daygrid-day-number {
