@@ -434,7 +434,7 @@ async function createEventCard(eventObj) {
 
     ${event.attendance ? `${attendanceEmoji ? attendanceEmoji : ""}` : ""}
     ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link" style="color: blue">MAP</a>` : ""}
-    ${ticketsLink ? `// <a href="${ticketsLink}" target="_blank" class="event-row-tickets-link" style="color: blue">TICKETS</a>` : ""}
+    ${ticketsLink ? `// <a href="${ticketsLink}" target="_blank" class="event-row-tickets-link" style="color: orange">TICKETS</a>` : ""}
     // <span class="add-to-cal-inline">
         <button class="event-row-cal-btn" type="button">+ CAL</button>
         <span class="add-to-cal-menu" hidden>

@@ -188,7 +188,7 @@
 }
 
 .event-row-tickets-link {
-    color: blue;
+    color: orange;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -218,9 +218,11 @@
     color: #22c55e !important;
 }
 
-:root[data-theme="dark"] .event-row-map-link,
-:root[data-theme="dark"] .event-row-tickets-link {
+:root[data-theme="dark"] .event-row-map-link {
     color: #60a5fa !important;
+}
+:root[data-theme="dark"] .event-row-tickets-link {
+    color: #fa8960 !important;
 }
 
 :root[data-theme="light"] .event-title,
@@ -232,9 +234,12 @@
     color: green !important;
 }
 
-:root[data-theme="light"] .event-row-map-link,
-:root[data-theme="light"] .event-row-tickets-link {
+:root[data-theme="light"] .event-row-map-link{
     color: blue !important;
+}
+
+:root[data-theme="light"] .event-row-tickets-link {
+    color: #dd4d00 !important;
 }
 
 .event-row-cal-btn {
