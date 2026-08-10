@@ -340,8 +340,16 @@ export async function fetchArchive() {
         archiveArr.push(doc.data());
     });
 
+    // createdAt comes back as a Firestore Timestamp, which can't be
+    // subtracted directly. Older entries may not have one at all.
+    const toMillis = (value) => {
+        if (!value) return 0;
+        if (typeof value.toMillis === "function") return value.toMillis();
+        return new Date(value).getTime() || 0;
+    };
+
     const sorted = archiveArr.sort((a, b) => {
-        return b.createdAt - a.createdAt;
+        return toMillis(b.createdAt) - toMillis(a.createdAt);
     });
 
     return sorted;
