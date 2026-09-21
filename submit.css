@@ -52,8 +52,14 @@
     background: var(--border);
 }
 
+/* The two "not an existing venue" options that sit above the venue list. */
+.venue-combobox-list li[data-id="private"],
 .venue-combobox-list li[data-id="other"] {
     font-weight: 600;
+}
+
+/* Divider below the last of them, separating both from the venues. */
+.venue-combobox-list li[data-id="other"] {
     border-bottom: 1px solid var(--border);
 }
 
