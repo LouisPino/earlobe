@@ -95,7 +95,8 @@
 }
 
 .event-venue-address,
-.event-venue-accessibility {
+.event-venue-accessibility,
+.event-venue-contact {
   font-size: 0.95rem;
   color: var(--text-muted);
   margin-top: 20px;
@@ -139,6 +140,46 @@
   font-size: 1rem;
   color: var(--text);
   white-space: pre-wrap;
+}
+
+/* Recordings (from ListenTO) */
+
+.event-recordings {
+  margin-bottom: 40px;
+}
+
+.event-recordings h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.album-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 18px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.album-cover {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+}
+
+.album-title {
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+
+.album-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 2px;
 }
 
 /* Links */

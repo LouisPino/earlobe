@@ -101,6 +101,8 @@ function populateVenue(event) {
 
     if (event.venue.private) {
       document.getElementById("private-venue-note").hidden = false;
+      document.getElementById("venue-contact-row").hidden = false;
+      setValue("venue-contact", event.venue.contact);
     }
   }
 }
@@ -211,9 +213,15 @@ async function collectEditEvent() {
       name: document.getElementById("venue-name").value || null,
       address: document.getElementById("venue-address").value || null,
       accessibility: document.getElementById("venue-accessibility").value || null,
-      // Approving must not quietly turn a private location into a normal one.
-      // Picking a real venue from the select does drop the flag.
-      ...(!venueId && event?.venue?.private ? { private: true } : {}),
+      // Approving must not quietly turn a private location into a normal one,
+      // or drop the contact info that stands in for its address. Picking a real
+      // venue from the select does drop both.
+      ...(!venueId && event?.venue?.private
+        ? {
+          private: true,
+          contact: document.getElementById("venue-contact").value || null,
+        }
+        : {}),
     },
 
     attendance: selectedAttendance?.value || null,

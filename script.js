@@ -78,8 +78,8 @@ form?.addEventListener("submit", async (e) => {
         return
     }
 
-    if (venueChoice === "private" && !formData.get("private_venue_info")?.trim()) {
-        alert("For a private location, please add accessibility and contact info so people know who to reach for the address.")
+    if (venueChoice === "private" && !formData.get("private_venue_contact")?.trim()) {
+        alert("For a private location, please add contact info so people know who to reach for the address.")
         return
     }
     showSubmitModal();
@@ -100,7 +100,8 @@ form?.addEventListener("submit", async (e) => {
         venue = {
             name: formData.get("private_venue_name")?.trim() || null,
             address: null,
-            accessibility: formData.get("private_venue_info").trim(),
+            accessibility: formData.get("private_venue_accessibility")?.trim() || null,
+            contact: formData.get("private_venue_contact").trim(),
             private: true
         };
         venueId = null;

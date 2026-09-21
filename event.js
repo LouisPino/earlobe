@@ -13,6 +13,7 @@
 
 import { getEventById, fetchVenueById } from "./dbScript.js";
 import { buildICS, downloadICS, buildGoogleCalendarUrl } from "./utils.js";
+import { performerNames, fetchAlbumsByArtists } from "./listento.js";
 
 /**
  * ============================================================
@@ -138,9 +139,13 @@ function populateEventPage(event) {
     venue?.address || event.venue?.address || "";
 
   document.getElementById("event-venue-accessibility").textContent =
-    privateVenue
-      ? `Access & contact: ${privateVenue.accessibility || ""}`
-      : `Accessibility: ${venue?.accessibility || event.venue?.accessibility || ""}`;
+    `Accessibility: ${venue?.accessibility || event.venue?.accessibility || ""}`;
+
+  const contactEl = document.getElementById("event-venue-contact");
+  if (privateVenue?.contact) {
+    contactEl.textContent = `Contact for address: ${privateVenue.contact}`;
+    contactEl.hidden = false;
+  }
 
   /**
    * ----------------------------
@@ -237,6 +242,89 @@ function populateEventPage(event) {
 
 /**
  * ============================================================
+ * RECORDINGS (LISTENTO)
+ * ============================================================
+ */
+
+/**
+ * Builds one album card. Everything here is uploaded by ListenTO's users, so
+ * it all goes in as text rather than markup.
+ */
+function createAlbumCard(album, artistName) {
+  const card = document.createElement("li");
+  card.className = "album-card";
+
+  if (album.image) {
+    const img = document.createElement("img");
+    img.className = "album-cover";
+    img.src = album.image;
+    img.alt = album.title ? `${album.title} cover` : "Album cover";
+    img.loading = "lazy";
+    card.appendChild(img);
+  }
+
+  const title = document.createElement("p");
+  title.className = "album-title";
+
+  if (album.link) {
+    const link = document.createElement("a");
+    link.href = album.link;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = album.title || "Untitled";
+    title.appendChild(link);
+  } else {
+    title.textContent = album.title || "Untitled";
+  }
+
+  card.appendChild(title);
+
+  const meta = document.createElement("p");
+  meta.className = "album-meta";
+  meta.textContent = [artistName, album.release_year].filter(Boolean).join(" · ");
+  card.appendChild(meta);
+
+  return card;
+}
+
+/**
+ * Looks up the performers on ListenTO and renders whatever comes back. Runs
+ * after the page is already on screen, and leaves the section hidden if the
+ * lookup finds nothing or fails.
+ */
+async function renderRecordings(event) {
+  const names = performerNames(event.performers);
+  if (!names.length) return;
+
+  const results = await fetchAlbumsByArtists(names);
+  if (!results.length) {
+    console.log("[ListenTO] no albums returned — Recordings section stays hidden");
+    return;
+  }
+
+  const list = document.createElement("ul");
+  list.className = "album-list";
+
+  results.forEach(result => {
+    (result.albums || []).forEach(album => {
+      list.appendChild(createAlbumCard(album, result.artist));
+    });
+  });
+
+  if (!list.children.length) {
+    console.log("[ListenTO] results had no albums — Recordings section stays hidden");
+    return;
+  }
+
+  const container = document.getElementById("event-recordings");
+  container.replaceChildren(list);
+  document.getElementById("event-recordings-section").hidden = false;
+
+  console.log(`[ListenTO] rendered ${list.children.length} album card(s)`);
+}
+
+/**
+ * ============================================================
  * EXECUTION
  * ============================================================
  */
@@ -250,6 +338,11 @@ if (event) {
     populateEventPage(event);
     loadingEl.hidden = true;
     mainEl.hidden = false;
+
+    // Not awaited: the page is already usable, recordings fill in when they land.
+    renderRecordings(event).catch(err =>
+      console.error("Failed to render recordings", err)
+    );
   } catch (err) {
     console.error("Failed to populate event page", err);
     loadingEl.textContent = "Could not load event.";
