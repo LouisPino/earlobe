@@ -275,7 +275,7 @@ async function renderVenues() {
         <label>ADDRESS</label>
         <textarea class="venue-address">${v.data.address || ""}</textarea>
 
-        <label>ACCESSIBILITY</label>
+        <label>ACCESSIBILITY — FULL INFO</label>
         <textarea class="venue-accessibility">${v.data.accessibility || ""}</textarea>
  <fieldset class="accessibility-group">
   <label>
@@ -309,8 +309,8 @@ async function renderVenues() {
         
         <label>MAP LINK</label>
         <input class="venue-map-link" value="${v.data.mapLink || ""}"/>
-        <label>EXTRA NOTES</label>
-        <textarea class="venue-notes">${v.data.notes || ""}</textarea>
+        <label>ACCESSIBILITY — SHORT NOTE (shown inline on the event row)</label>
+        <textarea class="venue-notes" placeholder="e.g. 2 steps at entrance">${v.data.notes || ""}</textarea>
 
         <button class="venue-submit-btn">APPROVE VENUE</button>
         <button class="venue-delete-btn">DELETE VENUE</button>

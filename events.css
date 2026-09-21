@@ -195,31 +195,13 @@
     color: teal;
 }
 
-@media (prefers-color-scheme: dark) {
-
-    .event-title,
-    .event-artists {
-        color: #a78bfa;
-    }
-
-    .venue-access-link {
-        color: #22c55e !important;
-    }
-
-    .event-row-map-link,
-    .event-row-tickets-link {
-        color: #60a5fa !important;
-    }
-
-    .event-row-livestream-link {
-        color: #2dd4bf !important;
-    }
-}
-
-/* Manual theme toggle overrides (wins over prefers-color-scheme either way) */
+/* Theme colors. layout.js always stamps data-theme on <html> (falling back to
+   the OS preference), so these are the only dark/light rules that ever apply —
+   a prefers-color-scheme block here would be dead code. They are !important so
+   they still win over the inline colors the row links carry for copy/paste. */
 :root[data-theme="dark"] .event-title,
 :root[data-theme="dark"] .event-artists {
-    color: #a78bfa;
+    color: #a78bfa !important;
 }
 
 :root[data-theme="dark"] .venue-access-link {
@@ -239,7 +221,7 @@
 
 :root[data-theme="light"] .event-title,
 :root[data-theme="light"] .event-artists {
-    color: #7c3aed;
+    color: #7c3aed !important;
 }
 
 :root[data-theme="light"] .venue-access-link {

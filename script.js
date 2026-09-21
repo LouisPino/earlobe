@@ -349,6 +349,18 @@ function getLivestreamLink(linksStr) {
         label.includes("stream") || label.includes("broadcast"));
 }
 
+/**
+ * Renders one of the colored inline row links (ACCESS / MAP / TICKETS /
+ * LIVESTREAM). Admins copy event rows into the newsletter, and newsletter
+ * editors restyle pasted links by targeting the <a>, which wipes out its color.
+ * Repeating the color on a nested <span> keeps it: the editors don't reach
+ * inside the anchor. The span carries the link's class as well, so the dark
+ * theme rules (which are !important) still override it on screen.
+ */
+function inlineRowLink(href, label, className, color) {
+    return `<a href="${href}" target="_blank" class="${className}" style="color: ${color}"><span class="${className}" style="color: ${color}; text-decoration: underline">${label}</span></a>`;
+}
+
 function formatTime(timeStr) {
     if (!timeStr) return "";
 
@@ -394,6 +406,11 @@ async function createEventCard(eventObj) {
     const ticketsLink = getTicketsLink(event.links);
     const livestreamLink = getLivestreamLink(event.links);
 
+    // The venue's full accessibility write-up lives on the venue page; the row
+    // only carries the short note an admin writes for it.
+    const accessEmoji = venueData.accessibilityEmoji || "❓";
+    const accessNote = venueData.notes ? ` (${venueData.notes})` : "";
+
 
 
     const card = document.createElement("article");
@@ -422,10 +439,10 @@ async function createEventCard(eventObj) {
       ${event.end_time ? "–" + formatTime(event.end_time) : ""}
     </span>
 
-    <a class="event-title" href="./event.html?id=${eventObj.id}">
+    <a class="event-title" href="./event.html?id=${eventObj.id}" style="color: #7c3aed"><span class="event-title" style="color: #7c3aed">
       ${event.event_name ? `${event.event_name}${event.performers ? ":" : ""}` : ""}
       ${event.performers ? `${event.performers}` : ""}
-    </a>
+    </span></a>
 
 
     @ <strong> ${venueData.name}</strong >
@@ -436,17 +453,17 @@ async function createEventCard(eventObj) {
     ${event.cost ? `// ${event.cost}` : ""}
 
     ${venueData.accessLink ?
-            `// <a href="${venueData.accessLink}" class="venue-access-link" style="color: green" target="_blank">ACCESS</a>: ${venueData.accessibilityEmoji || "❓"}${venueData.accessibilityEmoji === "☑️" && venueData.accessibility ? ` (${venueData.accessibility})` : ""}`
+            `// ${inlineRowLink(venueData.accessLink, "ACCESS", "venue-access-link", "green")}: ${accessEmoji}${accessNote}`
             :
-            `// ACCESS: ${venueData.accessibilityEmoji || "❓"}${venueData.accessibilityEmoji === "☑️" && venueData.accessibility ? ` (${venueData.accessibility})` : ""}`
+            `// ACCESS: ${accessEmoji}${accessNote}`
         }
 
 
 
     ${event.attendance ? `${attendanceEmoji ? attendanceEmoji : ""}` : ""}
-    ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link" style="color: blue">MAP</a>` : ""}
-    ${ticketsLink ? `// <a href="${ticketsLink}" target="_blank" class="event-row-tickets-link" style="color: orange">TICKETS</a>` : ""}
-    ${livestreamLink ? `// <a href="${livestreamLink}" target="_blank" class="event-row-livestream-link" style="color: teal">LIVESTREAM</a>` : ""}
+    ${venueData.mapLink ? `// ${inlineRowLink(venueData.mapLink, "MAP", "event-row-map-link", "blue")}` : ""}
+    ${ticketsLink ? `// ${inlineRowLink(ticketsLink, "TICKETS", "event-row-tickets-link", "orange")}` : ""}
+    ${livestreamLink ? `// ${inlineRowLink(livestreamLink, "LIVESTREAM", "event-row-livestream-link", "teal")}` : ""}
     // <span class="add-to-cal-inline">
         <button class="event-row-cal-btn" type="button">+ CAL</button>
         <span class="add-to-cal-menu" hidden>
