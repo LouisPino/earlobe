@@ -332,7 +332,7 @@ function getTicketsLink(linksStr) {
     for (const pair of pairs) {
         const [labelRaw, urlRaw] = pair.split(" - ").map(s => s?.trim());
         const label = labelRaw?.toLowerCase() || "";
-        if ((label.includes("ticket") || label.includes("reserv")) && urlRaw) {
+        if ((label.includes("ticket") || label.includes("reserv") || label.includes("rsvp")) && urlRaw) {
             return urlRaw.startsWith("http") ? urlRaw : `https://${urlRaw}`;
         }
     }
