@@ -98,6 +98,10 @@ function populateVenue(event) {
     setValue("venue-name", event.venue.name);
     setValue("venue-address", event.venue.address);
     setValue("venue-accessibility", event.venue.accessibility);
+
+    if (event.venue.private) {
+      document.getElementById("private-venue-note").hidden = false;
+    }
   }
 }
 
@@ -207,6 +211,9 @@ async function collectEditEvent() {
       name: document.getElementById("venue-name").value || null,
       address: document.getElementById("venue-address").value || null,
       accessibility: document.getElementById("venue-accessibility").value || null,
+      // Approving must not quietly turn a private location into a normal one.
+      // Picking a real venue from the select does drop the flag.
+      ...(!venueId && event?.venue?.private ? { private: true } : {}),
     },
 
     attendance: selectedAttendance?.value || null,

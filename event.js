@@ -29,7 +29,8 @@ const id = params.get("id");
 let event, venue;
 try {
   event = await getEventById(id);
-  venue = event ? await fetchVenueById(event.venueId) : null;
+  // A private location has no venueId — its details live on the event itself.
+  venue = event?.venueId ? await fetchVenueById(event.venueId) : null;
 } catch (err) {
   console.error("Failed to load event", err);
 }
@@ -128,14 +129,18 @@ function populateEventPage(event) {
     addToCalMenu.hidden = true;
   };
 
+  const privateVenue = event.venue?.private ? event.venue : null;
+
   document.getElementById("event-venue-name").textContent =
-    venue?.name || event.venue?.name || "";
+    venue?.name || event.venue?.name || (privateVenue ? "Private Location" : "");
 
   document.getElementById("event-venue-address").textContent =
     venue?.address || event.venue?.address || "";
 
   document.getElementById("event-venue-accessibility").textContent =
-    `Accessibility: ${venue?.accessibility || event.venue?.accessibility || ""}`
+    privateVenue
+      ? `Access & contact: ${privateVenue.accessibility || ""}`
+      : `Accessibility: ${venue?.accessibility || event.venue?.accessibility || ""}`;
 
   /**
    * ----------------------------

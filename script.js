@@ -71,8 +71,15 @@ form?.addEventListener("submit", async (e) => {
         return
     }
 
-    if (!formData.get("venue")) {
+    const venueChoice = formData.get("venue");
+
+    if (!venueChoice) {
         alert("Please select a venue from the list.")
+        return
+    }
+
+    if (venueChoice === "private" && !formData.get("private_venue_info")?.trim()) {
+        alert("For a private location, please add accessibility and contact info so people know who to reach for the address.")
         return
     }
     showSubmitModal();
@@ -84,12 +91,20 @@ form?.addEventListener("submit", async (e) => {
         url = await uploadImage(file);
     }
 
-    const venueChoice = formData.get("venue");
     let venue;
     let venueId;
 
-    // Handle custom venue entry
-    if (venueChoice === "other") {
+    // A private location is never written to the venue collection — it lives
+    // only on this event, so it can't leak into the public venues list.
+    if (venueChoice === "private") {
+        venue = {
+            name: formData.get("private_venue_name")?.trim() || null,
+            address: null,
+            accessibility: formData.get("private_venue_info").trim(),
+            private: true
+        };
+        venueId = null;
+    } else if (venueChoice === "other") {
         const name = formData.get("venue_name");
         const address = formData.get("venue_address");
         const accessibility = formData.get("venue_accessibility");
@@ -175,15 +190,26 @@ const venueComboInput = document.getElementById("venue-combobox-input");
 const venueComboList = document.getElementById("venue-combobox-list");
 const venueSelect = document.getElementById("venue-select"); // hidden input, name="venue"
 const venueOtherFields = document.getElementById("venue-other-fields");
+const venuePrivateFields = document.getElementById("venue-private-fields");
 
-function showVenueOtherFields(show) {
-    if (!venueOtherFields) return;
-    venueOtherFields.style.display = show ? "block" : "none";
+function toggleVenueFields(block, show) {
+    if (!block) return;
+    block.style.display = show ? "block" : "none";
     if (!show) {
-        venueOtherFields
+        block
             .querySelectorAll("input, textarea")
             .forEach(el => (el.value = ""));
     }
+}
+
+/**
+ * Only one of the two extra venue blocks is ever open: "other" collects a new
+ * public venue, "private" collects a location that never becomes a venue
+ * record. Any other choice (an existing venue, or no selection) closes both.
+ */
+function showVenueFieldsFor(choice) {
+    toggleVenueFields(venueOtherFields, choice === "other");
+    toggleVenueFields(venuePrivateFields, choice === "private");
 }
 
 function closeVenueCombobox() {
@@ -195,11 +221,13 @@ function selectVenue(id, name) {
     venueSelect.value = id;
     venueComboInput.value = name;
     closeVenueCombobox();
-    showVenueOtherFields(id === "other");
+    showVenueFieldsFor(id);
 }
 
 function renderVenueCombobox(venues) {
-    venueComboList.innerHTML = `<li role="option" data-id="other" data-name="Add New Venue">Add New Venue</li>`;
+    venueComboList.innerHTML = `
+        <li role="option" data-id="private" data-name="Private Location">Private Location</li>
+        <li role="option" data-id="other" data-name="Add New Venue">Add New Venue</li>`;
     for (const venue of venues) {
         venueComboList.innerHTML += `<li role="option" data-id="${venue.id}" data-name="${venue.data.name}">${venue.data.name}</li>`;
     }
@@ -210,7 +238,7 @@ function renderVenueCombobox(venues) {
 venueComboInput?.addEventListener("input", () => {
     // Any manual edit invalidates the previous selection.
     venueSelect.value = "";
-    showVenueOtherFields(false);
+    showVenueFieldsFor(null);
 
     const term = venueComboInput.value.trim().toLowerCase();
     const filtered = term
@@ -411,6 +439,9 @@ async function createEventCard(eventObj) {
     const accessEmoji = venueData.accessibilityEmoji || "❓";
     const accessNote = venueData.notes ? ` (${venueData.notes})` : "";
 
+    // A private location may not have a name at all.
+    const venueName = venueData.name || (venueData.private ? "Private Location" : "");
+
 
 
     const card = document.createElement("article");
@@ -445,7 +476,7 @@ async function createEventCard(eventObj) {
     </span></a>
 
 
-    @ <strong> ${venueData.name}</strong >
+    @ <strong> ${venueName}</strong >
 
     <span class="event-extra">
         ${event.doors_time ? `// Doors ${formatTime(event.doors_time)}` : ""}
