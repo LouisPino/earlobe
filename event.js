@@ -96,15 +96,9 @@ function populateEventPage(event) {
       event.imageUrl;
   }
   document.getElementById("event-name").innerHTML =
-    event.event_name || event.performers;
-
-  const performersRow = document.getElementById("event-performers-row");
-  if (event.event_name && event.performers) {
-    document.getElementById("event-performers").innerHTML = event.performers;
-    performersRow.hidden = false;
-  } else {
-    performersRow.hidden = true;
-  }
+    event.event_name && event.performers
+      ? `${event.event_name} — ${event.performers}`
+      : event.event_name || event.performers || "";
 
   const dateText = formatDate(event.date);
   const startText = formatTime(event.start_time);

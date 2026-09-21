@@ -191,6 +191,10 @@
     color: orange;
 }
 
+.event-row-livestream-link {
+    color: teal;
+}
+
 @media (prefers-color-scheme: dark) {
 
     .event-title,
@@ -205,6 +209,10 @@
     .event-row-map-link,
     .event-row-tickets-link {
         color: #60a5fa !important;
+    }
+
+    .event-row-livestream-link {
+        color: #2dd4bf !important;
     }
 }
 
@@ -225,6 +233,10 @@
     color: #fa8960 !important;
 }
 
+:root[data-theme="dark"] .event-row-livestream-link {
+    color: #2dd4bf !important;
+}
+
 :root[data-theme="light"] .event-title,
 :root[data-theme="light"] .event-artists {
     color: #7c3aed;
@@ -240,6 +252,10 @@
 
 :root[data-theme="light"] .event-row-tickets-link {
     color: #dd4d00 !important;
+}
+
+:root[data-theme="light"] .event-row-livestream-link {
+    color: #0d9488 !important;
 }
 
 .event-row-cal-btn {

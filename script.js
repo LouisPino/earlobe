@@ -320,11 +320,11 @@ function formatSubmittedAt(createdAt) {
 }
 
 /**
- * Finds a "Tickets - url" / "Reservations - url" pair inside the
+ * Finds the first "Label - url" pair whose label matches inside the
  * freeform comma-separated links field (same format used on the
  * event detail page).
  */
-function getTicketsLink(linksStr) {
+function findLinkByLabel(linksStr, matches) {
     if (!linksStr) return null;
 
     const pairs = linksStr.split(",").map(l => l.trim()).filter(Boolean);
@@ -332,11 +332,21 @@ function getTicketsLink(linksStr) {
     for (const pair of pairs) {
         const [labelRaw, urlRaw] = pair.split(" - ").map(s => s?.trim());
         const label = labelRaw?.toLowerCase() || "";
-        if ((label.includes("ticket") || label.includes("reserv") || label.includes("rsvp")) && urlRaw) {
+        if (matches(label) && urlRaw) {
             return urlRaw.startsWith("http") ? urlRaw : `https://${urlRaw}`;
         }
     }
     return null;
+}
+
+function getTicketsLink(linksStr) {
+    return findLinkByLabel(linksStr, label =>
+        label.includes("ticket") || label.includes("reserv") || label.includes("rsvp"));
+}
+
+function getLivestreamLink(linksStr) {
+    return findLinkByLabel(linksStr, label =>
+        label.includes("stream") || label.includes("broadcast"));
 }
 
 function formatTime(timeStr) {
@@ -382,6 +392,7 @@ async function createEventCard(eventObj) {
     }
 
     const ticketsLink = getTicketsLink(event.links);
+    const livestreamLink = getLivestreamLink(event.links);
 
 
 
@@ -435,6 +446,7 @@ async function createEventCard(eventObj) {
     ${event.attendance ? `${attendanceEmoji ? attendanceEmoji : ""}` : ""}
     ${venueData.mapLink ? `// <a href="${venueData.mapLink}" target="_blank" class="event-row-map-link" style="color: blue">MAP</a>` : ""}
     ${ticketsLink ? `// <a href="${ticketsLink}" target="_blank" class="event-row-tickets-link" style="color: orange">TICKETS</a>` : ""}
+    ${livestreamLink ? `// <a href="${livestreamLink}" target="_blank" class="event-row-livestream-link" style="color: teal">LIVESTREAM</a>` : ""}
     // <span class="add-to-cal-inline">
         <button class="event-row-cal-btn" type="button">+ CAL</button>
         <span class="add-to-cal-menu" hidden>
