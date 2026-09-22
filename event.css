@@ -169,6 +169,15 @@
   object-fit: cover;
   border-radius: 6px;
   border: 1px solid var(--border-strong);
+  display: block;
+}
+
+.album-cover-link {
+  display: block;
+}
+
+.album-cover-link:hover .album-cover {
+  opacity: 0.8;
 }
 
 .event-recordings > p {

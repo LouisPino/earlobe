@@ -260,7 +260,22 @@ function createAlbumCard(album, artistName) {
     img.src = album.image;
     img.alt = album.title ? `${album.title} cover` : "Album cover";
     img.loading = "lazy";
-    card.appendChild(img);
+
+    if (album.link) {
+      const coverLink = document.createElement("a");
+      coverLink.className = "album-cover-link";
+      coverLink.href = album.link;
+      coverLink.target = "_blank";
+      coverLink.rel = "noopener noreferrer";
+      // The title link right below says the same thing, so keep the cover out
+      // of the accessibility tree rather than announcing it twice.
+      coverLink.tabIndex = -1;
+      coverLink.setAttribute("aria-hidden", "true");
+      coverLink.appendChild(img);
+      card.appendChild(coverLink);
+    } else {
+      card.appendChild(img);
+    }
   }
 
   const title = document.createElement("p");
