@@ -171,9 +171,40 @@
   border: 1px solid var(--border-strong);
 }
 
+.event-recordings > p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.event-recordings > p a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.event-recordings > p a:hover {
+  opacity: 0.8;
+}
+
 .album-title {
   font-size: 0.95rem;
+  color: var(--text);
   margin-top: 8px;
+}
+
+.album-title a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.album-title a:visited {
+  color: var(--link);
+}
+
+.album-title a:hover {
+  opacity: 0.8;
 }
 
 .album-meta {
