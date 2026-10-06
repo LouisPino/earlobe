@@ -104,6 +104,14 @@ function populateVenue(event) {
       document.getElementById("private-venue-note").hidden = false;
       document.getElementById("venue-contact-row").hidden = false;
       setValue("venue-contact", event.venue.contact);
+
+      // A private location has no venue record to carry the emoji, so it is
+      // picked here and stored on the event itself.
+      document.getElementById("venue-accessibility-emoji-row").hidden = false;
+      const emoji = event.venue.accessibilityEmoji || "❓";
+      document
+        .querySelectorAll('input[name="venue_accessibility_emoji"]')
+        .forEach(r => (r.checked = r.value === emoji));
     }
   }
 }
@@ -209,6 +217,8 @@ async function collectEditEvent() {
         ? {
           private: true,
           contact: document.getElementById("venue-contact").value || null,
+          accessibilityEmoji:
+            document.querySelector('input[name="venue_accessibility_emoji"]:checked')?.value || "❓",
         }
         : {}),
     },

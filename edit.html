@@ -110,6 +110,26 @@
           <textarea id="venue-accessibility" name="venue_accessibility" rows="3"></textarea>
         </label>
 
+        <fieldset class="accessibility-group field-row" id="venue-accessibility-emoji-row" hidden>
+          <legend>Accessibility emoji (shown on the event row)</legend>
+          <label>
+            <input type="radio" name="venue_accessibility_emoji" value="♿️" />
+            ♿️ Accessible
+          </label>
+          <label>
+            <input type="radio" name="venue_accessibility_emoji" value="☑️" />
+            ☑️ Access w/ caveats
+          </label>
+          <label>
+            <input type="radio" name="venue_accessibility_emoji" value="📶" />
+            📶 Stairs / not accessible
+          </label>
+          <label>
+            <input type="radio" name="venue_accessibility_emoji" value="❓" />
+            ❓ Accessibility unknown
+          </label>
+        </fieldset>
+
         <label class="field-row" id="venue-contact-row" hidden>
           Contact info (who people contact to get the address)
           <textarea id="venue-contact" name="venue_contact" rows="2"></textarea>
