@@ -99,6 +99,8 @@ function populateVenue(event) {
     setValue("venue-accessibility", event.venue.accessibility);
 
     if (event.venue.private) {
+      // The empty option is what keeps this a private location on approve
+      select.options[0].textContent = "Private Location";
       document.getElementById("private-venue-note").hidden = false;
       document.getElementById("venue-contact-row").hidden = false;
       setValue("venue-contact", event.venue.contact);
