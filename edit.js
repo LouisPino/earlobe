@@ -94,7 +94,6 @@ function populateVenue(event) {
   if (event.venueId) {
     select.value = event.venueId;
   } else if (event.venue) {
-    toggleManualVenue(true);
     setValue("venue-name", event.venue.name);
     setValue("venue-address", event.venue.address);
     setValue("venue-accessibility", event.venue.accessibility);
@@ -185,20 +184,8 @@ async function collectEditEvent() {
     url = await uploadImage(file);
   }
 
-  let venueId = null;
-
-  if (venueSelectVal) {
-    // Existing venue
-    venueId = venueSelectVal;
-  } else {
-    // Manual venue
-    venue = {
-      name: document.getElementById("venue-name").value || null,
-      address: document.getElementById("venue-address").value || null,
-      accessibility: document.getElementById("venue-accessibility").value || null
-    };
-  }
-
+  // Empty when no existing venue is picked — the manual venue fields are used instead
+  const venueId = venueSelectVal || null;
 
   return {
     email: document.getElementById("edit-email").value || null,
