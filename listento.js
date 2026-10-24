@@ -13,7 +13,7 @@
 // The ListenTO API, not listentoronto.com — that host is the Netlify SPA, whose
 // /* -> /index.html rewrite answers every path with HTML and a 200.
 // Local dev backend is http://localhost:5000.
-const LISTENTO_API = "https://listento-e3aab369f5b8.herokuapp.com";
+const LISTENTO_API = "https://api.listentoronto.com";
 
 // Trailing slashes here would double up in the request path, which Express
 // won't match — so the base is normalized rather than trusted as written.
